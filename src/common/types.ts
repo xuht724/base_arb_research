@@ -1,0 +1,37 @@
+export const enum DEX_EXCHANGE {
+  UNISWAP = "uniswap",
+  AERODROME = "aerodrome",
+  UNKNOWN = "unknown",
+}
+export const enum PoolType {
+  UNIV2 = "univ2",
+  UNIV3 = "univ3",
+  AERODROMEV2 = "aerodromev2",
+  AERODROMEV3 = "aerodromev3",
+}
+
+export type Swap = {
+  tokenIn: string;
+  tokenOut: string;
+  amountIn: bigint;
+  amountOut: bigint;
+};
+
+export type SwapAmtIn = {
+  tokenIn: string;
+  tokenOut: string;
+  amountIn: bigint;
+};
+
+export type SwapAmtOut = {
+  tokenIn: string;
+  tokenOut: string;
+  amountOut: bigint;
+};
+
+export type Token = {
+  symbol?: string;
+  name?: string;
+  decimals: number;
+  address: string;
+};
