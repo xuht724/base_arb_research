@@ -5,6 +5,7 @@ import "@uniswap/v3-core/contracts/libraries/FullMath.sol";
 import "@uniswap/v3-core/contracts/libraries/TickMath.sol";
 import "@uniswap/v3-core/contracts/libraries/SwapMath.sol";
 import "@uniswap/v3-core/contracts/libraries/LiquidityMath.sol";
+
 // 定义UniswapV3Pool的接口
 interface IUniswapV3Pool {
     function token0() external view returns (address);
@@ -78,6 +79,7 @@ contract Counter {
         // but currently we do not implement that
 
         // in this function, we only consder get out given in
+        // console.log("pool", pool);
         IUniswapV3Pool uniV3Pool = IUniswapV3Pool(pool);
         SwapState memory state;
         int24 tickSpacing = uniV3Pool.tickSpacing();
@@ -89,7 +91,7 @@ contract Counter {
         (state.sqrtPriceX96, state.tick, , , , , ) = uniV3Pool.slot0();
 
         state.liquidity = uniV3Pool.liquidity();
-        // console.log(slot0);
+        
         // console.log(state.sqrtPriceX96);
         // console.log(state.tick);
         // console.log(state.liquidity);
@@ -103,8 +105,8 @@ contract Counter {
             bool initialized;
 
             (, liquidityNet, , , , , , initialized) = uniV3Pool.ticks(nextTick);
-            // console.log(liquidityNet);
-            // console.log(initialized);   
+            console.log(liquidityNet);
+            console.log(initialized);   
             uint160 sqrtPriceNextX96 = TickMath.getSqrtRatioAtTick(nextTick);
             uint256 amountIn;
             uint256 amountOut;
@@ -140,7 +142,7 @@ contract Counter {
                 state.tick = TickMath.getTickAtSqrtRatio(state.sqrtPriceX96);
             }
         }
-        // console.log("final out", (-state.amountCalculated));
+        console.log("final out", (-state.amountCalculated));
         return (-state.amountCalculated);
     }
 
@@ -198,8 +200,8 @@ contract Counter {
         
         (uint160 sqrtPriceX96_1, , , , , , ) = uniV3Pool1.slot0();
         (uint160 sqrtPriceX96_2, , , , , , ) = uniV3Pool2.slot0();
-        console.log("sqrtPriceX96_1", sqrtPriceX96_1);
-        console.log("sqrtPriceX96_2", sqrtPriceX96_2);
+        // console.log("sqrtPriceX96_1", sqrtPriceX96_1);
+        // console.log("sqrtPriceX96_2", sqrtPriceX96_2);
         // 确定交易方向
         address fromPool;
         address toPool;
@@ -225,14 +227,14 @@ contract Counter {
         while (startAmount < (endAmount - (endAmount / BINARY_COEFFICIENT))) {
             midAmount = (startAmount + endAmount) / 2;
             midMidAmount = (midAmount + endAmount) / 2;
-            console.log("midAmount", midAmount);
-            console.log("midMidAmount", midMidAmount);
+            // console.log("midAmount", midAmount);
+            // console.log("midMidAmount", midMidAmount);
             
             midAmountProfit = int256(getArbProfit(fromPool, toPool, midAmount, isPool1Token0)) - int256(midAmount);
-            console.log("midAmountProfit", midAmountProfit);
+            // console.log("midAmountProfit", midAmountProfit);
             
             midMidAmountProfit = int256(getArbProfit(fromPool, toPool, midMidAmount, isPool1Token0)) - int256(midMidAmount);
-            console.log("midMidAmountProfit", midMidAmountProfit);
+            // console.log("midMidAmountProfit", midMidAmountProfit);
 
             callCount += 2;
 
@@ -256,12 +258,12 @@ contract Counter {
     ) internal returns (uint256) {
         // 第一步：在第一个池子中交易
         int256 intermediateAmount = V3Swap(pool1, input, isPool1Token0);
-        console.log("intermediateAmount", intermediateAmount);
+        // console.log("intermediateAmount", intermediateAmount);
         require(intermediateAmount > 0, "First swap failed");
         
         // 第二步：在第二个池子中交易
         int256 finalAmount = V3Swap(pool2, uint256(intermediateAmount), !isPool1Token0);
-        console.log("finalAmount", finalAmount);
+        // console.log("finalAmount", finalAmount);
         require(finalAmount > 0, "Second swap failed");
         
         return uint256(finalAmount);

@@ -85,7 +85,7 @@ async function main() {
   const indexOut = 1;
   const tokenIn = await helper.requestToken(pool.tokens[indexIn]);
   const tokenOut = await helper.requestToken(pool.tokens[indexOut]);
-  const swapAmountNumber = parseUnits("1", tokenIn.decimals);
+  const swapAmountNumber = parseUnits("100", tokenIn.decimals);
 
   const calculationRes = pool.getOutGivenIn({
     tokenIn: tokenIn.address,
@@ -102,18 +102,18 @@ async function main() {
     tokenOut.symbol,
   );
 
-  console.log("State length", pool.exportToJSON().length);
+  // console.log("State length", pool.exportToJSON().length);
 
-  const quoteOut = (await web3Helper.quoteV3Out(
-    indexIn,
-    indexOut,
-    tokenIn.address,
-    tokenOut.address,
-    pool.swapFee,
-    swapAmountNumber,
-    blockNumber,
-  )) as bigint;
-  console.log("quoteOut", formatUnits(quoteOut, tokenOut.decimals));
+  // const quoteOut = (await web3Helper.quoteV3Out(
+  //   indexIn,
+  //   indexOut,
+  //   tokenIn.address,
+  //   tokenOut.address,
+  //   pool.swapFee,
+  //   swapAmountNumber,
+  //   blockNumber,
+  // )) as bigint;
+  // console.log("quoteOut", formatUnits(quoteOut, tokenOut.decimals));
 }
 
 main();

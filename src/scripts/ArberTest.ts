@@ -19,12 +19,12 @@ function load2Pool(blockNumber: number) {
 }
 
 function main(){
-  const [pool1,pool2] = load2Pool(27394526);
+  const [pool1,pool2] = load2Pool(27397610);
   console.log(pool1.getStaticInfo());
   console.log(pool2.getStaticInfo());
 
   const baseInput = parseEther('0.001');
-  const maxInput = parseEther('1');
+  const maxInput = parseEther('0.03');
   console.log("===Tender Search===")
   console.log("Range", formatEther(baseInput),'->',formatEther(maxInput));
   

@@ -7,9 +7,11 @@ async function main() {
   const AERODROME_V3_WETH_HENLO = "0xa1B6F148F208FFe9Eb04C68BcBFEa3525f2536d6";
 
   const helper = new ChainHelper(process.env.BASE_HTTP_URL3!);
-  const blockNumber = 27394526n;
-
-  const trxIndex = 58;
+  // const blockNumber = 27394526n;
+  const blockNumber = 27397610n;
+  
+  // const trxIndex = 58;
+  const trxIndex = 16;
 
   const pools = await helper.batchCallUniV3Pool([
     UNISWAP_V3_WETH_HENLO,
@@ -18,6 +20,8 @@ async function main() {
 
   // download logs
   const logs = await helper.getLogs([UNISWAP_V3_WETH_HENLO, AERODROME_V3_WETH_HENLO], blockNumber + 1n);
+  console.log(logs);
+  
   for (const log of logs) {
     if (log.transactionIndex && log.transactionIndex < trxIndex) {
       for (const pool of pools) {

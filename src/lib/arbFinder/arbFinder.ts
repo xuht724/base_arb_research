@@ -104,7 +104,7 @@ class Finder {
 
     let midAmountProfit: bigint;
     let midMidProfit: bigint;
-    const BINARY_COEFFICIENT: bigint = 10000n;
+    const BINARY_COEFFICIENT: bigint = 100n;
     
     
     while (startAmount < (endAmount - (endAmount / BINARY_COEFFICIENT))) {

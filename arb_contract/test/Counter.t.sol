@@ -4,12 +4,21 @@ pragma solidity ^0.8.13;
 import {Test, console} from "forge-std/Test.sol";
 import {Counter} from "../src/Counter.sol";
 
+
 contract CounterTest is Test {
     Counter public counter;
     // address constant WETH = 0x4200000000000000000000000000000000000006;
     // address constant USDC = 0x833589fcd6edb6e08f4c7c32d4f71b54bda02913;
 
     function setUp() public {
+        // 创建特定区块和交易后的 fork
+        bytes32 txHash = 0x962305e69f95445cff9af82882c9e8c1ffceb04912545c80d97f41a168c8d3f9;
+        uint256 forkId = vm.createFork(
+            "https://base-mainnet.core.chainstack.com/1acdea40c9ad7f49fc2be9181c350461",
+            txHash
+        );
+        
+        vm.selectFork(forkId);
         counter = new Counter();
     }
 
@@ -44,29 +53,36 @@ contract CounterTest is Test {
     }
 
     function testSwapAfterTx() public {
-        // 创建特定区块和交易后的 fork
-        uint256 forkId = vm.createFork(
-            "https://base-mainnet.core.chainstack.com/1acdea40c9ad7f49fc2be9181c350461",
-            "0xfc81de8bcd0a61bd3805e71e3b7d5234f88083b25397e44719f48eca54da2c09"
-        );
-        
-        vm.selectFork(forkId);
-
         // 测试的池子地址
-        address pool = 0xF68001b66Cb98345C05b2e3EFDEe1dB8Fc01A76c;
+        address pool1 = 0xF68001b66Cb98345C05b2e3EFDEe1dB8Fc01A76c;
+        address pool2 = 0xa1B6F148F208FFe9Eb04C68BcBFEa3525f2536d6;
+
+
+        // uint256 inputAmount = 22168272018432617;  // 去掉小数点后18位
         
-        // 设置输入金额 (0.000208297949983672 ETH)
-        uint256 inputAmount = 208297949983672;  // 去掉小数点后18位
-        
-        // 调用swap函数测试
-        int256 outputAmount = counter.V3Swap(
-            pool,
-            inputAmount,
-            true  // 假设 WETH 是 token0，如果不是需要改为 false
+        // 添加状态检查
+        // console.log("Current Block:", block.number);
+        // console.log("Current Pool:", pool);
+
+        uint256 baseInput = 0.001 ether;
+        uint256 maxInput = 0.02 ether;
+
+        // 执行套利
+        (bool flag, uint256 optimalInput, int256 profit, uint256 getOutCalls) = counter.findOptimalArb(
+            pool1,
+            pool2,
+            baseInput,
+            maxInput,
+            false
         );
-        
         // 输出结果
-        console.log("Input WETH amount:", inputAmount);
-        console.log("Output token amount:", outputAmount);
+        console.log("flag", flag);
+        console.log("Optimal Input:", optimalInput);
+        console.log("Expected Profit:", profit);
+        console.log("Get Out Calls:", getOutCalls);
     }
 }
+
+
+// 0.00023723 6459485089
+// 0.000005686584950638
