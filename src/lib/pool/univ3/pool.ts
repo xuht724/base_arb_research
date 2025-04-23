@@ -260,6 +260,9 @@ export class UniV3Pool implements Pool {
       tick: this.poolState.currentTick,
       liquidity: this.poolState.liquidity,
     };
+    // if(this.poolAddress === '0xa1B6F148F208FFe9Eb04C68BcBFEa3525f2536d6'.toLowerCase()){
+    //   console.log('swapState',swapState);
+    // }
 
     let index = 0;
 

@@ -13,6 +13,8 @@ interface IUniswapV3Pool {
     function fee() external view returns (uint24);
     function tickSpacing() external view returns (int24);
     function liquidity() external view returns (uint128);
+    function factory() external view returns (address);
+
     function slot0()
         external
         view
@@ -49,6 +51,54 @@ interface IUniswapV3Pool {
     ) external returns (int256 amount0, int256 amount1);
 }
 
+// 定义AerodromeV3Pool的接口
+interface IAerodromeV3Pool {
+    function token0() external view returns (address);
+    function token1() external view returns (address);
+    function fee() external view returns (uint24);
+    function unstakedFee() external view returns (uint24);
+    function tickSpacing() external view returns (int24);
+    function liquidity() external view returns (uint128);
+    function stakedLiquidity() external view returns (uint128);
+    function factory() external view returns (address);
+
+    function slot0()
+        external
+        view
+        returns (
+            uint160 sqrtPriceX96,
+            int24 tick,
+            uint16 observationIndex,
+            uint16 observationCardinality,
+            uint16 observationCardinalityNext,
+            bool unlocked
+        );
+    function ticks(
+        int24 tick
+    )
+        external
+        view
+        returns (
+            uint128 liquidityGross,
+            int128 liquidityNet,
+            int128 stakedLiquidityNet,
+            uint256 feeGrowthOutside0X128,
+            uint256 feeGrowthOutside1X128,
+            uint256 rewardGrowthOutsideX128,
+            int56 tickCumulativeOutside,
+            uint160 secondsPerLiquidityOutsideX128,
+            uint32 secondsOutside,
+            bool initialized
+        );
+    function swap(
+        address recipient,
+        bool zeroForOne,
+        int256 amountSpecified,
+        uint160 sqrtPriceLimitX96,
+        bytes calldata data
+    ) external returns (int256 amount0, int256 amount1);
+}
+
 contract Counter {
     struct Slot0 {
         uint160 sqrtPriceX96;
@@ -67,8 +117,6 @@ contract Counter {
         int256 amountSpecifiedRemaining;
         int256 amountCalculated;
     }
-
-
 
     function V3Swap(
         address pool,
@@ -91,7 +139,7 @@ contract Counter {
         (state.sqrtPriceX96, state.tick, , , , , ) = uniV3Pool.slot0();
 
         state.liquidity = uniV3Pool.liquidity();
-        
+
         // console.log(state.sqrtPriceX96);
         // console.log(state.tick);
         // console.log(state.liquidity);
@@ -105,8 +153,8 @@ contract Counter {
             bool initialized;
 
             (, liquidityNet, , , , , , initialized) = uniV3Pool.ticks(nextTick);
-            console.log(liquidityNet);
-            console.log(initialized);   
+            // console.log(liquidityNet);
+            // console.log(initialized);
             uint160 sqrtPriceNextX96 = TickMath.getSqrtRatioAtTick(nextTick);
             uint256 amountIn;
             uint256 amountOut;
@@ -188,53 +236,113 @@ contract Counter {
         uint256 fromAmount,
         uint256 toAmount,
         bool isPool1Token0
-    ) public returns (
-        bool flag,
-        uint256 optInput,
-        int256 optProfit,
-        uint256 getOutCalls
-    ) {
+    )
+        public
+        returns (
+            bool flag,
+            uint256 optInput,
+            int256 optProfit,
+            uint256 getOutCalls
+        )
+    {
         // 获取两个池子的价格
-        IUniswapV3Pool uniV3Pool1 = IUniswapV3Pool(pool1);
-        IUniswapV3Pool uniV3Pool2 = IUniswapV3Pool(pool2);
-        
-        (uint160 sqrtPriceX96_1, , , , , , ) = uniV3Pool1.slot0();
-        (uint160 sqrtPriceX96_2, , , , , , ) = uniV3Pool2.slot0();
-        // console.log("sqrtPriceX96_1", sqrtPriceX96_1);
-        // console.log("sqrtPriceX96_2", sqrtPriceX96_2);
+        uint160 sqrtPriceX96_1;
+        uint160 sqrtPriceX96_2;
+
+        uint256 priceX96_1;
+        uint256 priceX96_2;
+
+        if (isAerodromeV3Pool(pool1)) {
+            IAerodromeV3Pool aeroV3Pool1 = IAerodromeV3Pool(pool1);
+            (sqrtPriceX96_1, , , , , ) = aeroV3Pool1.slot0();
+            if (isPool1Token0) {
+                priceX96_1 = (sqrtPriceX96_1 * sqrtPriceX96_1) >> 96;
+            } else {
+                priceX96_1 =
+                    (1 << 192) /
+                    ((sqrtPriceX96_1 * sqrtPriceX96_1) >> 96);
+            }
+        } else {
+            IUniswapV3Pool uniV3Pool1 = IUniswapV3Pool(pool1);
+            (sqrtPriceX96_1, , , , , , ) = uniV3Pool1.slot0();
+            if (isPool1Token0) {
+                priceX96_1 = (sqrtPriceX96_1 * sqrtPriceX96_1) >> 96;
+            } else {
+                priceX96_1 =
+                    (1 << 192) /
+                    ((sqrtPriceX96_1 * sqrtPriceX96_1) >> 96);
+            }
+        }
+
+        if (isAerodromeV3Pool(pool2)) {
+            IAerodromeV3Pool aeroV3Pool2 = IAerodromeV3Pool(pool2);
+            (sqrtPriceX96_2, , , , , ) = aeroV3Pool2.slot0();
+            if (isPool1Token0) {
+                priceX96_2 = (sqrtPriceX96_2 * sqrtPriceX96_2) >> 96;
+            } else {
+                priceX96_2 =
+                    (1 << 192) /
+                    ((sqrtPriceX96_2 * sqrtPriceX96_2) >> 96);
+            }
+        } else {
+            IUniswapV3Pool uniV3Pool2 = IUniswapV3Pool(pool2);
+            (sqrtPriceX96_2, , , , , , ) = uniV3Pool2.slot0();
+            if (isPool1Token0) {
+                priceX96_2 = (sqrtPriceX96_2 * sqrtPriceX96_2) >> 96;
+            } else {
+                priceX96_2 =
+                    (1 << 192) /
+                    ((sqrtPriceX96_2 * sqrtPriceX96_2) >> 96);
+            }
+        }
+
+        console.log("sqrtPriceX96_1", sqrtPriceX96_1);
+        console.log("sqrtPriceX96_2", sqrtPriceX96_2);
+        console.log("priceX96_1", priceX96_1);
+        console.log("priceX96_2", priceX96_2);
+
         // 确定交易方向
         address fromPool;
         address toPool;
-        
-        if (sqrtPriceX96_1 > sqrtPriceX96_2) {
+
+        console.log("pool1", pool1);
+        console.log("pool2", pool2);
+
+        if (priceX96_1 > priceX96_2) {
+            console.log("fromPool is pool1");
             fromPool = pool1;
             toPool = pool2;
         } else {
+            console.log("fromPool is pool2");
             fromPool = pool2;
             toPool = pool1;
         }
-        
+        console.log("fromPool", fromPool);
+        console.log("toPool", toPool);
         // 初始化变量
         uint256 startAmount = fromAmount;
         uint256 endAmount = toAmount;
         uint256 midAmount;
         uint256 midMidAmount;
-        int256 midAmountProfit; 
+        int256 midAmountProfit;
         int256 midMidAmountProfit;
         uint256 BINARY_COEFFICIENT = 100;
         uint256 callCount = 0;
-        
+
         while (startAmount < (endAmount - (endAmount / BINARY_COEFFICIENT))) {
             midAmount = (startAmount + endAmount) / 2;
             midMidAmount = (midAmount + endAmount) / 2;
-            // console.log("midAmount", midAmount);
-            // console.log("midMidAmount", midMidAmount);
-            
-            midAmountProfit = int256(getArbProfit(fromPool, toPool, midAmount, isPool1Token0)) - int256(midAmount);
-            // console.log("midAmountProfit", midAmountProfit);
-            
-            midMidAmountProfit = int256(getArbProfit(fromPool, toPool, midMidAmount, isPool1Token0)) - int256(midMidAmount);
-            // console.log("midMidAmountProfit", midMidAmountProfit);
+
+            midAmountProfit =
+                int256(
+                    getArbProfit(fromPool, toPool, midAmount, isPool1Token0)
+                ) -
+                int256(midAmount);
+            midMidAmountProfit =
+                int256(
+                    getArbProfit(fromPool, toPool, midMidAmount, isPool1Token0)
+                ) -
+                int256(midMidAmount);
 
             callCount += 2;
 
@@ -244,12 +352,24 @@ contract Counter {
                 startAmount = midAmount;
             }
         }
-        
-        int256 finalProfit = int256(getArbProfit(fromPool, toPool, startAmount, isPool1Token0)) - int256(startAmount);
-        
+
+        int256 finalProfit = int256(
+            getArbProfit(fromPool, toPool, startAmount, isPool1Token0)
+        ) - int256(startAmount);
+
         return (true, startAmount, finalProfit, callCount);
     }
-    
+
+    function isAerodromeV3Pool(address pool) internal view returns (bool) {
+        // 检查池子是否实现了AerodromeV3Pool接口
+        try IUniswapV3Pool(pool).factory() returns (address factory) {
+            // 检查是否是AerodromeV3的factory地址
+            return factory == 0x5e7BB104d84c7CB9B682AaC2F3d509f5F406809A;
+        } catch {
+            return false;
+        }
+    }
+
     function getArbProfit(
         address pool1,
         address pool2,
@@ -257,15 +377,94 @@ contract Counter {
         bool isPool1Token0
     ) internal returns (uint256) {
         // 第一步：在第一个池子中交易
-        int256 intermediateAmount = V3Swap(pool1, input, isPool1Token0);
-        // console.log("intermediateAmount", intermediateAmount);
+        console.log("input", input);
+        int256 intermediateAmount;
+        if (isAerodromeV3Pool(pool1)) {
+            intermediateAmount = AerodromeV3Swap(pool1, input, isPool1Token0);
+        } else {
+            intermediateAmount = V3Swap(pool1, input, isPool1Token0);
+        }
         require(intermediateAmount > 0, "First swap failed");
-        
+
+        console.log("intermediateAmount", intermediateAmount);
         // 第二步：在第二个池子中交易
-        int256 finalAmount = V3Swap(pool2, uint256(intermediateAmount), !isPool1Token0);
-        // console.log("finalAmount", finalAmount);
+        int256 finalAmount;
+        if (isAerodromeV3Pool(pool2)) {
+            finalAmount = AerodromeV3Swap(
+                pool2,
+                uint256(intermediateAmount),
+                !isPool1Token0
+            );
+        } else {
+            finalAmount = V3Swap(
+                pool2,
+                uint256(intermediateAmount),
+                !isPool1Token0
+            );
+        }
         require(finalAmount > 0, "Second swap failed");
-        
+
+        console.log("finalAmount", finalAmount);
+
         return uint256(finalAmount);
+    }
+
+    function AerodromeV3Swap(
+        address pool,
+        uint256 input,
+        bool zeroForOne
+    ) public returns (int256 output) {
+        IAerodromeV3Pool aeroV3Pool = IAerodromeV3Pool(pool);
+        SwapState memory state;
+        int24 tickSpacing = aeroV3Pool.tickSpacing();
+        uint24 fee = aeroV3Pool.fee();
+
+        // console.log("fee", fee);
+
+        // 获取池的状态
+        (state.sqrtPriceX96, state.tick, , , , ) = aeroV3Pool.slot0();
+        state.liquidity = aeroV3Pool.liquidity();
+        console.log("liquidity", state.liquidity);
+
+        state.amountSpecifiedRemaining = int256(input);
+        state.amountCalculated = 0;
+
+        while (state.amountSpecifiedRemaining != 0) {
+            int24 nextTick = getNextTick(state.tick, tickSpacing, zeroForOne);
+            int128 liquidityNet;
+            bool initialized;
+
+            (, liquidityNet, , , , , , , , initialized) = aeroV3Pool.ticks(
+                nextTick
+            );
+            uint160 sqrtPriceNextX96 = TickMath.getSqrtRatioAtTick(nextTick);
+            uint256 amountIn;
+            uint256 amountOut;
+            uint256 feeAmount;
+            (state.sqrtPriceX96, amountIn, amountOut, feeAmount) = SwapMath
+                .computeSwapStep(
+                    state.sqrtPriceX96,
+                    sqrtPriceNextX96,
+                    state.liquidity,
+                    state.amountSpecifiedRemaining,
+                    fee
+                );
+
+            state.amountSpecifiedRemaining -= (int256(amountIn + feeAmount));
+            state.amountCalculated = state.amountCalculated - int256(amountOut);
+
+            if (state.sqrtPriceX96 == sqrtPriceNextX96) {
+                if (initialized) {
+                    state.liquidity = LiquidityMath.addDelta(
+                        state.liquidity,
+                        liquidityNet
+                    );
+                }
+                state.tick = zeroForOne ? nextTick - 1 : nextTick;
+            } else if (state.sqrtPriceX96 != sqrtPriceNextX96) {
+                state.tick = TickMath.getTickAtSqrtRatio(state.sqrtPriceX96);
+            }
+        }
+        return (-state.amountCalculated);
     }
 }

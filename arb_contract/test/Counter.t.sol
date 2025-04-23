@@ -65,7 +65,7 @@ contract CounterTest is Test {
         // console.log("Current Pool:", pool);
 
         uint256 baseInput = 0.001 ether;
-        uint256 maxInput = 0.02 ether;
+        uint256 maxInput = 0.03 ether;
 
         // 执行套利
         (bool flag, uint256 optimalInput, int256 profit, uint256 getOutCalls) = counter.findOptimalArb(
@@ -82,7 +82,3 @@ contract CounterTest is Test {
         console.log("Get Out Calls:", getOutCalls);
     }
 }
-
-
-// 0.00023723 6459485089
-// 0.000005686584950638

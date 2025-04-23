@@ -1,4 +1,5 @@
 import { Pool } from "../pool/pool";
+import { UniV3State } from "../pool/univ3/types";
 
 class Finder {
   public find2poolArbByTenderSearch(
@@ -17,20 +18,33 @@ class Finder {
     // Determine direction based on price difference
     let price1 = pool1.getPriceX96(baseToken, interToken);
     let price2 = pool2.getPriceX96(baseToken, interToken);
-
     let fromPool: Pool;
     let toPool: Pool;
     let priceProduct: bigint;
 
+    console.log('price1',(pool1.getPoolState() as UniV3State).sqrtPriceX96 );
+    console.log('price2',(pool2.getPoolState() as UniV3State).sqrtPriceX96);
+
+    console.log('pool1',pool1.poolId);
+    console.log('pool2',pool2.poolId);
+    
+    console.log(price1.toString());
+    console.log(price2.toString());
+    
     if (price1 > price2) {
+      console.log('fromPool is pool1');
       fromPool = pool1;
       toPool = pool2;
       priceProduct = price1 * (1n << 192n) / price2
     } else {
+      console.log('fromPool is pool2');
       fromPool = pool2;
       toPool = pool1;
       priceProduct = price2 * (1n << 192n) / price1
     }
+
+    console.log('fromPool',fromPool.poolId);
+    console.log('toPool',toPool.poolId);
 
     // if (priceProduct <= (1n << 192n)) {
     //   console.log(priceProduct);
@@ -46,13 +60,13 @@ class Finder {
     function getOut(input: bigint) {
       // Increment counter each time getOut is called
       getOutCallCount++;
-
+      console.log('input',input);
       const out1 = fromPool.getOutGivenIn({
         tokenIn: baseToken,
         tokenOut: interToken,
         amountIn: input
       });
-      // console.log(out1);
+      console.log('out1',out1.amountOut);
 
       if (out1.amountOut === 0n) {
         throw new Error("Too high or too low amount in");
@@ -62,7 +76,7 @@ class Finder {
         tokenOut: baseToken,
         amountIn: out1.amountOut
       })
-      // console.log(out2);
+      console.log('out2',out2.amountOut);
       // console.log('profit', out2.amountOut - out1.amountIn);
       return out2.amountOut;
     }
@@ -149,16 +163,15 @@ class Finder {
 
     let fromPool: Pool;
     let toPool: Pool;
-    let priceProduct: bigint;
 
     if (price1 > price2) {
       fromPool = pool1;
       toPool = pool2;
-      priceProduct = price1 * (1n << 192n) / price2
+      // priceProduct = price1 * (1n << 192n) / price2
     } else {
       fromPool = pool2;
       toPool = pool1;
-      priceProduct = price2 * (1n << 192n) / price1
+      // priceProduct = price2 * (1n << 192n) / price1
     }
 
     // if (priceProduct <= (1n << 192n)) {
