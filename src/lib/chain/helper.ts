@@ -1,6 +1,6 @@
 import { DEX_EXCHANGE, PoolType, Token } from "src/common/types";
 import { ERC20ABI } from "../abi/erc20";
-import { createPublicClient, http, Log, PublicClient } from "viem";
+import { createPublicClient, formatEther, http, Log, PublicClient, TransactionReceipt } from "viem";
 import { base } from "viem/chains";
 import {
   TickInfo,
@@ -652,6 +652,64 @@ export class ChainHelper {
       console.error("Error fetching logs:", error);
       throw error;
     }
+  }
+
+  async downloadReceipt(
+    trxHash: string
+  ) {
+    try {
+      // 获取交易收据
+      const receipt = await this.httpClient.getTransactionReceipt({
+        hash: trxHash as `0x${string}`
+      });
+      if (!receipt) {
+        throw new Error(`Receipt for transaction with hash ${trxHash} not found.`);
+      }
+
+      // 返回交易和收据
+      return {
+        receipt
+      };
+    } catch (error) {
+      console.error(`Error downloading transaction and receipt: ${error}`);
+      throw error;
+    }
+  }
+
+  analyseReceipt(
+    receipt: TransactionReceipt
+  ) {
+    const logNum = receipt.logs.length;
+    let potentialArb = false;
+    const gasUsed = receipt.gasUsed;
+    const effectiveGasPrice = receipt.effectiveGasPrice;
+    const l2Fee = formatEther(gasUsed * effectiveGasPrice);
+    let profit = "0";
+    if (logNum != 0) {
+      for (const log of receipt.logs) {
+        if (
+          log.topics.length > 0 &&
+          log.address == "0x4200000000000000000000000000000000000006" &&
+          log.topics[0] == "0x7fcf532c15f0a6db0bd6d0e038bea71d30d808c7d98cb3bf7268a95bf5081b65"
+        ) {
+          profit = formatEther(BigInt(log.data));
+          potentialArb = true
+          break;
+        }
+      }
+
+    }
+    return {
+      trxHash: receipt.transactionHash,
+      blockNumber: receipt.blockNumber,
+      logNum,
+      potentialArb,
+      effectiveGasPrice,
+      gasUsed,
+      l2Fee,
+      profit: profit.toString(),
+    }
+
   }
 }
 
