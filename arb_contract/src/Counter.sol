@@ -190,7 +190,7 @@ contract Counter {
                 state.tick = TickMath.getTickAtSqrtRatio(state.sqrtPriceX96);
             }
         }
-        console.log("final out", (-state.amountCalculated));
+        // console.log("final out", (-state.amountCalculated));
         return (-state.amountCalculated);
     }
 
@@ -296,24 +296,24 @@ contract Counter {
             }
         }
 
-        console.log("sqrtPriceX96_1", sqrtPriceX96_1);
-        console.log("sqrtPriceX96_2", sqrtPriceX96_2);
-        console.log("priceX96_1", priceX96_1);
-        console.log("priceX96_2", priceX96_2);
+        // console.log("sqrtPriceX96_1", sqrtPriceX96_1);
+        // console.log("sqrtPriceX96_2", sqrtPriceX96_2);
+        // console.log("priceX96_1", priceX96_1);
+        // console.log("priceX96_2", priceX96_2);
 
         // 确定交易方向
         address fromPool;
         address toPool;
 
-        console.log("pool1", pool1);
-        console.log("pool2", pool2);
+        // console.log("pool1", pool1);
+        // console.log("pool2", pool2);
 
         if (priceX96_1 > priceX96_2) {
-            console.log("fromPool is pool1");
+            // console.log("fromPool is pool1");
             fromPool = pool1;
             toPool = pool2;
         } else {
-            console.log("fromPool is pool2");
+            // console.log("fromPool is pool2");
             fromPool = pool2;
             toPool = pool1;
         }
@@ -377,7 +377,7 @@ contract Counter {
         bool isPool1Token0
     ) internal returns (uint256) {
         // 第一步：在第一个池子中交易
-        console.log("input", input);
+        // console.log("input", input);
         int256 intermediateAmount;
         if (isAerodromeV3Pool(pool1)) {
             intermediateAmount = AerodromeV3Swap(pool1, input, isPool1Token0);
@@ -386,7 +386,7 @@ contract Counter {
         }
         require(intermediateAmount > 0, "First swap failed");
 
-        console.log("intermediateAmount", intermediateAmount);
+        // console.log("intermediateAmount", intermediateAmount);
         // 第二步：在第二个池子中交易
         int256 finalAmount;
         if (isAerodromeV3Pool(pool2)) {
@@ -404,7 +404,7 @@ contract Counter {
         }
         require(finalAmount > 0, "Second swap failed");
 
-        console.log("finalAmount", finalAmount);
+        // console.log("finalAmount", finalAmount);
 
         return uint256(finalAmount);
     }
@@ -424,7 +424,7 @@ contract Counter {
         // 获取池的状态
         (state.sqrtPriceX96, state.tick, , , , ) = aeroV3Pool.slot0();
         state.liquidity = aeroV3Pool.liquidity();
-        console.log("liquidity", state.liquidity);
+        // console.log("liquidity", state.liquidity);
 
         state.amountSpecifiedRemaining = int256(input);
         state.amountCalculated = 0;

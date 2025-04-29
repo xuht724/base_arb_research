@@ -709,8 +709,17 @@ export class ChainHelper {
       l2Fee,
       profit: profit.toString(),
     }
-
   }
+
+  async decodeSwapLog(
+    log: Log
+  ) {
+    const logData = log.data;
+    const logTopics = log.topics;
+    
+  }
+  
+
 }
 
 // test();

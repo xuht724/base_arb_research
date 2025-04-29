@@ -5,11 +5,12 @@ async function checkLogs() {
     const chainHelper = new ChainHelper("https://mainnet.base.org");
     
     const addresses = [
-        "0xF68001b66Cb98345C05b2e3EFDEe1dB8Fc01A76c",
-        "0xa1B6F148F208FFe9Eb04C68BcBFEa3525f2536d6"
+        "0xF6C0A374a483101e04EF5F7Ac9Bd15d9142BAC95",
+        "0xF6062550e8711dd6A38Ca87299b14dCD6D45d783",
+        "0x72AB388E2E2F6FaceF59E3C3FA2C4E29011c2D38"
     ] as `0x${string}`[];
     
-    const blockNumber = 27394527n;
+    const blockNumber = 29021947n;
     
     try {
         const logs = await chainHelper.getLogs(addresses, blockNumber);
@@ -20,3 +21,5 @@ async function checkLogs() {
 }
 
 checkLogs();
+
+//0xb5c3cf4222b090df7f16084c28932c64bc74248536a16263f2cedf92f2644dd4
