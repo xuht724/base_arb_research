@@ -17,6 +17,8 @@ contract CounterTest is Test {
             "https://base-mainnet.core.chainstack.com/1acdea40c9ad7f49fc2be9181c350461",
             txHash
         );
+
+        // target trx hash = 0xbd78bf43c2a3eca9168eafb8b6a8c579658281d8f1163a33e5f535e0f944c419
         
         vm.selectFork(forkId);
         counter = new Counter();
@@ -65,7 +67,7 @@ contract CounterTest is Test {
         // console.log("Current Pool:", pool);
 
         uint256 baseInput = 0.001 ether;
-        uint256 maxInput = 0.03 ether;
+        uint256 maxInput = 0.05 ether;
 
         // 执行套利
         (bool flag, uint256 optimalInput, int256 profit, uint256 getOutCalls) = counter.findOptimalArb(

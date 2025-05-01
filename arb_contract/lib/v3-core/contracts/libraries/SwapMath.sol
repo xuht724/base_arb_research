@@ -3,6 +3,7 @@ pragma solidity >=0.5.0;
 
 import './FullMath.sol';
 import './SqrtPriceMath.sol';
+import {console} from "forge-std/Test.sol";
 
 /// @title Computes the result of a swap within ticks
 /// @notice Contains methods for computing the result of a swap within a single tick price range, i.e., a single tick.
@@ -36,7 +37,6 @@ library SwapMath {
     {
         bool zeroForOne = sqrtRatioCurrentX96 >= sqrtRatioTargetX96;
         bool exactIn = amountRemaining >= 0;
-
         if (exactIn) {
             uint256 amountRemainingLessFee = FullMath.mulDiv(uint256(amountRemaining), 1e6 - feePips, 1e6);
             amountIn = zeroForOne

@@ -1,10 +1,13 @@
 import { AbiEvent } from "viem";
 
+
+// AeroV3Swap logs == V3Swap logs
 export const logTopicsMap = {
   V2Swap: "0xd78ad95fa46c994b6551d0da85fc275fe613ce37657fb8d5e3d130840159d822",
   V2Mint: "0x4c209b5fc8ad50758f13e2e1088ba56a560dff690a1c6fef26394f4c03821c4f",
   V2Burn: "0xdccd412f0b1252819cb1fd330b93224ca42612892bb3f4f789976e6d81936496",
-
+  AeroV2Swap:"0xb3e2773606abfd36b5bd91394b3a54d1398336c65005baf7bf7a05efeffaf75b",
+  AeroV3Swap:"0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67",
   V3Swap: "0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67",
   PancakeV3Swap:
     "0x19b47279256b2a23a1665c810c8d55a1758940ee09377d4f8d26497a3577dc83",

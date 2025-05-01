@@ -5,7 +5,7 @@ import "@uniswap/v3-core/contracts/libraries/FullMath.sol";
 import "@uniswap/v3-core/contracts/libraries/TickMath.sol";
 import "@uniswap/v3-core/contracts/libraries/SwapMath.sol";
 import "@uniswap/v3-core/contracts/libraries/LiquidityMath.sol";
-
+import "@uniswap/v3-core/contracts/libraries/SqrtPriceMath.sol";
 // 定义UniswapV3Pool的接口
 interface IUniswapV3Pool {
     function token0() external view returns (address);
@@ -119,8 +119,11 @@ contract Counter {
     }
     
     function putStorage(address pool, uint160 sqrtPriceX96, int24 tick, int24 tickSpacing, uint24 fee, uint128 liquidity) public {
-        bytes32 key1 = keccak256(abi.encodePacked("poolStorage1_", pool));
-        bytes32 key2 = keccak256(abi.encodePacked("poolStorage2_", pool));
+        uint256 beginGas = gasleft();
+
+        // 使用pool地址作为key的基础，通过位移来区分不同的存储位置
+        bytes32 key1 = bytes32(bytes20(pool)) | bytes32(uint256(1));
+        bytes32 key2 = bytes32(bytes20(pool)) | bytes32(uint256(2));
 
         uint256 value1 = (uint256(sqrtPriceX96) << 96) | (uint256(uint24(tick)) << 72) | (uint256(uint24(tickSpacing)) << 48) | (uint256(fee) << 24);
         uint256 value2 = uint256(liquidity);
@@ -132,16 +135,20 @@ contract Counter {
     }
 
     function getStorage(address pool) public view returns (uint160 sqrtPriceX96, int24 tick, int24 tickSpacing, uint24 fee, uint128 liquidity) {
-        bytes32 key1 = keccak256(abi.encodePacked("poolStorage1_", pool));
-        bytes32 key2 = keccak256(abi.encodePacked("poolStorage2_", pool));
+        uint256 beginGas = gasleft();
+        bytes32 key1 = bytes32(bytes20(pool)) | bytes32(uint256(1));
+        bytes32 key2 = bytes32(bytes20(pool)) | bytes32(uint256(2));
 
         uint256 value1;
         uint256 value2;
 
+        uint256 beginGas2 = gasleft();
         assembly {
             value1 := tload(key1)
             value2 := tload(key2)
         }
+        uint256 endGas2 = gasleft();
+        console.log('getStorage V3 calculate value1 and value2 gas', beginGas2 - endGas2);
 
         sqrtPriceX96 = uint160(value1 >> 96);
         tick = int24(uint24(value1 >> 72));
@@ -151,15 +158,15 @@ contract Counter {
     }
 
     function putTicks(address pool, int24 nextTick, int128 liquidityNet, bool initialized) public {
-        bytes32 key = keccak256(abi.encodePacked(pool, nextTick));
+        bytes32 key = bytes32(bytes20(pool)) | bytes32(uint256(uint24(nextTick))); // 直接拼接地址和tick值
         uint256 value = (uint256(uint128(liquidityNet)) << 8) | (initialized ? 1 : 0);
         assembly {
             tstore(key, value)
         }
     }
 
-    function getTicks(address pool, int24 nextTick) public view returns (int128 liquidityNet, bool initialized, bool flag){
-        bytes32 key = keccak256(abi.encodePacked(pool, nextTick));
+    function getTicks(address pool, int24 nextTick) public view returns (int128 liquidityNet, bool initialized, bool flag) {
+        bytes32 key = bytes32(bytes20(pool)) | bytes32(uint256(uint24(nextTick))); // 直接拼接地址和tick值
         uint256 value;
         assembly {
             value := tload(key)
@@ -191,7 +198,10 @@ contract Counter {
 
         // 获取池的状态
         //(state.sqrtPriceX96, state.tick, , , , , ) = uniV3Pool.slot0();
+        uint256 beginGas = gasleft();
         (state.sqrtPriceX96, state.tick, tickSpacing, fee, state.liquidity) = getStorage(pool);
+        uint256 endGas = gasleft();
+        console.log('V3 getSlot0 gas', beginGas - endGas);
 
         // state.liquidity = uniV3Pool.liquidity();
 
@@ -203,19 +213,25 @@ contract Counter {
 
         while (state.amountSpecifiedRemaining != 0) {
             int24 nextTick = getNextTick(state.tick, tickSpacing, zeroForOne);
-            // console.log("nextTick", nextTick);
+
             int128 liquidityNet;
             bool initialized;
             bool flag;
 
+            uint256 beginGas2 = gasleft();
             (liquidityNet, initialized, flag) = getTicks(pool, nextTick);
             if(!flag){
                 (, liquidityNet, , , , , , initialized) = uniV3Pool.ticks(nextTick);
                 putTicks(pool, nextTick, liquidityNet, initialized);
             }
+            uint256 endGas2 = gasleft();
+            console.log('V3 getTicks gas', beginGas2 - endGas2);
             // (, liquidityNet, , , , , , initialized) = uniV3Pool.ticks(nextTick);
             // console.log(liquidityNet);
             // console.log(initialized);
+
+            uint256 beginGas = gasleft();
+
             uint160 sqrtPriceNextX96 = TickMath.getSqrtRatioAtTick(nextTick);
             uint256 amountIn;
             uint256 amountOut;
@@ -228,6 +244,8 @@ contract Counter {
                     state.amountSpecifiedRemaining,
                     fee
                 );
+            uint256 endGas = gasleft();
+            console.log('V3 computeSwapStep gas', beginGas - endGas);
 
             // console.log('state.sqrtPriceX96', state.sqrtPriceX96);
             // console.log('amountIn', amountIn);
@@ -291,6 +309,73 @@ contract Counter {
         // 根据交易方向返回下一个 tick
         return zeroForOne ? currentTickLower : currentTickUpper;
     }
+
+    function getAmount0Delta(
+        uint160 sqrtRatioAX96,
+        uint160 sqrtRatioBX96,
+        uint128 liquidity,
+        bool roundUp
+    ) public pure returns (uint256 amount0) {
+        if (sqrtRatioAX96 > sqrtRatioBX96) {
+            (sqrtRatioAX96, sqrtRatioBX96) = (sqrtRatioBX96, sqrtRatioAX96);
+        }
+
+        uint256 numerator1 = uint256(liquidity) << 96;
+        uint256 numerator2 = sqrtRatioBX96 - sqrtRatioAX96;
+
+        require(sqrtRatioAX96 > 0);
+
+        return
+            roundUp
+                ? FullMath.mulDivRoundingUp(
+                    FullMath.mulDivRoundingUp(numerator1, numerator2, sqrtRatioBX96),
+                    1,
+                    sqrtRatioAX96
+                )
+                : FullMath.mulDiv(numerator1, numerator2, sqrtRatioBX96) / sqrtRatioAX96;
+    }
+
+    function getAmount1Delta(
+        uint160 sqrtRatioAX96,
+        uint160 sqrtRatioBX96,
+        uint128 liquidity,
+        bool roundUp
+    ) public pure returns (uint256 amount1) {
+        if (sqrtRatioAX96 > sqrtRatioBX96) {
+            (sqrtRatioAX96, sqrtRatioBX96) = (sqrtRatioBX96, sqrtRatioAX96);
+        }
+
+        return
+            roundUp
+                ? FullMath.mulDivRoundingUp(
+                    liquidity,
+                    sqrtRatioBX96 - sqrtRatioAX96,
+                    0x100000000
+                )
+                : FullMath.mulDiv(
+                    liquidity,
+                    sqrtRatioBX96 - sqrtRatioAX96,
+                    0x100000000
+                );
+    }
+
+    // function estimateToAmount(
+    //     int24 targetTick,
+    //     uint160 currentPriceX96,
+    //     uint256 liquidity
+    // ) public view returns (uint256) {
+    //     uint256 sqrtPriceNextX96 = TickMath.getSqrtRatioAtTick(targetTick);
+    //     bool zeroForOne = currentPriceX96 >= uint160(sqrtPriceNextX96);
+    //     uint256 amountIn;
+        
+    //     if(zeroForOne){
+    //         amountIn = getAmount0Delta(currentPriceX96, uint160(sqrtPriceNextX96), uint128(liquidity), true);
+    //     } else {
+    //         amountIn = getAmount1Delta(currentPriceX96, uint160(sqrtPriceNextX96), uint128(liquidity), true);
+    //     }
+        
+    //     return amountIn;
+    // }
 
     function findOptimalArb(
         address pool1,
@@ -399,12 +484,20 @@ contract Counter {
         // console.log("pool1", pool1);
         // console.log("pool2", pool2);
 
+        uint256 beginGas = gasleft();
+        uint256 newToAmount;
+
+        console.log("tick_1", tick_1);
+        console.log("tick_2", tick_2);
+
+
         if (priceX96_1 > priceX96_2) {
             // console.log("fromPool is pool1");
             fromPool = pool1;
             toPool = pool2;
             putStorage(fromPool, sqrtPriceX96_1, tick_1, tickSpacing_1, fee_1, liquidity_1);
             putStorage(toPool, sqrtPriceX96_2, tick_2, tickSpacing_2, fee_2, liquidity_2);
+            // newToAmount = estimateToAmount(tick_2, sqrtPriceX96_1, liquidity_1);
         } else {
             // console.log("fromPool is pool2");
             fromPool = pool2;
@@ -414,7 +507,15 @@ contract Counter {
             bool temp = flag1;
             flag1 = flag2;
             flag2 = temp;
+            // newToAmount = estimateToAmount(tick_1, sqrtPriceX96_2, liquidity_2);
         }
+        uint256 endGas = gasleft();
+        console.log('V3 putStorage gas', beginGas - endGas);
+
+        console.log("fromAmount", fromAmount);
+        console.log("toAmount", toAmount);
+        console.log("newToAmount", newToAmount);
+
         console.log("fromPool", fromPool);
         console.log("toPool", toPool);
         // 初始化变量
@@ -424,8 +525,9 @@ contract Counter {
         uint256 midMidAmount;
         int256 midAmountProfit;
         int256 midMidAmountProfit;
-        uint256 BINARY_COEFFICIENT = 100;
+        uint256 BINARY_COEFFICIENT = 1000;
         uint256 callCount = 0;
+        uint256 MIN_PROFIT_IMPROVEMENT = 100; // 最小利润提升阈值，单位是0.01%
 
         while (startAmount < (endAmount - (endAmount / BINARY_COEFFICIENT))) {
             uint256 startGas = gasleft();
@@ -445,13 +547,26 @@ contract Counter {
 
             callCount += 2;
 
+            // 计算利润提升幅度
+            int256 profitImprovementbp;
             if (midAmountProfit > midMidAmountProfit) {
+                profitImprovementbp = ((midAmountProfit - midMidAmountProfit) * 10000) / midAmountProfit;
                 endAmount = midMidAmount;
+                console.log('Profit improvement:', uint256(profitImprovementbp), 'bp');
             } else {
+                profitImprovementbp = ((midMidAmountProfit - midAmountProfit) * 10000) / midMidAmountProfit;
                 startAmount = midAmount;
+                console.log('Profit improvement:', uint256(profitImprovementbp), 'bp');
             }
+
+            // 如果利润提升幅度小于阈值，提前退出循环
+            if (uint256(profitImprovementbp) < MIN_PROFIT_IMPROVEMENT) {
+                console.log('Profit improvement too small, stopping search');
+                break;
+            }
+
             uint256 endGas = gasleft();
-            console.log('gas', startGas - endGas);
+            console.log('calculate objective function gas', startGas - endGas);
         }
 
         int256 finalProfit = int256(
