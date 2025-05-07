@@ -6,7 +6,9 @@ import {
   AERODORME_V2_FACTORY,
   AERODORME_V3_FACTORY,
   SOLIDV3_FACTORY,
-  PANCAKE_V3_FACTORY
+  PANCAKE_V3_FACTORY,
+  ALIEN_V3_FACTORY,
+  DACKIE_V3_FACTORY
 } from '../src/common/constants';
 import fs from 'fs';
 import path from 'path';
@@ -67,6 +69,8 @@ const FACTORY_MAP: { [key: string]: string } = {
   [AERODORME_V3_FACTORY.toLowerCase()]: 'AeroV3', // Aerodrome V3
   [SOLIDV3_FACTORY.toLowerCase()]: 'SolidV3', // Solid V3
   [PANCAKE_V3_FACTORY.toLowerCase()]: 'PancakeV3', // Pancake V3
+  [ALIEN_V3_FACTORY.toLowerCase()]: 'AlienV3', // Alien V3
+  [DACKIE_V3_FACTORY.toLowerCase()]: 'DackieV3', // Dackie V3
 };
 
 // 创建viem客户端

@@ -1,6 +1,6 @@
 import { DEX_EXCHANGE, PoolType, Token } from "src/common/types";
 import { ERC20ABI } from "../abi/erc20";
-import { createPublicClient, formatEther, http, Log, PublicClient, TransactionReceipt } from "viem";
+import { Abi, createPublicClient, formatEther, http, Log, PublicClient, TransactionReceipt } from "viem";
 import { base } from "viem/chains";
 import {
   TickInfo,
@@ -29,7 +29,6 @@ export class ChainHelper {
   public readonly httpClient: PublicClient;
 
   constructor(url: string) {
-    // 这里会因为库本身的问题，导致类型检查报错
     // @ts-ignore
     this.httpClient = createPublicClient({
       chain: base,

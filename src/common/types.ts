@@ -35,3 +35,10 @@ export type Token = {
   decimals: number;
   address: string;
 };
+
+export type PoolInfo = {
+  token0: string;
+  token1: string;
+  factory: string;
+  protocol: string;
+}
