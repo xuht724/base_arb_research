@@ -179,6 +179,19 @@ contract Counter {
         flag = true;
     }
 
+    mapping(address => Counter.poolTypes) private poolTypesMapping;
+
+    enum poolTypes {None, V3Pool, AerodromeV3Pool}
+
+    function getSwapOut(address pool, uint256 input, bool zeroForOne) public returns (int256 output) {
+        Counter.poolTypes poolType = poolTypesMapping[pool];
+        if(poolType == poolTypes.V3Pool){
+            output = V3Swap(pool, input, zeroForOne);
+        }else if(poolType == poolTypes.AerodromeV3Pool){
+            output = AerodromeV3Swap(pool, input, zeroForOne);
+        }
+    }
+
     function V3Swap(
         address pool,
         uint256 input,
@@ -233,9 +246,12 @@ contract Counter {
             uint256 beginGas = gasleft();
 
             uint160 sqrtPriceNextX96 = TickMath.getSqrtRatioAtTick(nextTick);
+            // console.log('getSqrtRatioAtTick', sqrtPriceNextX96);
             uint256 amountIn;
             uint256 amountOut;
             uint256 feeAmount;
+            // console.log('liquidity', state.liquidity, 'sqrtPriceX96', state.sqrtPriceX96);
+            // console.log('amountSpecifiedRemaining', state.amountSpecifiedRemaining);
             (state.sqrtPriceX96, amountIn, amountOut, feeAmount) = SwapMath
                 .computeSwapStep(
                     state.sqrtPriceX96,
@@ -377,6 +393,54 @@ contract Counter {
     //     return amountIn;
     // }
 
+    function getPoolDirection(address pool, bool isPool1Token0) public returns (uint160 sqrtPriceX96, uint256 priceX96, int24 tick, int24 tickSpacing, uint24 fee, uint128 liquidity){
+        Counter.poolTypes poolType = poolTypesMapping[pool];
+        if(poolType == poolTypes.None){
+            if(isAerodromeV3Pool(pool)){
+                poolTypesMapping[pool] = poolTypes.AerodromeV3Pool;
+                poolType = poolTypes.AerodromeV3Pool;
+            }
+            else {
+                poolTypesMapping[pool] = poolTypes.V3Pool;
+                poolType = poolTypes.V3Pool;
+            }
+        }
+
+        if (poolType == poolTypes.AerodromeV3Pool) {
+            IAerodromeV3Pool aeroV3Pool = IAerodromeV3Pool(pool);
+            (sqrtPriceX96, tick, , , , ) = aeroV3Pool.slot0();
+            console.log('sqrtPriceX96', sqrtPriceX96);
+            if (isPool1Token0) {
+                // priceX96 = (sqrtPriceX96 * sqrtPriceX96) >> 96;
+                priceX96 = (uint256(sqrtPriceX96) * uint256(sqrtPriceX96)) >> 192;
+            } else {
+                // priceX96 =
+                //     (1 << 192) /
+                //     ((sqrtPriceX96 * sqrtPriceX96) >> 96);
+                priceX96 = (1 << 192) / ((uint256(sqrtPriceX96) * uint256(sqrtPriceX96)) >> 96);
+            }
+            tickSpacing = aeroV3Pool.tickSpacing();
+            fee = aeroV3Pool.fee();
+            liquidity = aeroV3Pool.liquidity();
+        } else if (poolType == poolTypes.V3Pool) {
+            IUniswapV3Pool uniV3Pool = IUniswapV3Pool(pool);
+            (sqrtPriceX96, tick, , , , , ) = uniV3Pool.slot0();
+            console.log('sqrtPriceX96', sqrtPriceX96);
+            if (isPool1Token0) {
+                // priceX96 = (sqrtPriceX96 * sqrtPriceX96) >> 96;
+                priceX96 = (uint256(sqrtPriceX96) * uint256(sqrtPriceX96)) >> 96;
+            } else {
+                // priceX96 =
+                //     (1 << 192) /
+                //     ((sqrtPriceX96 * sqrtPriceX96) >> 96);
+                priceX96 = (1 << 192) / ((uint256(sqrtPriceX96) * uint256(sqrtPriceX96)) >> 96);
+            }
+            tickSpacing = uniV3Pool.tickSpacing();
+            fee = uniV3Pool.fee();
+            liquidity = uniV3Pool.liquidity();
+        }
+    }
+
     function findOptimalArb(
         address pool1,
         address pool2,
@@ -411,66 +475,8 @@ contract Counter {
         uint128 liquidity_1;
         uint128 liquidity_2;
 
-        bool flag1 = false;
-        bool flag2 = false;
-
-        if (isAerodromeV3Pool(pool1)) {
-            IAerodromeV3Pool aeroV3Pool1 = IAerodromeV3Pool(pool1);
-            (sqrtPriceX96_1, tick_1, , , , ) = aeroV3Pool1.slot0();
-            if (isPool1Token0) {
-                priceX96_1 = (sqrtPriceX96_1 * sqrtPriceX96_1) >> 96;
-            } else {
-                priceX96_1 =
-                    (1 << 192) /
-                    ((sqrtPriceX96_1 * sqrtPriceX96_1) >> 96);
-            }
-            tickSpacing_1 = aeroV3Pool1.tickSpacing();
-            fee_1 = aeroV3Pool1.fee();
-            liquidity_1 = aeroV3Pool1.liquidity();
-            flag1 = true;
-        } else {
-            IUniswapV3Pool uniV3Pool1 = IUniswapV3Pool(pool1);
-            (sqrtPriceX96_1, tick_1, , , , , ) = uniV3Pool1.slot0();
-            if (isPool1Token0) {
-                priceX96_1 = (sqrtPriceX96_1 * sqrtPriceX96_1) >> 96;
-            } else {
-                priceX96_1 =
-                    (1 << 192) /
-                    ((sqrtPriceX96_1 * sqrtPriceX96_1) >> 96);
-            }
-            tickSpacing_1 = uniV3Pool1.tickSpacing();
-            fee_1 = uniV3Pool1.fee();
-            liquidity_1 = uniV3Pool1.liquidity();
-        }
-
-        if (isAerodromeV3Pool(pool2)) {
-            IAerodromeV3Pool aeroV3Pool2 = IAerodromeV3Pool(pool2);
-            (sqrtPriceX96_2, tick_2, , , , ) = aeroV3Pool2.slot0();
-            if (isPool1Token0) {
-                priceX96_2 = (sqrtPriceX96_2 * sqrtPriceX96_2) >> 96;
-            } else {
-                priceX96_2 =
-                    (1 << 192) /
-                    ((sqrtPriceX96_2 * sqrtPriceX96_2) >> 96);
-            }
-            tickSpacing_2 = aeroV3Pool2.tickSpacing();
-            fee_2 = aeroV3Pool2.fee();
-            liquidity_2 = aeroV3Pool2.liquidity();
-            flag2 = true;
-        } else {
-            IUniswapV3Pool uniV3Pool2 = IUniswapV3Pool(pool2);
-            (sqrtPriceX96_2, tick_2, , , , , ) = uniV3Pool2.slot0();
-            if (isPool1Token0) {
-                priceX96_2 = (sqrtPriceX96_2 * sqrtPriceX96_2) >> 96;
-            } else {
-                priceX96_2 =
-                    (1 << 192) /
-                    ((sqrtPriceX96_2 * sqrtPriceX96_2) >> 96);
-            }
-            tickSpacing_2 = uniV3Pool2.tickSpacing();
-            fee_2 = uniV3Pool2.fee();
-            liquidity_2 = uniV3Pool2.liquidity();
-        }
+        (sqrtPriceX96_1, priceX96_1, tick_1, tickSpacing_1, fee_1, liquidity_1) = getPoolDirection(pool1, isPool1Token0);
+        (sqrtPriceX96_2, priceX96_2, tick_2, tickSpacing_2, fee_2, liquidity_2) = getPoolDirection(pool2, isPool1Token0);
 
         // console.log("sqrtPriceX96_1", sqrtPriceX96_1);
         // console.log("sqrtPriceX96_2", sqrtPriceX96_2);
@@ -504,9 +510,6 @@ contract Counter {
             toPool = pool1;
             putStorage(fromPool, sqrtPriceX96_2, tick_2, tickSpacing_2, fee_2, liquidity_2);
             putStorage(toPool, sqrtPriceX96_1, tick_1, tickSpacing_1, fee_1, liquidity_1);
-            bool temp = flag1;
-            flag1 = flag2;
-            flag2 = temp;
             // newToAmount = estimateToAmount(tick_1, sqrtPriceX96_2, liquidity_2);
         }
         uint256 endGas = gasleft();
@@ -536,12 +539,12 @@ contract Counter {
 
             midAmountProfit =
                 int256(
-                    getArbProfit(fromPool, toPool, midAmount, isPool1Token0, flag1, flag2)
+                    getArbProfit(fromPool, toPool, midAmount, isPool1Token0)
                 ) -
                 int256(midAmount);
             midMidAmountProfit =
                 int256(
-                    getArbProfit(fromPool, toPool, midMidAmount, isPool1Token0, flag1, flag2)
+                    getArbProfit(fromPool, toPool, midMidAmount, isPool1Token0)
                 ) -
                 int256(midMidAmount);
 
@@ -570,7 +573,7 @@ contract Counter {
         }
 
         int256 finalProfit = int256(
-            getArbProfit(fromPool, toPool, startAmount, isPool1Token0, flag1, flag2)
+            getArbProfit(fromPool, toPool, startAmount, isPool1Token0)
         ) - int256(startAmount);
 
         return (true, startAmount, finalProfit, callCount);
@@ -590,36 +593,20 @@ contract Counter {
         address pool1,
         address pool2,
         uint256 input,
-        bool isPool1Token0,
-        bool flag1,
-        bool flag2
+        bool isPool1Token0
     ) internal returns (uint256) {
         // 第一步：在第一个池子中交易
         // console.log("input", input);
-        int256 intermediateAmount;
-        if (flag1) {
-            intermediateAmount = AerodromeV3Swap(pool1, input, isPool1Token0);
-        } else {
-            intermediateAmount = V3Swap(pool1, input, isPool1Token0);
-        }
+        int256 intermediateAmount = getSwapOut(pool1, input, isPool1Token0);
         require(intermediateAmount > 0, "First swap failed");
 
         // console.log("intermediateAmount", intermediateAmount);
         // 第二步：在第二个池子中交易
-        int256 finalAmount;
-        if (flag2) {
-            finalAmount = AerodromeV3Swap(
-                pool2,
-                uint256(intermediateAmount),
-                !isPool1Token0
-            );
-        } else {
-            finalAmount = V3Swap(
-                pool2,
-                uint256(intermediateAmount),
-                !isPool1Token0
-            );
-        }
+        int256 finalAmount = getSwapOut(
+            pool2,
+            uint256(intermediateAmount),
+            !isPool1Token0
+        );
         require(finalAmount > 0, "Second swap failed");
 
         // console.log("finalAmount", finalAmount);
