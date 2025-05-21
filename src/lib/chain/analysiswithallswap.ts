@@ -108,8 +108,20 @@ export interface BlockArbitrageResult {
     baseFeePerGas?: string;
   };
   totalArbitrageTxs: number;
+  totalSimpleSwapTxs: number;
 
   arbitrageTxs: ArbitrageInfo[];
+  simpleSwapTxs: any[];
+
+  allSwapTxs: {
+    txHash: string;
+    transactionIndex: number;
+    isArbitrage: boolean;
+    isSimpleSwap: boolean;
+    swapEvents: StandardSwapEvent[];
+  }[];
+
+  swapArbitrageRelations: any[];
 }
 
 interface EdgeInfo {
@@ -259,12 +271,12 @@ export class AnalysisHelper {
       }
       let decimals = tokenInfoRes[0].result as number;
       let name =
-        tokenInfoRes[1].statuslog. == "success"
+        tokenInfoRes[1].status == "success"
           ? (tokenInfoRes[1].result! as string)
           : undefined;
       let symbol =
-        tokenInfoRes[1].status == "success"
-          ? (tokenInfoRes[1].result! as string)
+        tokenInfoRes[2].status == "success"
+          ? (tokenInfoRes[2].result! as string)
           : undefined;
       const token: Token = {
         address: address.toLowerCase(),
@@ -397,7 +409,7 @@ export class AnalysisHelper {
       }
       
       
-      case logTopicsMap.BalancerSwap: {
+      case logTopicsMap.BalancerVaultSwap: {
         const balancerSwapABI = [{
           anonymous: false,
           inputs: [
@@ -411,27 +423,35 @@ export class AnalysisHelper {
           type: 'event'
         }] as const;
       
-        const decoded = decodeEventLog({
-          abi: balancerSwapABI,
-          data: log.data,
-          topics: log.topics,
-        });
-      
-        const tokenIn = decoded.args.tokenIn as string;
-        const tokenOut = decoded.args.tokenOut as string;
-        const amountIn = BigInt(decoded.args.amountIn as string | number);
-        const amountOut = BigInt(decoded.args.amountOut as string | number);
-      
-        return {
-          poolAddress: log.address.toLowerCase(),
-          protocol: poolInfo.protocol,
-          tokenIn: tokenIn.toLowerCase(),
-          tokenOut: tokenOut.toLowerCase(),
-          amountIn,
-          amountOut,
-          sender: log.transaction?.from?.toLowerCase() ?? 'unknown',
-          recipient: log.transaction?.from?.toLowerCase() ?? 'unknown',
-        };
+        try {
+          const decoded = decodeEventLog({
+            abi: balancerSwapABI,
+            data: log.data,
+            topics: log.topics,
+          });
+        
+          const { tokenIn, tokenOut, amountIn, amountOut } = decoded.args;
+        
+          // 由于交易信息不在log中，我们使用默认值
+          // 实际情况中可能需要通过其他方式获取sender和recipient
+          const sender = 'unknown';
+          const recipient = 'unknown';
+        
+          return {
+            poolAddress: log.address.toLowerCase(),
+            protocol: poolInfo.protocol || 'Balancer',
+            tokenIn: tokenIn.toLowerCase(),
+            tokenOut: tokenOut.toLowerCase(),
+            amountIn,
+            amountOut,
+            sender,
+            recipient
+          };
+        } catch (error) {
+          console.error('解码Balancer Swap事件出错:', error);
+          console.error('问题日志:', log);
+          return null;
+        }
       }
       
 
@@ -782,7 +802,16 @@ export class AnalysisHelper {
   }
 
   public async analyzeBlockArbitrage(blockNumber: number): Promise<BlockArbitrageResult> {
+    const allSwapTxs: {
+        txHash: string;
+        transactionIndex: number;
+        isArbitrage: boolean;
+        isSimpleSwap: boolean;
+        swapEvents: StandardSwapEvent[];
+      }[] = [];
+      
     const arbitrageTxs: ArbitrageInfo[] = [];
+    const simpleSwapTxs: any[] = [];
     const poolSwapHistory = new Map<string, string>();
 
     // 获取区块信息
@@ -807,7 +836,7 @@ export class AnalysisHelper {
         EventMapABI.V3Swap,
         EventMapABI.AeroV2Swap,
         EventMapABI.PancakeV3Swap,
-        EventMapABI.BalancerSwap
+        EventMapABI.BalancerVaultSwap
       ]
     });
 
@@ -853,12 +882,26 @@ export class AnalysisHelper {
         }
       }
 
-      // 如果交易包含swap事件，检查是否为套利
-      if (swapEvents.length > 0) {//为什么不是2
+      // 如果交易包含swap事件，进行分析
+      if (swapEvents.length > 0) {
         const graph = this.buildSwapGraph(swapEvents);
         const { isValid, profitToken } = this.validateSwapGraphTokenChanges(graph);
         
-        if (isValid && profitToken) {
+        // 判断是否为单纯的swap交易或套利交易
+        const isArbitrage = isValid && !!profitToken;
+        const isSimpleSwap = swapEvents.length === 1; // 只有一个swap事件就是简单swap
+
+        // 添加到所有swap交易列表
+        allSwapTxs.push({
+          txHash,
+          transactionIndex: receipt.transactionIndex,
+          isArbitrage,
+          isSimpleSwap,
+          swapEvents
+        });
+        
+        // 处理套利交易
+        if (isArbitrage) {
           const tx = await this.httpClient.getTransaction({ hash: txHash as `0x${string}` });
           if (!tx) continue;
 
@@ -966,6 +1009,39 @@ export class AnalysisHelper {
             involvedProtocols: []
           });
         }
+        // 处理单纯的swap交易
+        else if (isSimpleSwap) {
+          const tx = await this.httpClient.getTransaction({ hash: txHash as `0x${string}` });
+          if (!tx) continue;
+          
+          // 收集Swap的详细信息
+          const swap = swapEvents[0]; // 只有一个swap事件
+          const tokenInInfo = await this.requestTokenInfo(swap.tokenIn);
+          const tokenOutInfo = await this.requestTokenInfo(swap.tokenOut);
+          
+          const simpleSwapInfo = {
+            txHash,
+            transactionIndex: receipt.transactionIndex,
+            protocol: swap.protocol,
+            poolAddress: swap.poolAddress,
+            tokenIn: {
+              address: swap.tokenIn,
+              symbol: tokenInInfo?.symbol,
+              amount: formatUnits(swap.amountIn, tokenInInfo?.decimals || 18)
+            },
+            tokenOut: {
+              address: swap.tokenOut,
+              symbol: tokenOutInfo?.symbol, 
+              amount: formatUnits(swap.amountOut, tokenOutInfo?.decimals || 18)
+            },
+            from: tx.from.toLowerCase(),
+            to: tx.to?.toLowerCase() || '',
+            gasUsed: receipt.gasUsed.toString(),
+            gasPrice: tx.gasPrice?.toString() || '0'
+          };
+          
+          simpleSwapTxs.push(simpleSwapInfo);
+        }
 
         // 更新pool的历史记录 - 对所有包含swap事件的交易都进行更新
         for (const swap of swapEvents) {
@@ -973,6 +1049,9 @@ export class AnalysisHelper {
         }
       }
     }
+
+    // 分析swap交易和套利交易之间的关系
+    const swapArbitrageRelations = this.analyzeSwapArbitrageRelations(simpleSwapTxs, arbitrageTxs);
 
     // 在返回结果之前，为每个套利交易添加详细信息
     for (const arb of arbitrageTxs) {
@@ -1028,11 +1107,64 @@ export class AnalysisHelper {
       });
     }
 
+    // 输出区块分析结果的简要信息
+    console.log(`[Block ${blockNumber}] Total swaps: ${allSwapTxs.length}, simple swaps: ${simpleSwapTxs.length}, arbitrages: ${arbitrageTxs.length}`);
+
     return {
       blockNumber,
       blockInfo,
       totalArbitrageTxs: arbitrageTxs.length,
-      arbitrageTxs
+      totalSimpleSwapTxs: simpleSwapTxs.length,
+      arbitrageTxs,
+      simpleSwapTxs,
+      allSwapTxs,
+      swapArbitrageRelations
     };
+  }
+
+  private analyzeSwapArbitrageRelations(simpleSwapTxs: any[], arbitrageTxs: ArbitrageInfo[]) {
+    const relations = [];
+    
+    // 按照交易索引排序
+    const sortedSimpleSwaps = [...simpleSwapTxs].sort((a, b) => a.transactionIndex - b.transactionIndex);
+    const sortedArbitrages = [...arbitrageTxs].sort((a, b) => a.transactionIndex - b.transactionIndex);
+    
+    // 对于每个套利交易，寻找之前的Swap交易可能引起的价格变化
+    for (const arb of sortedArbitrages) {
+      const potentialTriggerSwaps = [];
+      
+      // 查找发生在套利交易之前的简单swap交易
+      const previousSwaps = sortedSimpleSwaps.filter(swap => 
+        swap.transactionIndex < arb.transactionIndex
+      );
+      
+      // 检查套利交易和简单swap交易使用的池子是否有重叠
+      for (const swap of previousSwaps) {
+        // 检查池子是否在套利交易中使用
+        const poolAddressUsedInArb = arb.swapEvents.some(event => 
+          event.poolAddress === swap.poolAddress
+        );
+        
+        if (poolAddressUsedInArb) {
+          potentialTriggerSwaps.push({
+            swapTxHash: swap.txHash,
+            transactionIndex: swap.transactionIndex,
+            poolAddress: swap.poolAddress,
+            protocol: swap.protocol,
+            timeDifference: arb.transactionIndex - swap.transactionIndex // 交易索引差距
+          });
+        }
+      }
+      
+      if (potentialTriggerSwaps.length > 0) {
+        relations.push({
+          arbitrageTxHash: arb.txHash,
+          arbitrageTransactionIndex: arb.transactionIndex,
+          potentialTriggerSwaps: potentialTriggerSwaps
+        });
+      }
+    }
+    
+    return relations;
   }
 }
