@@ -1,4 +1,4 @@
-import { DEX_EXCHANGE, PoolType, Token } from "src/common/types";
+import { DEX_EXCHANGE, ExtendedPoolInfo, PoolType, Token } from "src/common/types";
 import { ERC20ABI } from "../abi/erc20";
 import { Abi, createPublicClient, formatEther, http, Log, PublicClient, TransactionReceipt } from "viem";
 import { base } from "viem/chains";
@@ -11,6 +11,7 @@ import {
 import { UniV3PoolABI } from "../abi/uniswap/univ3pool";
 import { UniV3Pool } from "src/lib/pool/univ3/pool";
 import { AEROV3PoolABI } from "../abi/aerodrome/aerov3pool";
+import { getProtocolType } from "./utils";
 
 const V3_MAX_TICK = 887272n;
 const V3_MIN_TICK = -887272n;
@@ -718,7 +719,132 @@ export class ChainHelper {
     
   }
   
+  public async batchRequestPoolInfo(addresses: string[]): Promise<Map<string, ExtendedPoolInfo>> {
+    const poolInfoMap = new Map<string, ExtendedPoolInfo>();
+    const BATCH_SIZE = 1000;
 
+    // 分批次处理
+    for (let i = 0; i < addresses.length; i += BATCH_SIZE) {
+      const batchAddresses = addresses.slice(i, i + BATCH_SIZE);
+      const contracts = batchAddresses.flatMap(address => [
+        {
+          address: address as `0x${string}`,
+          abi: [
+            {
+              inputs: [],
+              name: 'token0',
+              outputs: [{ type: 'address', name: '' }],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'token1',
+              outputs: [{ type: 'address', name: '' }],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'factory',
+              outputs: [{ type: 'address', name: '' }],
+              stateMutability: 'view',
+              type: 'function',
+            },
+          ],
+          functionName: 'token0',
+        },
+        {
+          address: address as `0x${string}`,
+          abi: [
+            {
+              inputs: [],
+              name: 'token0',
+              outputs: [{ type: 'address', name: '' }],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'token1',
+              outputs: [{ type: 'address', name: '' }],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'factory',
+              outputs: [{ type: 'address', name: '' }],
+              stateMutability: 'view',
+              type: 'function',
+            },
+          ],
+          functionName: 'token1',
+        },
+        {
+          address: address as `0x${string}`,
+          abi: [
+            {
+              inputs: [],
+              name: 'token0',
+              outputs: [{ type: 'address', name: '' }],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'token1',
+              outputs: [{ type: 'address', name: '' }],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'factory',
+              outputs: [{ type: 'address', name: '' }],
+              stateMutability: 'view',
+              type: 'function',
+            },
+          ],
+          functionName: 'factory',
+        },
+      ]) as any[];
+
+      const results = await this.httpClient.multicall({
+        contracts,
+      });
+
+      // 处理每个池子的结果
+      for (let j = 0; j < batchAddresses.length; j++) {
+        const baseIndex = j * 3;
+        const address = batchAddresses[j].toLowerCase();
+        
+        if (
+          results[baseIndex].status === "failure" ||
+          results[baseIndex + 1].status === "failure" 
+        ) {
+          console.warn(`获取池子信息失败: ${address}`);
+          continue;
+        }
+
+        const token0 = (results[baseIndex].result as string).toLowerCase();
+        const token1 = (results[baseIndex + 1].result as string).toLowerCase();
+        const factory = (results[baseIndex + 2].result as string)?.toLowerCase() ?? 'Unknown';
+        const protocol = factory ? getProtocolType(factory) : 'Unknown';
+
+        const poolInfo: ExtendedPoolInfo = {
+          tokens: [token0, token1],
+          factory,
+          protocol,
+          poolType: 'v2v3'
+        };
+
+        poolInfoMap.set(address, poolInfo);
+      }
+    }
+
+    return poolInfoMap;
+  }
 }
 
 // test();

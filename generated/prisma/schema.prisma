@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("MYSQL_URL")
+}
+
+model Block {
+  id            Int      @id @default(autoincrement())
+  blockNumber   Int      @unique
+  blockHash     String   @unique
+  timestamp     DateTime
+  parentHash    String
+  gasUsed       String // 使用String存储大数
+  gasLimit      String
+  baseFeePerGas String?
+  miner         String
+  trxNumber     Int
+  transactions  Json // 存储交易列表
+  receipts      Json // 存储receipts列表
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([blockNumber])
+  @@index([blockHash])
+}

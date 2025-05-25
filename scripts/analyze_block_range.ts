@@ -25,7 +25,8 @@ async function main() {
 
   // 设置区块范围
   const startBlock = 29304281; // 示例起始区块
-  const endBlock = 29305281;   // 示例结束区块
+  const totalBlock = 100000;
+  const endBlock = startBlock + totalBlock;   // 示例结束区块
   const blocksPerFile = 100;   // 每个文件存储的区块数
 
   console.log(`开始分析区块范围: ${startBlock} - ${endBlock}\n`);
@@ -38,9 +39,9 @@ async function main() {
   for (let fileIndex = 0; fileIndex < totalFiles; fileIndex++) {
     const currentStartBlock = startBlock + fileIndex * blocksPerFile;
     const currentEndBlock = Math.min(currentStartBlock + blocksPerFile - 1, endBlock);
-    
+
     console.log(`\n分析区块范围 ${currentStartBlock} - ${currentEndBlock} (${fileIndex + 1}/${totalFiles})`);
-    
+
     const results: BlockResult[] = [];
     let totalArbitrageTxs = 0;
 
@@ -62,10 +63,10 @@ async function main() {
 
       try {
         console.log(`[${new Date().toISOString()}] 分析区块 ${blockNumber} (${blockNumber - currentStartBlock + 1}/${currentEndBlock - currentStartBlock + 1})`);
-        
+
         const result = await helper.analyzeBlockArbitrage(blockNumber);
         totalArbitrageTxs += result.totalArbitrageTxs;
-        
+
         // 添加新的分析结果
         results.push({
           blockNumber,

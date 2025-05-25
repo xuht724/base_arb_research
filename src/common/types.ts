@@ -42,3 +42,10 @@ export type PoolInfo = {
   factory: string;
   protocol: string;
 }
+
+export type ExtendedPoolInfo = {
+  tokens: string[];  // 支持多个代币
+  factory?: string;  // factory 变为可选
+  protocol: string;  // 协议类型
+  poolType?: string; // 池子类型，可选
+}

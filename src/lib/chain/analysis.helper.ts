@@ -1,13 +1,12 @@
-import { DEX_EXCHANGE, PoolType, Token } from "src/common/types";
+import { DEX_EXCHANGE, PoolInfo, PoolType, Token } from "src/common/types";
 import { ERC20ABI } from "../abi/erc20";
 import { Abi, createPublicClient, formatEther, formatUnits, http, Log, PublicClient, TransactionReceipt, decodeEventLog } from "viem";
 import { base } from "viem/chains";
 import path from 'path';
 import fs from 'fs';
 import { logTopicsMap, EventMapABI } from "src/common/events";
-import { AnalysisResult, TransactionAnalysis, getProtocolType } from "./types";
-import { PoolInfo } from "src/common/types";
-
+import { AnalysisResult, TransactionAnalysis } from "./types";
+import { getProtocolType } from "./utils";
 export interface StandardSwapEvent {
   poolAddress: string;
   protocol: string;
@@ -35,64 +34,80 @@ export interface TokenBalanceChange {
   change: bigint;
 }
 
-export interface ArbitrageInfo {
-  txHash: string;
-  transactionIndex: number;
-  type: 'begin' | 'inter' | 'backrun';
-  swapEvents: Array<{
-    tokenIn: {
-      address: string;
-      symbol?: string;
-      amount: string;
-    };
-    tokenOut: {
-      address: string;
-      symbol?: string;
-      amount: string;
-    };
-    protocol: string;
+export interface TokenInfo {
+  address: string;
+  symbol?: string;
+  decimals?: number;
+}
+
+
+export interface SwapEvent {
+  tokenIn: TokenInfo & { amount: string };
+  tokenOut: TokenInfo & { amount: string };
+  protocol: string;
+  poolAddress: string;
+}
+
+export interface TokenChange {
+  token: string;
+  symbol?: string;
+  change: string;
+}
+
+export interface ArbitrageCycle {
+  edges: Array<{
+    tokenIn: string;
+    tokenOut: string;
+    amountIn: string;
+    amountOut: string;
     poolAddress: string;
+    protocol: string;
   }>;
-  profit?: {
+  profitToken: string;
+  profitAmount: string;
+  tokenChanges: Record<string, string>;
+}
+
+export interface ArbitrageInfo {
+  type: 'begin' | 'inter' | 'backrun';
+  arbitrageCycles: ArbitrageCycle[];
+  profit: {
     token: string;
     symbol?: string;
     amount: string;
     formattedAmount?: string;
   };
   previousTxHash?: string;
-  interInfo?: {
+  interInfo?: Array<{
     txHash: string;
     poolAddress: string;
     transactionIndex: number;
-  }[];
-  graphTokenChanges: Record<string, string>;
-  addressTokenChanges: Record<string, Array<{
-    token: string;
-    symbol?: string;
-    change: string;
-  }>>;
+  }>;
+}
+
+export interface TransactionAnalysisResult {
+  // 基本信息
+  txHash: string;
   from: string;
   to: string;
   gasUsed: string;
   gasPrice: string;
   isEmptyInput: boolean;
-  input: string;
-  involvedPools: Array<{
-    address: string;
-    protocol: string;
-    token0: {
-      address: string;
-      symbol?: string;
-    };
-    token1: {
-      address: string;
-      symbol?: string;
-    };
-  }>;
-  involvedTokens: Array<{
-    address: string;
-    symbol?: string;
-  }>;
+  
+  // 交易分析
+  isArbitrage: boolean;
+  swapEvents: SwapEvent[];
+  
+  // 套利相关信息（如果是套利交易）
+  arbitrageInfo?: ArbitrageInfo;
+  
+  // 代币变化
+  tokenChanges: Record<string, string>;
+  addressTokenChanges: Record<string, TokenChange[]>;
+  
+  // 涉及的实体
+  involvedPools: PoolInfo[];
+  involvedTokens: TokenInfo[];
   involvedProtocols: string[];
 }
 
@@ -108,12 +123,24 @@ export interface BlockArbitrageResult {
     baseFeePerGas?: string;
   };
   totalArbitrageTxs: number;
-  arbitrageTxs: ArbitrageInfo[];
+  totalSwapTxs: number;
+  transactions: TransactionAnalysisResult[];
 }
 
-interface EdgeInfo {
+export interface CycleEdge {
+  tokenIn: string;
+  tokenOut: string;
   amountIn: bigint;
   amountOut: bigint;
+  poolAddress: string;
+  protocol: string;
+}
+
+export interface EdgeInfo {
+  amountIn: bigint;
+  amountOut: bigint;
+  poolAddress: string;
+  protocol: string;
 }
 
 export class AnalysisHelper {
@@ -612,30 +639,31 @@ export class AnalysisHelper {
     const graph = new Map<string, Map<string, EdgeInfo>>();
     
     for (const swap of swapEvents) {
-      // 只添加tokenIn到tokenOut的边
-      if (!graph.has(swap.tokenIn)) {
-        graph.set(swap.tokenIn, new Map());
-      }
-      const edges = graph.get(swap.tokenIn)!;
-      
-      // 如果已经存在这条边，累加amount
-      const existingEdge = edges.get(swap.tokenOut);
-      if (existingEdge) {
-        edges.set(swap.tokenOut, {
-          amountIn: existingEdge.amountIn + swap.amountIn,
-          amountOut: existingEdge.amountOut + swap.amountOut
-        });
-      } else {
-        edges.set(swap.tokenOut, {
-          amountIn: swap.amountIn,
-          amountOut: swap.amountOut
-        });
-      }
+        if (!graph.has(swap.tokenIn)) {
+            graph.set(swap.tokenIn, new Map());
+        }
+        const edges = graph.get(swap.tokenIn)!;
+        
+        const existingEdge = edges.get(swap.tokenOut);
+        if (existingEdge) {
+            edges.set(swap.tokenOut, {
+                amountIn: existingEdge.amountIn + swap.amountIn,
+                amountOut: existingEdge.amountOut + swap.amountOut,
+                poolAddress: swap.poolAddress,
+                protocol: swap.protocol
+            });
+        } else {
+            edges.set(swap.tokenOut, {
+                amountIn: swap.amountIn,
+                amountOut: swap.amountOut,
+                poolAddress: swap.poolAddress,
+                protocol: swap.protocol
+            });
+        }
     }
     
     return graph;
-  }
-
+}
   private hasCycle(graph: Map<string, Map<string, EdgeInfo>>): boolean {
     const visited = new Set<string>();
     const recursionStack = new Set<string>();
@@ -710,6 +738,7 @@ export class AnalysisHelper {
     
     let positiveCount = 0;
     let profitToken: string | undefined;
+    let maxProfit = 0n;
     
     // 检查所有token的变化量
     for (const [token, change] of tokenChanges.entries()) {
@@ -718,7 +747,10 @@ export class AnalysisHelper {
       }
       if (change > 0n) {
         positiveCount++;
-        profitToken = token;
+        if (change > maxProfit) {
+          maxProfit = change;
+          profitToken = token;
+        }
       }
     }
     
@@ -740,8 +772,150 @@ export class AnalysisHelper {
     return this.hasCycle(graph) && this.validateSwapGraphTokenChanges(graph).isValid;
   }
 
+  private async collectSwapEvents(receipt: TransactionReceipt): Promise<StandardSwapEvent[]> {
+    const swapEvents: StandardSwapEvent[] = [];
+    const swapTopics = new Set<string>([
+      logTopicsMap.V2Swap,
+      logTopicsMap.V3Swap,
+      logTopicsMap.AeroV2Swap,
+      logTopicsMap.PancakeV3Swap
+    ]);
+
+    for (const log of receipt.logs) {
+      if (!log.topics[0] || !swapTopics.has(log.topics[0])) continue;
+
+      const poolInfo = await this.requestPoolInfo(log.address);
+      if (!poolInfo) continue;
+
+      const swapEvent = this.parseSwapEvent(log, poolInfo);
+      if (swapEvent) {
+        swapEvents.push(swapEvent);
+      }
+    }
+
+    return swapEvents;
+  }
+
+  private async collectInvolvedEntities(swapEvents: StandardSwapEvent[]): Promise<{
+    poolsInfo: Array<{
+      factory: string;
+      protocol: string;
+      token0: string;
+      token1: string;
+    }>;
+    tokensInfo: TokenInfo[];
+    involvedProtocols: string[];
+  }> {
+    const involvedPools = new Set<string>();
+    const involvedTokens = new Set<string>();
+    const involvedProtocols = new Set<string>();
+
+    for (const swap of swapEvents) {
+      involvedPools.add(swap.poolAddress);
+      involvedTokens.add(swap.tokenIn);
+      involvedTokens.add(swap.tokenOut);
+      involvedProtocols.add(swap.protocol);
+    }
+
+    const poolsInfo = await Promise.all(
+      Array.from(involvedPools).map(async (poolAddress) => {
+        const poolInfo = await this.requestPoolInfo(poolAddress);
+        return {
+          factory: poolInfo?.factory || '',
+          protocol: poolInfo?.protocol || '',
+          token0: poolInfo?.token0 || '',
+          token1: poolInfo?.token1 || ''
+        };
+      })
+    );
+
+    const tokensInfo = await Promise.all(
+      Array.from(involvedTokens).map(async (tokenAddress) => {
+        const tokenInfo = await this.requestTokenInfo(tokenAddress);
+        return {
+          address: tokenAddress,
+          symbol: tokenInfo?.symbol
+        };
+      })
+    );
+
+    return {
+      poolsInfo,
+      tokensInfo,
+      involvedProtocols: Array.from(involvedProtocols)
+    };
+  }
+
+  private async formatSwapEvents(swapEvents: StandardSwapEvent[]): Promise<SwapEvent[]> {
+    return Promise.all(swapEvents.map(async (swap) => {
+      const tokenInInfo = await this.requestTokenInfo(swap.tokenIn);
+      const tokenOutInfo = await this.requestTokenInfo(swap.tokenOut);
+      
+      return {
+        tokenIn: {
+          address: swap.tokenIn,
+          symbol: tokenInInfo?.symbol,
+          amount: formatUnits(swap.amountIn, tokenInInfo?.decimals || 18)
+        },
+        tokenOut: {
+          address: swap.tokenOut,
+          symbol: tokenOutInfo?.symbol,
+          amount: formatUnits(swap.amountOut, tokenOutInfo?.decimals || 18)
+        },
+        protocol: swap.protocol,
+        poolAddress: swap.poolAddress
+      };
+    }));
+  }
+
+  private async determineArbitrageType(
+    swapEvents: StandardSwapEvent[],
+    currentTxIndex: number,
+    blockTransactions: Array<{ txHash: string; transactionIndex: number; receipt: TransactionReceipt }>
+  ): Promise<{
+    type: 'begin' | 'inter' | 'backrun';
+    previousTxHash?: string;
+    interInfo?: Array<{ txHash: string; poolAddress: string; transactionIndex: number; }>;
+  }> {
+    // 获取当前交易涉及的池子
+    const currentPools = new Set(swapEvents.map(e => e.poolAddress));
+    
+    // 查找前一笔交易
+    const prevTx = blockTransactions.find(tx => tx.transactionIndex === currentTxIndex - 1);
+    if (!prevTx) {
+      return { type: 'begin' };
+    }
+
+    // 获取前一笔交易的swap事件
+    const prevSwapEvents = await this.collectSwapEvents(prevTx.receipt);
+    if (prevSwapEvents.length === 0) {
+      return { type: 'begin' };
+    }
+
+    // 检查前一笔交易是否涉及相同的池子
+    const prevPools = new Set(prevSwapEvents.map(e => e.poolAddress));
+    const commonPools = new Set([...currentPools].filter(pool => prevPools.has(pool)));
+
+    if (commonPools.size === 0) {
+      return { type: 'begin' };
+    }
+
+    // 检查是否所有共同池子都在前一笔交易中
+    const isBackrun = [...currentPools].every(pool => prevPools.has(pool));
+
+    return {
+      type: isBackrun ? 'backrun' : 'inter',
+      previousTxHash: prevTx.txHash,
+      interInfo: Array.from(commonPools).map(pool => ({
+        txHash: prevTx.txHash,
+        poolAddress: pool,
+        transactionIndex: prevTx.transactionIndex
+      }))
+    };
+  }
+
   public async analyzeBlockArbitrage(blockNumber: number): Promise<BlockArbitrageResult> {
-    const arbitrageTxs: ArbitrageInfo[] = [];
+    const transactions: TransactionAnalysisResult[] = [];
     const poolSwapHistory = new Map<string, string>();
 
     // 获取区块信息
@@ -796,113 +970,60 @@ export class AnalysisHelper {
       .sort((a, b) => a.transactionIndex - b.transactionIndex);
 
     // 按顺序分析每个交易
-    for (const { txHash, receipt } of sortedTxDetails) {
-      const swapEvents: StandardSwapEvent[] = [];
-      const txLogs = txLogsMap.get(txHash) || [];
+    for (const { txHash, receipt, transactionIndex } of sortedTxDetails) {
+      const swapEvents = await this.collectSwapEvents(receipt);
+      if (swapEvents.length === 0) continue;
 
-      // 收集交易中的所有swap事件
-      for (const log of txLogs) {
-        const poolInfo = await this.requestPoolInfo(log.address);
-        if (!poolInfo) continue;
+      const { poolsInfo, tokensInfo, involvedProtocols } = await this.collectInvolvedEntities(swapEvents);
+      const formattedSwapEvents = await this.formatSwapEvents(swapEvents);
 
-        const swapEvent = this.parseSwapEvent(log, poolInfo);
-        if (swapEvent) {
-          swapEvents.push(swapEvent);
-        }
-      }
+      const graph = this.buildSwapGraph(swapEvents);
+      const { isValid, profitToken } = this.validateSwapGraphTokenChanges(graph);
+      
+      const tx = await this.httpClient.getTransaction({ hash: txHash as `0x${string}` });
+      if (!tx) continue;
 
-      // 如果交易包含swap事件，检查是否为套利
-      if (swapEvents.length > 0) {
-        const graph = this.buildSwapGraph(swapEvents);
-        const { isValid, profitToken } = this.validateSwapGraphTokenChanges(graph);
-        
-        if (isValid && profitToken) {
-          const tx = await this.httpClient.getTransaction({ hash: txHash as `0x${string}` });
-          if (!tx) continue;
+      const addressTokenChanges = await this.analyzeTokenTransfers(receipt.logs);
+      const graphTokenChanges = this.calculateSwapGraphTokenChanges(graph);
 
-          const graphTokenChanges = this.calculateSwapGraphTokenChanges(graph);
-          const addressTokenChanges = await this.analyzeTokenTransfers(receipt.logs);
-          
-          // 检查每个pool的历史记录
-          let type: 'begin' | 'inter' | 'backrun' = 'begin';
-          let previousTxHash: string | undefined;
-          let isBackrun = true;
-          const interInfo: { txHash: string; poolAddress: string; transactionIndex: number; }[] = [];
+      if (isValid && profitToken) {
+        const { type, previousTxHash, interInfo } = await this.determineArbitrageType(
+          swapEvents,
+          transactionIndex,
+          sortedTxDetails
+        );
 
-          for (const swap of swapEvents) {
-            const lastTxHash = poolSwapHistory.get(swap.poolAddress);
-            if (lastTxHash) {
-              type = 'inter';
-              if (lastTxHash !== previousTxHash) {
-                isBackrun = false;
-              }
-              previousTxHash = lastTxHash;
-              // 记录inter交易的信息
-              const lastTxDetail = sortedTxDetails.find(tx => tx.txHash === lastTxHash);
-              if (lastTxDetail) {
-                interInfo.push({
-                  txHash: lastTxHash,
-                  poolAddress: swap.poolAddress,
-                  transactionIndex: lastTxDetail.transactionIndex
-                });
-              }
-            }
-          }
+        // 获取profit token的信息
+        const profitTokenInfo = await this.requestTokenInfo(profitToken);
+        const profitAmount = graphTokenChanges.get(profitToken) || 0n;
 
-          if (type === 'inter' && isBackrun) {
-            type = 'backrun';
-          }
+        // 查找所有套利环
+        const arbitrageCycles = this.findArbitrageCycles(swapEvents);
 
-          // 获取profit token的信息
-          const profitTokenInfo = await this.requestTokenInfo(profitToken);
-          const profitAmount = graphTokenChanges.get(profitToken) || 0n;
-
-          // 在创建 ArbitrageInfo 对象时进行类型转换
-          const formattedSwapEvents = await Promise.all(swapEvents.map(async (swap) => {
-            const tokenInInfo = await this.requestTokenInfo(swap.tokenIn);
-            const tokenOutInfo = await this.requestTokenInfo(swap.tokenOut);
-            
-            return {
-              tokenIn: {
-                address: swap.tokenIn,
-                symbol: tokenInInfo?.symbol,
-                amount: formatUnits(swap.amountIn, tokenInInfo?.decimals || 18)
-              },
-              tokenOut: {
-                address: swap.tokenOut,
-                symbol: tokenOutInfo?.symbol,
-                amount: formatUnits(swap.amountOut, tokenOutInfo?.decimals || 18)
-              },
-              protocol: swap.protocol,
-              poolAddress: swap.poolAddress
-            };
-          }));
-
-          // 确保 graphTokenChanges 不为空
-          const formattedGraphTokenChanges = Object.fromEntries(
-            Array.from(graphTokenChanges.entries()).map(([token, change]) => [
-              token,
-              change.toString()
-            ])
-          );
-
-          // 确保 addressTokenChanges 不为空
-          const formattedAddressTokenChanges = Object.fromEntries(
-            Array.from(addressTokenChanges.entries()).map(([address, changes]) => [
-              address,
-              changes.map((change: TokenBalanceChange) => ({
-                token: change.token,
-                symbol: change.symbol,
-                change: change.change.toString()
-              }))
-            ])
-          );
-
-          arbitrageTxs.push({
-            txHash,
-            transactionIndex: receipt.transactionIndex,
+        transactions.push({
+          txHash,
+          from: tx.from.toLowerCase(),
+          to: tx.to?.toLowerCase() || '',
+          gasUsed: receipt.gasUsed.toString(),
+          gasPrice: tx.gasPrice?.toString() || '0',
+          isEmptyInput: tx.input === '0x',
+          isArbitrage: true,
+          swapEvents: formattedSwapEvents,
+          arbitrageInfo: {
             type,
-            swapEvents: formattedSwapEvents,
+            arbitrageCycles: arbitrageCycles.map(cycle => ({
+              edges: cycle.edges.map(edge => ({
+                tokenIn: edge.tokenIn,
+                tokenOut: edge.tokenOut,
+                amountIn: edge.amountIn.toString(),
+                amountOut: edge.amountOut.toString(),
+                poolAddress: edge.poolAddress,
+                protocol: edge.protocol
+              })),
+              profitToken: cycle.profitToken,
+              profitAmount: cycle.profitAmount.toString(),
+              tokenChanges: this.formatTokenChanges(cycle.tokenChanges)
+            })),
             profit: {
               token: profitToken,
               symbol: profitTokenInfo?.symbol,
@@ -910,87 +1031,314 @@ export class AnalysisHelper {
               formattedAmount: formatUnits(profitAmount, profitTokenInfo?.decimals || 18)
             },
             previousTxHash,
-            interInfo: type === 'inter' ? interInfo : undefined,
-            graphTokenChanges: formattedGraphTokenChanges,
-            addressTokenChanges: formattedAddressTokenChanges,
-            from: tx.from.toLowerCase(),
-            to: tx.to?.toLowerCase() || '',
-            gasUsed: receipt.gasUsed.toString(),
-            gasPrice: tx.gasPrice?.toString() || '0',
-            isEmptyInput: tx.input === '0x',
-            input: tx.input,
-            involvedPools: [],
-            involvedTokens: [],
-            involvedProtocols: []
-          });
-        }
-
-        // 更新pool的历史记录 - 对所有包含swap事件的交易都进行更新
-        for (const swap of swapEvents) {
-          poolSwapHistory.set(swap.poolAddress, txHash);
-        }
-      }
-    }
-
-    // 在返回结果之前，为每个套利交易添加详细信息
-    for (const arb of arbitrageTxs) {
-      const involvedPools = new Set<string>();
-      const involvedTokens = new Set<string>();
-      const involvedProtocols = new Set<string>();
-
-      // 收集所有涉及的池子、代币和协议
-      for (const swap of arb.swapEvents) {
-        involvedPools.add(swap.poolAddress);
-        involvedTokens.add(swap.tokenIn.address);
-        involvedTokens.add(swap.tokenOut.address);
-        involvedProtocols.add(swap.protocol);
+            interInfo
+          },
+          tokenChanges: this.formatTokenChanges(graphTokenChanges),
+          addressTokenChanges: this.formatAddressTokenChanges(addressTokenChanges),
+          involvedPools: poolsInfo,
+          involvedTokens: tokensInfo,
+          involvedProtocols
+        });
+      } else {
+        transactions.push({
+          txHash,
+          from: tx.from.toLowerCase(),
+          to: tx.to?.toLowerCase() || '',
+          gasUsed: receipt.gasUsed.toString(),
+          gasPrice: tx.gasPrice?.toString() || '0',
+          isEmptyInput: tx.input === '0x',
+          isArbitrage: false,
+          swapEvents: formattedSwapEvents,
+          tokenChanges: this.formatTokenChanges(graphTokenChanges),
+          addressTokenChanges: this.formatAddressTokenChanges(addressTokenChanges),
+          involvedPools: poolsInfo,
+          involvedTokens: tokensInfo,
+          involvedProtocols
+        });
       }
 
-      // 获取所有池子的详细信息
-      const poolsInfo = await Promise.all(
-        Array.from(involvedPools).map(async (poolAddress) => {
-          const poolInfo = await this.requestPoolInfo(poolAddress);
-          const token0Info = await this.requestTokenInfo(poolInfo?.token0 || '');
-          const token1Info = await this.requestTokenInfo(poolInfo?.token1 || '');
-          return {
-            address: poolAddress,
-            protocol: poolInfo?.protocol || '',
-            token0: {
-              address: poolInfo?.token0 || '',
-              symbol: token0Info?.symbol
-            },
-            token1: {
-              address: poolInfo?.token1 || '',
-              symbol: token1Info?.symbol
-            }
-          };
-        })
-      );
-
-      // 获取所有代币的详细信息
-      const tokensInfo = await Promise.all(
-        Array.from(involvedTokens).map(async (tokenAddress) => {
-          const tokenInfo = await this.requestTokenInfo(tokenAddress);
-          return {
-            address: tokenAddress,
-            symbol: tokenInfo?.symbol
-          };
-        })
-      );
-
-      // 更新套利交易信息
-      Object.assign(arb, {
-        involvedPools: poolsInfo,
-        involvedTokens: tokensInfo,
-        involvedProtocols: Array.from(involvedProtocols)
-      });
+      // 更新pool的历史记录
+      for (const swap of swapEvents) {
+        poolSwapHistory.set(swap.poolAddress, txHash);
+      }
     }
 
     return {
       blockNumber,
       blockInfo,
-      totalArbitrageTxs: arbitrageTxs.length,
-      arbitrageTxs
+      totalArbitrageTxs: transactions.filter(tx => tx.isArbitrage).length,
+      totalSwapTxs: transactions.length,
+      transactions
     };
+  }
+
+  private findCycle(
+    graph: Map<string, Map<string, EdgeInfo>>,
+    startToken: string,
+    currentToken: string,
+    visited: Set<string>,
+    path: string[],
+    currentEdges: Array<{
+      tokenIn: string;
+      tokenOut: string;
+      amountIn: bigint;
+      amountOut: bigint;
+      poolAddress: string;
+      protocol: string;
+    }>
+  ): ArbitrageCycle | null {
+    if (path.length > 0 && currentToken === startToken) {
+      // 找到环，计算token变化
+      const tokenChanges = new Map<string, bigint>();
+      let profitToken: string | undefined;
+      let maxProfit = 0n;
+
+      // 计算每个token的净变化
+      for (const edge of currentEdges) {
+        const currentIn = tokenChanges.get(edge.tokenIn) || 0n;
+        const currentOut = tokenChanges.get(edge.tokenOut) || 0n;
+        tokenChanges.set(edge.tokenIn, currentIn - edge.amountIn);
+        tokenChanges.set(edge.tokenOut, currentOut + edge.amountOut);
+      }
+
+      // 找出利润最大的token
+      for (const [token, change] of tokenChanges.entries()) {
+        if (change > maxProfit) {
+          maxProfit = change;
+          profitToken = token;
+        }
+      }
+
+      // 验证是否所有token变化都非负
+      for (const [token, change] of tokenChanges.entries()) {
+        if (change < 0n) {
+          return null;
+        }
+      }
+
+      if (profitToken && maxProfit > 0n) {
+        return {
+          edges: currentEdges.map(edge => ({
+            tokenIn: edge.tokenIn,
+            tokenOut: edge.tokenOut,
+            amountIn: edge.amountIn.toString(),
+            amountOut: edge.amountOut.toString(),
+            poolAddress: edge.poolAddress,
+            protocol: edge.protocol
+          })),
+          profitToken,
+          profitAmount: maxProfit.toString(),
+          tokenChanges: this.formatTokenChanges(tokenChanges)
+        };
+      }
+      return null;
+    }
+
+    if (visited.has(currentToken)) {
+      return null;
+    }
+
+    visited.add(currentToken);
+    path.push(currentToken);
+
+    const graphEdges = graph.get(currentToken);
+    if (graphEdges) {
+      for (const [nextToken, edgeInfo] of graphEdges.entries()) {
+        const cycle = this.findCycle(
+          graph,
+          startToken,
+          nextToken,
+          visited,
+          path,
+          [...currentEdges, {
+            tokenIn: currentToken,
+            tokenOut: nextToken,
+            amountIn: edgeInfo.amountIn,
+            amountOut: edgeInfo.amountOut,
+            poolAddress: edgeInfo.poolAddress,
+            protocol: edgeInfo.protocol
+          }]
+        );
+        if (cycle) {
+          return cycle;
+        }
+      }
+    }
+
+    visited.delete(currentToken);
+    path.pop();
+    return null;
+  }
+
+  private findArbitrageCycles(swapEvents: StandardSwapEvent[]): ArbitrageCycle[] {
+    const cycles: ArbitrageCycle[] = [];
+    const graph = new Map<string, Map<string, EdgeInfo>>();
+    
+    // 逐步添加边并检测环
+    for (const swap of swapEvents) {
+      // 添加新边到图中
+      if (!graph.has(swap.tokenIn)) {
+        graph.set(swap.tokenIn, new Map());
+      }
+      const edges = graph.get(swap.tokenIn)!;
+      
+      const existingEdge = edges.get(swap.tokenOut);
+      if (existingEdge) {
+        edges.set(swap.tokenOut, {
+          amountIn: existingEdge.amountIn + swap.amountIn,
+          amountOut: existingEdge.amountOut + swap.amountOut,
+          poolAddress: swap.poolAddress,
+          protocol: swap.protocol
+        });
+      } else {
+        edges.set(swap.tokenOut, {
+          amountIn: swap.amountIn,
+          amountOut: swap.amountOut,
+          poolAddress: swap.poolAddress,
+          protocol: swap.protocol
+        });
+      }
+
+      // 从当前token开始检测环
+      const cycle = this.findCycle(
+        graph,
+        swap.tokenIn,
+        swap.tokenIn,
+        new Set(),
+        [],
+        []
+      );
+
+      if (cycle) {
+        cycles.push(cycle);
+        
+        // 移除环中使用的边
+        for (const edge of cycle.edges) {
+          const edges = graph.get(edge.tokenIn);
+          if (edges) {
+            edges.delete(edge.tokenOut);
+            // 如果这个token没有其他出边了，也移除这个token
+            if (edges.size === 0) {
+              graph.delete(edge.tokenIn);
+            }
+          }
+        }
+      }
+    }
+
+    return cycles;
+  }
+
+  public async analyzeTransaction(txHash: string): Promise<TransactionAnalysisResult | null> {
+    try {
+      const receipt = await this.httpClient.getTransactionReceipt({ hash: txHash as `0x${string}` });
+      if (!receipt) return null;
+
+      const tx = await this.httpClient.getTransaction({ hash: txHash as `0x${string}` });
+      if (!tx) return null;
+
+      const swapEvents = await this.collectSwapEvents(receipt);
+      if (swapEvents.length === 0) return null;
+
+      const { poolsInfo, tokensInfo, involvedProtocols } = await this.collectInvolvedEntities(swapEvents);
+      const formattedSwapEvents = await this.formatSwapEvents(swapEvents);
+
+      const graph = this.buildSwapGraph(swapEvents);
+      const { isValid, profitToken } = this.validateSwapGraphTokenChanges(graph);
+      const graphTokenChanges = this.calculateSwapGraphTokenChanges(graph);
+      const addressTokenChanges = await this.analyzeTokenTransfers(receipt.logs);
+
+      if (isValid && profitToken) {
+        const arbitrageCycles = this.findArbitrageCycles(swapEvents);
+        const profitTokenInfo = await this.requestTokenInfo(profitToken);
+        const profitAmount = graphTokenChanges.get(profitToken) || 0n;
+
+        return {
+          txHash,
+          from: tx.from.toLowerCase(),
+          to: tx.to?.toLowerCase() || '',
+          gasUsed: receipt.gasUsed.toString(),
+          gasPrice: tx.gasPrice?.toString() || '0',
+          isEmptyInput: tx.input === '0x',
+          isArbitrage: true,
+          swapEvents: formattedSwapEvents,
+          arbitrageInfo: {
+            type: 'begin', // 默认类型，可以根据需要修改
+            arbitrageCycles: arbitrageCycles.map(cycle => ({
+              edges: cycle.edges.map(edge => ({
+                tokenIn: edge.tokenIn,
+                tokenOut: edge.tokenOut,
+                amountIn: edge.amountIn.toString(),
+                amountOut: edge.amountOut.toString(),
+                poolAddress: edge.poolAddress,
+                protocol: edge.protocol
+              })),
+              profitToken: cycle.profitToken,
+              profitAmount: cycle.profitAmount.toString(),
+              tokenChanges: this.formatTokenChanges(cycle.tokenChanges)
+            })),
+            profit: {
+              token: profitToken,
+              symbol: profitTokenInfo?.symbol,
+              amount: profitAmount.toString(),
+              formattedAmount: formatUnits(profitAmount, profitTokenInfo?.decimals || 18)
+            }
+          },
+          tokenChanges: this.formatTokenChanges(graphTokenChanges),
+          addressTokenChanges: this.formatAddressTokenChanges(addressTokenChanges),
+          involvedPools: poolsInfo,
+          involvedTokens: tokensInfo,
+          involvedProtocols
+        };
+      } else {
+        return {
+          txHash,
+          from: tx.from.toLowerCase(),
+          to: tx.to?.toLowerCase() || '',
+          gasUsed: receipt.gasUsed.toString(),
+          gasPrice: tx.gasPrice?.toString() || '0',
+          isEmptyInput: tx.input === '0x',
+          isArbitrage: false,
+          swapEvents: formattedSwapEvents,
+          tokenChanges: this.formatTokenChanges(graphTokenChanges),
+          addressTokenChanges: this.formatAddressTokenChanges(addressTokenChanges),
+          involvedPools: poolsInfo,
+          involvedTokens: tokensInfo,
+          involvedProtocols
+        };
+      }
+    } catch (error) {
+      console.error(`Error analyzing transaction ${txHash}:`, error);
+      return null;
+    }
+  }
+
+  private formatTokenChanges(tokenChanges: Map<string, bigint> | Record<string, string>): Record<string, string> {
+    if (tokenChanges instanceof Map) {
+      return Object.fromEntries(
+        Array.from(tokenChanges.entries()).map(([token, change]) => [
+          token,
+          change.toString()
+        ])
+      );
+    }
+    return tokenChanges;
+  }
+
+  private formatAddressTokenChanges(addressTokenChanges: Map<string, TokenBalanceChange[]>): Record<string, Array<{
+    token: string;
+    symbol?: string;
+    change: string;
+  }>> {
+    return Object.fromEntries(
+      Array.from(addressTokenChanges.entries()).map(([address, changes]) => [
+        address,
+        changes.map(change => ({
+          token: change.token,
+          symbol: change.symbol,
+          change: change.change.toString()
+        }))
+      ])
+    );
   }
 }
