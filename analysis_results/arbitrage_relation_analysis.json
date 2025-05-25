@@ -1,0 +1,4435 @@
+{
+  "totalBlocksAnalyzed": 51,
+  "blockRange": {
+    "start": 30488600,
+    "end": 30488650
+  },
+  "aggregateSummary": {
+    "totalArbitrageTxs": 161,
+    "typeDistribution": {
+      "inter": 100,
+      "begin": 61
+    },
+    "profitTokenDistribution": {
+      "0x4200000000000000000000000000000000000006": 140,
+      "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913": 13,
+      "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b": 1,
+      "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf": 3,
+      "0xd9aaec86b65d86f6a7b5b1b0c42ffa531710b6ca": 3,
+      "0x50c5725949a6f0c72e6c4a641f24049a917db0cb": 1
+    },
+    "swapCountDistribution": {
+      "2": 84,
+      "3": 66,
+      "4": 8,
+      "5": 1,
+      "6": 1,
+      "9": 1
+    },
+    "protocolFrequency": {
+      "PancakeV3": 139,
+      "AeroV3": 29,
+      "Unknown": 105,
+      "AlienV3": 9,
+      "AeroV2": 14,
+      "UniV3": 72,
+      "UniV2": 31,
+      "SolidV3": 10,
+      "DackieV3": 6,
+      "PancakeV2": 3
+    },
+    "arbitragerFrequency": {
+      "0x57497f2ff3953de12f51457dc0c69991ab5ebe14": 1,
+      "0xf026c816f61166f7ce96c8c132897f341f6ec1b9": 1,
+      "0xa2fdb6353021a8c5681de02984e39c51d9aaaaaa": 14,
+      "0x7fd624f3f97a7dd36195e8379f28db6147c270ff": 15,
+      "0xad6c81a38a661692fd4526ce6195a36c386cd35d": 2,
+      "0xa8d1b40f7b3d731d1aad18da051d87dc914fb5df": 2,
+      "0x3a77a19b9618771a6667fdf1983430d92467193a": 2,
+      "0x0000000004a8adcba2cedf31014de276a7203140": 1,
+      "0x170c025b622060ec23d2b8120f1a082aa8726858": 2,
+      "0x30ba8e793839c48fa8a97682529a2fc44a777777": 10,
+      "0x647678bc946d687493b925603bd45402c9007050": 2,
+      "0x00000000d09397b50eb7313c21753fd1c6641e45": 2,
+      "0x9c8474f7dab3accf9974752228d8b6e5a6ebe234": 1,
+      "0x47fd87c7f3b3dacaf0f3ed24703a8e76903fd1a6": 3,
+      "0x2b9d5ee187892af23ddd328ce0774de81465800d": 5,
+      "0xe92d471a9fb813524b8eee38892ce4143e7ccccc": 5,
+      "0xfcf39b96958f6deeb93954d2effd973fa6eddddd": 3,
+      "0xc623f214c8eefc771147c5806be250db39555555": 9,
+      "0x92675cd43ed712fc667c24eb64f700eb0bca4247": 3,
+      "0xecd8fd4f870b4415542eabbde7b445d371ba33ac": 1,
+      "0x5ae7511cdce245f4a9777511723206e770f46c6b": 1,
+      "0x2c8f9203a11f4d494f8e30c49305b5bfe8f34aef": 1,
+      "0x7b50dce90b9c92c557c40183addac55bd7dfc8a8": 1,
+      "0x33ae4eba259ac3774ab3ea8b31363bd42c444444": 2,
+      "0x76b4a1e776c6c0597d9806773da64961ff888888": 3,
+      "0x7014d08fe11b4b741bc63775192fa18261eda607": 3,
+      "0x13b9b18658039c401b0f23e55b7433dc2f732199": 1,
+      "0x3e7218f4818df5606d07107662853383b64a0f9d": 1,
+      "0xba2e784abd115ac22333cdf9a0a505d039cff4d5": 2,
+      "0x39b6bd6570980c7672e50173c200f7b670ee5f68": 1,
+      "0x153969636197c2454a2c37e3f2fd94b3d6a3f557": 1,
+      "0x769cce90e3255b361c5b7714a6506e737ab96342": 1,
+      "0x42baab06a501a159e0d864709ce6916edfbb6fd4": 1,
+      "0x161ddfe6f854269fee240e6aec14fb5ca0eb6652": 1,
+      "0x023397fded17eb074227229399c5ff62307da592": 1,
+      "0xe147cb993cca199673ce00f4a9cf49eeb718683c": 3,
+      "0xb80ae28bab9ad328a5c5d9e0decc25fc2fdf2acc": 1,
+      "0xa2af631f801e9705837ce6293689337aec95d980": 1,
+      "0x477fd98c600c36f46e135376d1e276afc3472ed3": 2,
+      "0x396b2ef1833f2b288017a36e0b690a3d2936e220": 1,
+      "0xa8be888c28d0a81b624bc9937f51293b0f63ffc1": 2,
+      "0x14b9b2e8b7598a80cfed9360309e56920f6888f7": 1,
+      "0xdf1aca53a59f2d118f8c71e93090c7e3df967213": 1,
+      "0x53881155498cae8660195670591f1e23ae81431f": 6,
+      "0xf6d2d84578d764033adc25465d053bf00f8cb6dd": 1,
+      "0x7372e84887bd82fd9c0433f981c8a75972a59290": 3,
+      "0x098443b6e0fa9499fb336439c9a7687e548a2a31": 2,
+      "0xae5ec713342b07ede21643615309a3f776776593": 2,
+      "0xe591e8cc66089245156f5aea1195599cd1f3306b": 1,
+      "0x3a5169b675c3542325dd6316e16cc3c9e897a582": 1,
+      "0xe20b9af72eac0c7ff76f5a7f68dbbc4dc70b4f62": 1,
+      "0xfb5d607cadb4e6105bc7b6bb0add0c5c8a40283d": 1,
+      "0xa9c51a4055412d066d42ff2f7bfacad6e09bbbbb": 1,
+      "0xa79c12bcf11133af01b6b20f16f8aafaecdebc93": 1,
+      "0xd379f3d4578de7ac47a5928811b3407ef03f7c49": 2,
+      "0xba9043d59f559ce24f005204ce223be30f430ed5": 1,
+      "0x15b07c84c770cb7789bc72e21370ffb2da306c97": 1,
+      "0x86c5af89657d45fc6b4477770fe4449fdcf960f5": 1,
+      "0x7fec95d62c3d984929bc72537bf38a62caf7c561": 1,
+      "0x000000005fa709620f449a06012bfa67787a1b9f": 1,
+      "0xecb55e5ccfc128a1eca67e48dbe2f299e4366d0e": 1,
+      "0x7f76eea298db5bacfccda029b573623a913d4a8f": 1,
+      "0x1e2400216a44e8c89ced2351ea9cbf6e3531c7b5": 1,
+      "0x0e2a5a09ae0028b797c2a7172cd6f50d3ea62f4c": 1,
+      "0x9052db2917e175ae99467e95d05675af089248cd": 1,
+      "0xa28669d95a6339da0b0216ae1683ef6f9edc2720": 2,
+      "0x8b8853f7c448bae9990bb6c015b9429f2e97b803": 1,
+      "0x6dfcac55d2c5e82ab63f5b7c982e53da60d243c4": 1,
+      "0x02e91065a360fc2b567af0636fee96f0f598f345": 1,
+      "0x44198866839df987d115e3bda452610db879f893": 1,
+      "0xcbf098c48c0b97528f882178c817a0a43450f223": 1,
+      "0xf5bf7a4d73c03b417abb7af07a69abcd66f3b80a": 1,
+      "0x6a0c9953b0773eeb90e694114086656a7582e08f": 1,
+      "0x08b9ca932801e4984cb99963619cc7555900a971": 1,
+      "0x2efc4931f2e64b38d6ae3d714466840fbc951f56": 1,
+      "0xcb4b518986b12d0f3856a9589f5f7981fa962077": 1
+    }
+  },
+  "aggregateTriggerAnalysis": {
+    "poolFrequency": {},
+    "timeDifferenceDistribution": {
+      ">10s": 161,
+      "0-1s": 6,
+      "5-10s": 2,
+      "2-5s": 2
+    },
+    "triggerProtocolDistribution": {}
+  },
+  "causalityStats": {
+    "totalArbitrages": 161,
+    "withCausality": 39,
+    "withReverseDir": 0,
+    "withTokenMatch": 0,
+    "causalityPercentage": 0.2422360248447205,
+    "reverseDirPercentage": 0,
+    "tokenMatchPercentage": 0
+  },
+  "blockAnalysis": {
+    "30488600": {
+      "summary": {
+        "totalArbitrageTxs": 4,
+        "typeDistribution": {
+          "inter": 3,
+          "begin": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 4
+        },
+        "swapCountDistribution": {
+          "2": 2,
+          "3": 2
+        },
+        "protocolFrequency": {
+          "PancakeV3": 4,
+          "AeroV3": 1,
+          "Unknown": 5
+        },
+        "arbitragerFrequency": {
+          "0x57497f2ff3953de12f51457dc0c69991ab5ebe14": 1,
+          "0xf026c816f61166f7ce96c8c132897f341f6ec1b9": 1,
+          "0xa2fdb6353021a8c5681de02984e39c51d9aaaaaa": 1,
+          "0x7fd624f3f97a7dd36195e8379f28db6147c270ff": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 5
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0xa50f63fd0115327f666f032d8440dc0527da932f9abbf286cfde01d75ba38f18",
+            "transactionIndex": 7,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 64
+          },
+          {
+            "swapTxHash": "0xd7246910e145835476c43a17d5367c45a6cfaf74606cc29674c4a45ab7e35ece",
+            "transactionIndex": 31,
+            "poolAddress": "0xc211e1f853a898bd1302385ccde55f33a8c4b3f3",
+            "protocol": "PancakeV3",
+            "timeDifference": 40
+          },
+          {
+            "swapTxHash": "0x71a91535c427833bf3d4a79dfd69ab28c37b1660f19ad405db627aa2b6c70525",
+            "transactionIndex": 49,
+            "poolAddress": "0xf6c0a374a483101e04ef5f7ac9bd15d9142bac95",
+            "protocol": "PancakeV3",
+            "timeDifference": 164
+          },
+          {
+            "swapTxHash": "0xa50f63fd0115327f666f032d8440dc0527da932f9abbf286cfde01d75ba38f18",
+            "transactionIndex": 7,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 233
+          },
+          {
+            "swapTxHash": "0xc5afb85f9b361261aa8916f377240c2fc53bf268326d663fb163ae2c4ebc3025",
+            "transactionIndex": 112,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 128
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x1ea40cc229837d0a43bb291d0aa4be30eea6bb1a224e770fae0d946994a2bb4d",
+          "hasCausality": true,
+          "samePoolCount": 1,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0xd7246910e145835476c43a17d5367c45a6cfaf74606cc29674c4a45ab7e35ece"
+        },
+        {
+          "arbTxHash": "0xecfa024e2d2f9edc788a0c532062afae85e9c6a836d28b2178575e8a494aac09",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x473db9f462ac64df2a07fe5f6e83f3670d9e7b1f220d30c2552aca334b0a83e1",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x13f4b4cb0ac1f6a4665ecad9c20ef4e9119888c43a56321bb859a5abc7336fe8",
+          "hasCausality": true,
+          "samePoolCount": 2,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0xc5afb85f9b361261aa8916f377240c2fc53bf268326d663fb163ae2c4ebc3025"
+        }
+      ]
+    },
+    "30488601": {
+      "summary": {
+        "totalArbitrageTxs": 5,
+        "typeDistribution": {
+          "inter": 5
+        },
+        "profitTokenDistribution": {
+          "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913": 3,
+          "0x4200000000000000000000000000000000000006": 2
+        },
+        "swapCountDistribution": {
+          "2": 3,
+          "3": 2
+        },
+        "protocolFrequency": {
+          "PancakeV3": 4,
+          "AlienV3": 1,
+          "AeroV3": 2,
+          "AeroV2": 1,
+          "UniV3": 2,
+          "Unknown": 2
+        },
+        "arbitragerFrequency": {
+          "0xad6c81a38a661692fd4526ce6195a36c386cd35d": 1,
+          "0xa8d1b40f7b3d731d1aad18da051d87dc914fb5df": 1,
+          "0x3a77a19b9618771a6667fdf1983430d92467193a": 1,
+          "0x0000000004a8adcba2cedf31014de276a7203140": 1,
+          "0x7fd624f3f97a7dd36195e8379f28db6147c270ff": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 6
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0x0d74467db2b4edaf49405e747ddda54a24134ea0de1bbc79a52e7e699a82717e",
+            "transactionIndex": 12,
+            "poolAddress": "0xb94b22332abf5f89877a14cc88f2abc48c34b3df",
+            "protocol": "PancakeV3",
+            "timeDifference": 65
+          },
+          {
+            "swapTxHash": "0x0d74467db2b4edaf49405e747ddda54a24134ea0de1bbc79a52e7e699a82717e",
+            "transactionIndex": 12,
+            "poolAddress": "0xb94b22332abf5f89877a14cc88f2abc48c34b3df",
+            "protocol": "PancakeV3",
+            "timeDifference": 83
+          },
+          {
+            "swapTxHash": "0x12823736dbd578025c03cf608155ec171534dd2db08e34b0f764cca120e142b5",
+            "transactionIndex": 51,
+            "poolAddress": "0x3e66e55e97ce60096f74b7c475e8249f2d31a9fb",
+            "protocol": "AeroV3",
+            "timeDifference": 44
+          },
+          {
+            "swapTxHash": "0x398cc8308c724fdcf663306c4453a387dfe62a9731cb354ef19d753f8c721903",
+            "transactionIndex": 45,
+            "poolAddress": "0x36a46dff597c5a444bbc521d26787f57867d2214",
+            "protocol": "UniV3",
+            "timeDifference": 150
+          },
+          {
+            "swapTxHash": "0x0d74467db2b4edaf49405e747ddda54a24134ea0de1bbc79a52e7e699a82717e",
+            "transactionIndex": 12,
+            "poolAddress": "0xb94b22332abf5f89877a14cc88f2abc48c34b3df",
+            "protocol": "PancakeV3",
+            "timeDifference": 225
+          },
+          {
+            "swapTxHash": "0xe932c1265e4ab8577e93fe70b860f8f140d23190165892c4adad0575b6cf4d7b",
+            "transactionIndex": 10,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 255
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x512efe5af85d95b6b052944079fb9a513247c7fb73f0d98645c8387d7a7b5e8f",
+          "hasCausality": true,
+          "samePoolCount": 1,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0x0d74467db2b4edaf49405e747ddda54a24134ea0de1bbc79a52e7e699a82717e"
+        },
+        {
+          "arbTxHash": "0x045f0dbbc85d69e683d5dcd781be4e9f2da829e2450f6980bdb22230d47464f3",
+          "hasCausality": true,
+          "samePoolCount": 1,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0x0d74467db2b4edaf49405e747ddda54a24134ea0de1bbc79a52e7e699a82717e"
+        },
+        {
+          "arbTxHash": "0xaf1df79f3e79c8ff86b98bfcee5e16c6ff7937f4b28848d54a5515aa596805ea",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x67b8c35f465a3bf58ecccab442ca725402ca22c59ec339159036b731351b41d3",
+          "hasCausality": true,
+          "samePoolCount": 1,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0x0d74467db2b4edaf49405e747ddda54a24134ea0de1bbc79a52e7e699a82717e"
+        },
+        {
+          "arbTxHash": "0xbc926625c8413177e5a0a0d8190256e7787eeaabb973bfb0a137e9f9b09fd79b",
+          "hasCausality": true,
+          "samePoolCount": 1,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0xe932c1265e4ab8577e93fe70b860f8f140d23190165892c4adad0575b6cf4d7b"
+        }
+      ]
+    },
+    "30488602": {
+      "summary": {
+        "totalArbitrageTxs": 8,
+        "typeDistribution": {
+          "begin": 1,
+          "inter": 7
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 6,
+          "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913": 2
+        },
+        "swapCountDistribution": {
+          "2": 3,
+          "3": 5
+        },
+        "protocolFrequency": {
+          "Unknown": 8,
+          "UniV2": 1,
+          "UniV3": 2,
+          "AeroV3": 5,
+          "PancakeV3": 4,
+          "SolidV3": 1
+        },
+        "arbitragerFrequency": {
+          "0x170c025b622060ec23d2b8120f1a082aa8726858": 1,
+          "0x30ba8e793839c48fa8a97682529a2fc44a777777": 1,
+          "0xa2fdb6353021a8c5681de02984e39c51d9aaaaaa": 1,
+          "0x647678bc946d687493b925603bd45402c9007050": 1,
+          "0x00000000d09397b50eb7313c21753fd1c6641e45": 1,
+          "0x9c8474f7dab3accf9974752228d8b6e5a6ebe234": 1,
+          "0x47fd87c7f3b3dacaf0f3ed24703a8e76903fd1a6": 1,
+          "0x2b9d5ee187892af23ddd328ce0774de81465800d": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 13,
+          "0-1s": 1,
+          "5-10s": 1
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0x787c6c45072391179bac31f0a1b8431569c0c8bf78858e5817f9ad89072ffeb5",
+            "transactionIndex": 12,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 58
+          },
+          {
+            "swapTxHash": "0x374c702eadb116c5f99104ee3a965c922d3de07cf94cbc94bfed48cdc4115705",
+            "transactionIndex": 13,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 57
+          },
+          {
+            "swapTxHash": "0xad4dd3052100e3b482f6fe0f17208585ed34b44fd2568717fc9d23809e9cad70",
+            "transactionIndex": 69,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 1
+          },
+          {
+            "swapTxHash": "0xf6696c6413aff995ccc153f0cab9a3a26e44bdabcd60140767fa5666635f943e",
+            "transactionIndex": 59,
+            "poolAddress": "0x482fe995c4a52bc79271ab29a53591363ee30a89",
+            "protocol": "Unknown",
+            "timeDifference": 26
+          },
+          {
+            "swapTxHash": "0x6d706da4fe848d7d89d0ebf3bf9583d1289452d9fea2a98aa53c9b735079e786",
+            "transactionIndex": 15,
+            "poolAddress": "0xb94b22332abf5f89877a14cc88f2abc48c34b3df",
+            "protocol": "PancakeV3",
+            "timeDifference": 83
+          },
+          {
+            "swapTxHash": "0xf6696c6413aff995ccc153f0cab9a3a26e44bdabcd60140767fa5666635f943e",
+            "transactionIndex": 59,
+            "poolAddress": "0x482fe995c4a52bc79271ab29a53591363ee30a89",
+            "protocol": "Unknown",
+            "timeDifference": 53
+          },
+          {
+            "swapTxHash": "0x43c2a6234429338d7a029642ba770f059ea6fe8f87e733e0dbf5f58a3bd0b26b",
+            "transactionIndex": 88,
+            "poolAddress": "0x482fe995c4a52bc79271ab29a53591363ee30a89",
+            "protocol": "Unknown",
+            "timeDifference": 24
+          },
+          {
+            "swapTxHash": "0x75ea7ab839a04beec7d31ada53a131930e2a3603ccba699f1ad9bd2ec4219eec",
+            "transactionIndex": 17,
+            "poolAddress": "0xf6c0a374a483101e04ef5f7ac9bd15d9142bac95",
+            "protocol": "PancakeV3",
+            "timeDifference": 123
+          },
+          {
+            "swapTxHash": "0x5f2ce4e094f8720e006da813b1417ed65ef6fd899f83c163ffac942d9004db2d",
+            "transactionIndex": 118,
+            "poolAddress": "0xf6c0a374a483101e04ef5f7ac9bd15d9142bac95",
+            "protocol": "PancakeV3",
+            "timeDifference": 22
+          },
+          {
+            "swapTxHash": "0x6d706da4fe848d7d89d0ebf3bf9583d1289452d9fea2a98aa53c9b735079e786",
+            "transactionIndex": 15,
+            "poolAddress": "0xb94b22332abf5f89877a14cc88f2abc48c34b3df",
+            "protocol": "PancakeV3",
+            "timeDifference": 140
+          },
+          {
+            "swapTxHash": "0xa0a1ee21d190064708df535e697ff86710ad97009f02f2498f34505c9016deef",
+            "transactionIndex": 149,
+            "poolAddress": "0xb94b22332abf5f89877a14cc88f2abc48c34b3df",
+            "protocol": "PancakeV3",
+            "timeDifference": 6
+          },
+          {
+            "swapTxHash": "0x5213d2d78a6fdbd0583d359af7ea99d8e89ee63083915af5b622afe0428e1643",
+            "transactionIndex": 53,
+            "poolAddress": "0xe077ddfb9e9d9403a8ec42d3023d17e8417ee399",
+            "protocol": "AeroV3",
+            "timeDifference": 112
+          },
+          {
+            "swapTxHash": "0xf6696c6413aff995ccc153f0cab9a3a26e44bdabcd60140767fa5666635f943e",
+            "transactionIndex": 59,
+            "poolAddress": "0x482fe995c4a52bc79271ab29a53591363ee30a89",
+            "protocol": "Unknown",
+            "timeDifference": 106
+          },
+          {
+            "swapTxHash": "0x3e0517e03105f8074783753d836c18913cfa41a49863bfd584d2d1f72ceac674",
+            "transactionIndex": 65,
+            "poolAddress": "0xe077ddfb9e9d9403a8ec42d3023d17e8417ee399",
+            "protocol": "AeroV3",
+            "timeDifference": 100
+          },
+          {
+            "swapTxHash": "0x43c2a6234429338d7a029642ba770f059ea6fe8f87e733e0dbf5f58a3bd0b26b",
+            "transactionIndex": 88,
+            "poolAddress": "0x482fe995c4a52bc79271ab29a53591363ee30a89",
+            "protocol": "Unknown",
+            "timeDifference": 77
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0xc85543cfecfd426f3906140700a3db03101434bc2d4374103cf9c14b6ee7fbc4",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x5163e8e3b5efb1f50648294ec53cd8fcc63b599a79858476bcdb33d44595b55c",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xef0c32e3bc7b08aadd5a75712fb5162bc6c991b5a983221d69779fc00940d5ee",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x791231c61b124ca50538136f5df5dbddefe9e8927d044ce61139d0d66fb87fc5",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x7ac6ebf8a9e5f09a41374ae7d96c073476f11cbb7292a22eba1ebb77799a95dd",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x9ded54f5cb874bd2f731daa48898f54cf9ae28f397c3c927cc2eb474c7f4e73c",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x2beb2a016d5d169db4b0a3952750e9a7f90d4da638b127c8a7e58645801caad9",
+          "hasCausality": true,
+          "samePoolCount": 2,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0xa0a1ee21d190064708df535e697ff86710ad97009f02f2498f34505c9016deef"
+        },
+        {
+          "arbTxHash": "0x5a1c94e5a6856b97a5d43ef200457e2150477eb04dd81d62fd70aff7a8068dad",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488603": {
+      "summary": {
+        "totalArbitrageTxs": 8,
+        "typeDistribution": {
+          "begin": 2,
+          "inter": 6
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 8
+        },
+        "swapCountDistribution": {
+          "2": 5,
+          "3": 3
+        },
+        "protocolFrequency": {
+          "Unknown": 5,
+          "PancakeV3": 9,
+          "UniV3": 5
+        },
+        "arbitragerFrequency": {
+          "0xe92d471a9fb813524b8eee38892ce4143e7ccccc": 1,
+          "0xfcf39b96958f6deeb93954d2effd973fa6eddddd": 1,
+          "0xc623f214c8eefc771147c5806be250db39555555": 1,
+          "0x92675cd43ed712fc667c24eb64f700eb0bca4247": 2,
+          "0xecd8fd4f870b4415542eabbde7b445d371ba33ac": 1,
+          "0x5ae7511cdce245f4a9777511723206e770f46c6b": 1,
+          "0x7fd624f3f97a7dd36195e8379f28db6147c270ff": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 13,
+          "0-1s": 1
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0x7e7b37439da269725c55ef9b665c32cea02dce0103369ceb8e2c78a97714e39a",
+            "transactionIndex": 1,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 45
+          },
+          {
+            "swapTxHash": "0x79f41d90d25db4195f31c122a83de48c8b9c84803359629386e2e4b8abbea303",
+            "transactionIndex": 3,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 43
+          },
+          {
+            "swapTxHash": "0x7e7b37439da269725c55ef9b665c32cea02dce0103369ceb8e2c78a97714e39a",
+            "transactionIndex": 1,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 48
+          },
+          {
+            "swapTxHash": "0x79f41d90d25db4195f31c122a83de48c8b9c84803359629386e2e4b8abbea303",
+            "transactionIndex": 3,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 46
+          },
+          {
+            "swapTxHash": "0x4324ac32244491b73ab7300eb4c21116364f6f3a75d88ad2e6d2714484bf5904",
+            "transactionIndex": 48,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 1
+          },
+          {
+            "swapTxHash": "0x7e7b37439da269725c55ef9b665c32cea02dce0103369ceb8e2c78a97714e39a",
+            "transactionIndex": 1,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 183
+          },
+          {
+            "swapTxHash": "0x79f41d90d25db4195f31c122a83de48c8b9c84803359629386e2e4b8abbea303",
+            "transactionIndex": 3,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 181
+          },
+          {
+            "swapTxHash": "0x4324ac32244491b73ab7300eb4c21116364f6f3a75d88ad2e6d2714484bf5904",
+            "transactionIndex": 48,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 136
+          },
+          {
+            "swapTxHash": "0xdc3eb13f5947d9a1d7fdfb70814da07bf0ddc48009d28f1c49b6320cf0891267",
+            "transactionIndex": 149,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 35
+          },
+          {
+            "swapTxHash": "0x7e7b37439da269725c55ef9b665c32cea02dce0103369ceb8e2c78a97714e39a",
+            "transactionIndex": 1,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 225
+          },
+          {
+            "swapTxHash": "0x79f41d90d25db4195f31c122a83de48c8b9c84803359629386e2e4b8abbea303",
+            "transactionIndex": 3,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 223
+          },
+          {
+            "swapTxHash": "0x0cb1754b76fe2291461051a8dc7193699fde058b33527e6839213e99700ef655",
+            "transactionIndex": 47,
+            "poolAddress": "0xb4cb800910b228ed3d0834cf79d697127bbb00e5",
+            "protocol": "UniV3",
+            "timeDifference": 179
+          },
+          {
+            "swapTxHash": "0x4324ac32244491b73ab7300eb4c21116364f6f3a75d88ad2e6d2714484bf5904",
+            "transactionIndex": 48,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 178
+          },
+          {
+            "swapTxHash": "0xdc3eb13f5947d9a1d7fdfb70814da07bf0ddc48009d28f1c49b6320cf0891267",
+            "transactionIndex": 149,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 77
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x8f704126b622bb7cc11a64da78b26a491229005ab5905237d7cf0955c37528ed",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x20ec1fa4f62bec47d887ca3462f68c74fdb1cede29ac1e3c2ffe371cf9b8e111",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x9c07e103ff4d580e1eb759594336aa5a98cdba7debcd5660758465684b46597d",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x46c8d246340a7001db899dfeef82ef3f14479350ec99a378272cc844ce625187",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xa173f09b0baa3ff7209da2ecc910388d279c1eca1ae0c9173909124edffcbccb",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x95db912c9b882f2f6fafa98b7d1a67f598d0b2698a74ff732165f9f89e7b6369",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x2ec989bd7296e62718856b631af8ef693311993fbeee954730928b870e762d52",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x5f67a69f6605a775b6df82bb1d8f5143a0b1ad2eb3dcfb63f9cd3d344caa3bb1",
+          "hasCausality": true,
+          "samePoolCount": 4,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0xdc3eb13f5947d9a1d7fdfb70814da07bf0ddc48009d28f1c49b6320cf0891267"
+        }
+      ]
+    },
+    "30488604": {
+      "summary": {
+        "totalArbitrageTxs": 5,
+        "typeDistribution": {
+          "inter": 4,
+          "begin": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 5
+        },
+        "swapCountDistribution": {
+          "2": 4,
+          "3": 1
+        },
+        "protocolFrequency": {
+          "PancakeV3": 2,
+          "Unknown": 6,
+          "SolidV3": 1,
+          "UniV3": 2
+        },
+        "arbitragerFrequency": {
+          "0x2c8f9203a11f4d494f8e30c49305b5bfe8f34aef": 1,
+          "0x30ba8e793839c48fa8a97682529a2fc44a777777": 1,
+          "0x7b50dce90b9c92c557c40183addac55bd7dfc8a8": 1,
+          "0x33ae4eba259ac3774ab3ea8b31363bd42c444444": 1,
+          "0x76b4a1e776c6c0597d9806773da64961ff888888": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 5
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0x64925c19eff7fe40df7ffcf2d7371e6b26306342d2bf9ebed40229427a2d099d",
+            "transactionIndex": 6,
+            "poolAddress": "0xf6c0a374a483101e04ef5f7ac9bd15d9142bac95",
+            "protocol": "PancakeV3",
+            "timeDifference": 50
+          },
+          {
+            "swapTxHash": "0x2885f7eae8c0367d752a42558833ed4526a8dfd5a13a2c9a992807e7faf07f87",
+            "transactionIndex": 55,
+            "poolAddress": "0x482fe995c4a52bc79271ab29a53591363ee30a89",
+            "protocol": "Unknown",
+            "timeDifference": 36
+          },
+          {
+            "swapTxHash": "0x2885f7eae8c0367d752a42558833ed4526a8dfd5a13a2c9a992807e7faf07f87",
+            "transactionIndex": 55,
+            "poolAddress": "0x482fe995c4a52bc79271ab29a53591363ee30a89",
+            "protocol": "Unknown",
+            "timeDifference": 135
+          },
+          {
+            "swapTxHash": "0xc39184a2320aefe7032d371255301a93cd4668d88e1174232dc1cc309a86c499",
+            "transactionIndex": 92,
+            "poolAddress": "0x482fe995c4a52bc79271ab29a53591363ee30a89",
+            "protocol": "Unknown",
+            "timeDifference": 98
+          },
+          {
+            "swapTxHash": "0x64925c19eff7fe40df7ffcf2d7371e6b26306342d2bf9ebed40229427a2d099d",
+            "transactionIndex": 6,
+            "poolAddress": "0xf6c0a374a483101e04ef5f7ac9bd15d9142bac95",
+            "protocol": "PancakeV3",
+            "timeDifference": 188
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0xdf9d4991964f4c2c4465ab667fae0c48bbbcf4e3411be5e61e4897fc0c077ba0",
+          "hasCausality": true,
+          "samePoolCount": 1,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0x64925c19eff7fe40df7ffcf2d7371e6b26306342d2bf9ebed40229427a2d099d"
+        },
+        {
+          "arbTxHash": "0x61d9edee1caae23644aebd52a82ce9d30ae81d6af584a6e8f006988e2ef571c4",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x43955d3e432a5ceede7ceef50829ed002a75fb408d8a26012ac66c5dd73492d0",
+          "hasCausality": true,
+          "samePoolCount": 2,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0xc39184a2320aefe7032d371255301a93cd4668d88e1174232dc1cc309a86c499"
+        },
+        {
+          "arbTxHash": "0x8c8bb0d6a2663018b771b815c2a2bbb901467a4f012fe451de2d1aa1f016b5da",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x49962d16d567172f8ef3c47af1f15e808be2f84d6bf16da06fdc1e2bf54de75a",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488605": {
+      "summary": {
+        "totalArbitrageTxs": 3,
+        "typeDistribution": {
+          "begin": 3
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 3
+        },
+        "swapCountDistribution": {
+          "2": 1,
+          "3": 2
+        },
+        "protocolFrequency": {
+          "Unknown": 3,
+          "PancakeV3": 4,
+          "UniV2": 1
+        },
+        "arbitragerFrequency": {
+          "0xc623f214c8eefc771147c5806be250db39555555": 1,
+          "0xe92d471a9fb813524b8eee38892ce4143e7ccccc": 1,
+          "0xfcf39b96958f6deeb93954d2effd973fa6eddddd": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {},
+        "triggerProtocolDistribution": {},
+        "allTriggers": []
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x753e8a57d4ab193786c354bbe6cf81cda87f5ba3d437b1c3077eec825d2a6a06",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xeabc2159f628826eeb310442c829a21b808626da1b31f4b076770b1863d67dbe",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xa5ee5b9258d0949d21113857b3e48ab613c75c79305673b4b96e14760ca46d70",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488606": {
+      "summary": {
+        "totalArbitrageTxs": 6,
+        "typeDistribution": {
+          "inter": 5,
+          "begin": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 5,
+          "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913": 1
+        },
+        "swapCountDistribution": {
+          "2": 2,
+          "3": 3,
+          "4": 1
+        },
+        "protocolFrequency": {
+          "AlienV3": 1,
+          "PancakeV3": 8,
+          "AeroV2": 1,
+          "UniV3": 2,
+          "Unknown": 5
+        },
+        "arbitragerFrequency": {
+          "0x7014d08fe11b4b741bc63775192fa18261eda607": 1,
+          "0x13b9b18658039c401b0f23e55b7433dc2f732199": 1,
+          "0xa2fdb6353021a8c5681de02984e39c51d9aaaaaa": 1,
+          "0x3e7218f4818df5606d07107662853383b64a0f9d": 1,
+          "0x76b4a1e776c6c0597d9806773da64961ff888888": 1,
+          "0x7fd624f3f97a7dd36195e8379f28db6147c270ff": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 13
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0x7e93e1852e2f044ae9f6c526e36281d6a1989f47db843d2d91ed4a72d025c51b",
+            "transactionIndex": 4,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 55
+          },
+          {
+            "swapTxHash": "0x3a270620dbbded3f14adac6999758a4d3eef231674e23119df0975cb89ce5f11",
+            "transactionIndex": 8,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 51
+          },
+          {
+            "swapTxHash": "0xd650219acb97dd276cc7ad84d210fbabc3d3e9543a204557ab7b38511ddf4c76",
+            "transactionIndex": 20,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 39
+          },
+          {
+            "swapTxHash": "0xe9759ccfc98b520d3d7c435d111c2d7d8a447d7e049582b878ab38c155256e2a",
+            "transactionIndex": 46,
+            "poolAddress": "0x482fe995c4a52bc79271ab29a53591363ee30a89",
+            "protocol": "Unknown",
+            "timeDifference": 154
+          },
+          {
+            "swapTxHash": "0x7e93e1852e2f044ae9f6c526e36281d6a1989f47db843d2d91ed4a72d025c51b",
+            "transactionIndex": 4,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 199
+          },
+          {
+            "swapTxHash": "0x3a270620dbbded3f14adac6999758a4d3eef231674e23119df0975cb89ce5f11",
+            "transactionIndex": 8,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 195
+          },
+          {
+            "swapTxHash": "0xd650219acb97dd276cc7ad84d210fbabc3d3e9543a204557ab7b38511ddf4c76",
+            "transactionIndex": 20,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 183
+          },
+          {
+            "swapTxHash": "0xcaba0858a3f456c97502e6067ac89e29f88cc6be1c639784788d01bda5f677fc",
+            "transactionIndex": 29,
+            "poolAddress": "0xf6c0a374a483101e04ef5f7ac9bd15d9142bac95",
+            "protocol": "PancakeV3",
+            "timeDifference": 180
+          },
+          {
+            "swapTxHash": "0x7e93e1852e2f044ae9f6c526e36281d6a1989f47db843d2d91ed4a72d025c51b",
+            "transactionIndex": 4,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 229
+          },
+          {
+            "swapTxHash": "0x3a270620dbbded3f14adac6999758a4d3eef231674e23119df0975cb89ce5f11",
+            "transactionIndex": 8,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 225
+          },
+          {
+            "swapTxHash": "0xd650219acb97dd276cc7ad84d210fbabc3d3e9543a204557ab7b38511ddf4c76",
+            "transactionIndex": 20,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 213
+          },
+          {
+            "swapTxHash": "0x512e9ebf5c540b15c9edb0f5f4ef234803364cb9b540d2d2464fa317e3077aaf",
+            "transactionIndex": 25,
+            "poolAddress": "0xb775272e537cc670c65dc852908ad47015244eaf",
+            "protocol": "PancakeV3",
+            "timeDifference": 208
+          },
+          {
+            "swapTxHash": "0xe9759ccfc98b520d3d7c435d111c2d7d8a447d7e049582b878ab38c155256e2a",
+            "transactionIndex": 46,
+            "poolAddress": "0x482fe995c4a52bc79271ab29a53591363ee30a89",
+            "protocol": "Unknown",
+            "timeDifference": 187
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x25ece27ac1e7aebee9cff8d8c5a178c9698fe5f177817128a4d341e20e75f449",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x09e6fbaa9e8b9ec3515ca11ff2c12749817bd129e6d6f05c32ab4e9d8c961100",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xe75563018981c793394fad58c916204a60145840de650c11c9444c4e162e8eb8",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x40d4aae2ced53889d7cbc707d01c71da6264d841c0ac17c504320b1474e44479",
+          "hasCausality": true,
+          "samePoolCount": 3,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0xd650219acb97dd276cc7ad84d210fbabc3d3e9543a204557ab7b38511ddf4c76"
+        },
+        {
+          "arbTxHash": "0xf6108282a355aaedcc66ee9b17535043a577d9dbbc5eab9b751e3664d884e649",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xbb7dd983fbdff1cbc9bc76900c5abf4e63f1582811b8e0cd061e1c2101cf48c3",
+          "hasCausality": true,
+          "samePoolCount": 3,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0xd650219acb97dd276cc7ad84d210fbabc3d3e9543a204557ab7b38511ddf4c76"
+        }
+      ]
+    },
+    "30488607": {
+      "summary": {
+        "totalArbitrageTxs": 5,
+        "typeDistribution": {
+          "inter": 5
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 5
+        },
+        "swapCountDistribution": {
+          "2": 1,
+          "3": 2,
+          "4": 1,
+          "9": 1
+        },
+        "protocolFrequency": {
+          "PancakeV3": 8,
+          "UniV3": 1,
+          "AlienV3": 1,
+          "DackieV3": 1,
+          "AeroV3": 3,
+          "Unknown": 5,
+          "AeroV2": 1,
+          "UniV2": 1
+        },
+        "arbitragerFrequency": {
+          "0xba2e784abd115ac22333cdf9a0a505d039cff4d5": 1,
+          "0x7014d08fe11b4b741bc63775192fa18261eda607": 1,
+          "0xe92d471a9fb813524b8eee38892ce4143e7ccccc": 1,
+          "0x39b6bd6570980c7672e50173c200f7b670ee5f68": 1,
+          "0x7fd624f3f97a7dd36195e8379f28db6147c270ff": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 12
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0x780b8701f2d72c699941aed6954205504f34a4ae7b93287977db48dc48e93dd5",
+            "transactionIndex": 6,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 50
+          },
+          {
+            "swapTxHash": "0x780b8701f2d72c699941aed6954205504f34a4ae7b93287977db48dc48e93dd5",
+            "transactionIndex": 6,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 58
+          },
+          {
+            "swapTxHash": "0x8b7d94a3c73a56ba9d1b9e51412ce49f0cc3cd5369074c5a7985ed8afebcc8a2",
+            "transactionIndex": 21,
+            "poolAddress": "0x482fe995c4a52bc79271ab29a53591363ee30a89",
+            "protocol": "Unknown",
+            "timeDifference": 43
+          },
+          {
+            "swapTxHash": "0x202ac01081cc6b585ea64e82e276bf624864ceccea0948166b39406e5c82ed25",
+            "transactionIndex": 41,
+            "poolAddress": "0xb94b22332abf5f89877a14cc88f2abc48c34b3df",
+            "protocol": "PancakeV3",
+            "timeDifference": 23
+          },
+          {
+            "swapTxHash": "0x2c1b92996b66cff92080f556fdf709f4289f3b54898e2e0aaf03e175185aa18f",
+            "transactionIndex": 45,
+            "poolAddress": "0xf6c0a374a483101e04ef5f7ac9bd15d9142bac95",
+            "protocol": "PancakeV3",
+            "timeDifference": 19
+          },
+          {
+            "swapTxHash": "0x8b7d94a3c73a56ba9d1b9e51412ce49f0cc3cd5369074c5a7985ed8afebcc8a2",
+            "transactionIndex": 21,
+            "poolAddress": "0x482fe995c4a52bc79271ab29a53591363ee30a89",
+            "protocol": "Unknown",
+            "timeDifference": 68
+          },
+          {
+            "swapTxHash": "0x3af32beb4c21082d6ff0c482bf975cad68ca20f5db396957d10f6913b4fc6c52",
+            "transactionIndex": 47,
+            "poolAddress": "0x4289a0666397f517c2a761652aaebaf6a4f7a693",
+            "protocol": "AeroV3",
+            "timeDifference": 132
+          },
+          {
+            "swapTxHash": "0x780b8701f2d72c699941aed6954205504f34a4ae7b93287977db48dc48e93dd5",
+            "transactionIndex": 6,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 248
+          },
+          {
+            "swapTxHash": "0x8b7d94a3c73a56ba9d1b9e51412ce49f0cc3cd5369074c5a7985ed8afebcc8a2",
+            "transactionIndex": 21,
+            "poolAddress": "0x482fe995c4a52bc79271ab29a53591363ee30a89",
+            "protocol": "Unknown",
+            "timeDifference": 233
+          },
+          {
+            "swapTxHash": "0xfff6496507db5b20ed31c3ba1b8f561ed6246c5913ae06e09731775518a232c2",
+            "transactionIndex": 84,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 170
+          },
+          {
+            "swapTxHash": "0xd5de9ee207d3ad578386b95d8410b29ce369d4b3e52228258a5babfe23ca79b6",
+            "transactionIndex": 98,
+            "poolAddress": "0x74cb6260be6f31965c239df6d6ef2ac2b5d4f020",
+            "protocol": "Unknown",
+            "timeDifference": 156
+          },
+          {
+            "swapTxHash": "0xa7c058ab228b235af5ebd96ecc296ba17ae2bf31d884c510f60e8d6f616691fa",
+            "transactionIndex": 136,
+            "poolAddress": "0x482fe995c4a52bc79271ab29a53591363ee30a89",
+            "protocol": "Unknown",
+            "timeDifference": 118
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0xbc468e1ea38746e3dc503887cfdd8d6258b075b50aed4d6c6d4c896929ca5fdc",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x670176372277544c1f38ea9b5f8ee492099229f2b8208b8c4242481fc115d227",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x8fe3ec80e57fd147ddaf01fcf33af7f7d9ef02d959dfefb3ce3ed46377191b7f",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x4b2dd059468c46197a2f1fc6f28da7f31769bca1ca343e2db9b1c74c1f54690d",
+          "hasCausality": true,
+          "samePoolCount": 1,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0x3af32beb4c21082d6ff0c482bf975cad68ca20f5db396957d10f6913b4fc6c52"
+        },
+        {
+          "arbTxHash": "0x69080f123dc273137d6a0195a0d6820d068ff977a0a66a08af0db928c85edbd3",
+          "hasCausality": true,
+          "samePoolCount": 2,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0xfff6496507db5b20ed31c3ba1b8f561ed6246c5913ae06e09731775518a232c2"
+        }
+      ]
+    },
+    "30488608": {
+      "summary": {
+        "totalArbitrageTxs": 12,
+        "typeDistribution": {
+          "inter": 11,
+          "begin": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 10,
+          "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b": 1,
+          "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf": 1
+        },
+        "swapCountDistribution": {
+          "2": 7,
+          "3": 4,
+          "5": 1
+        },
+        "protocolFrequency": {
+          "PancakeV3": 15,
+          "UniV3": 3,
+          "AeroV2": 1,
+          "AlienV3": 1,
+          "AeroV3": 4,
+          "Unknown": 7
+        },
+        "arbitragerFrequency": {
+          "0xba2e784abd115ac22333cdf9a0a505d039cff4d5": 1,
+          "0x153969636197c2454a2c37e3f2fd94b3d6a3f557": 1,
+          "0xad6c81a38a661692fd4526ce6195a36c386cd35d": 1,
+          "0x769cce90e3255b361c5b7714a6506e737ab96342": 1,
+          "0x30ba8e793839c48fa8a97682529a2fc44a777777": 1,
+          "0x42baab06a501a159e0d864709ce6916edfbb6fd4": 1,
+          "0x161ddfe6f854269fee240e6aec14fb5ca0eb6652": 1,
+          "0x023397fded17eb074227229399c5ff62307da592": 1,
+          "0xe147cb993cca199673ce00f4a9cf49eeb718683c": 1,
+          "0xb80ae28bab9ad328a5c5d9e0decc25fc2fdf2acc": 1,
+          "0xa2af631f801e9705837ce6293689337aec95d980": 1,
+          "0x7fd624f3f97a7dd36195e8379f28db6147c270ff": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 28,
+          "2-5s": 1,
+          "0-1s": 1
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0x492d2ac2fd8aa125d77d0c4b30c241aed82c37945f75d22b74596cf1ef9a0bd7",
+            "transactionIndex": 7,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 123
+          },
+          {
+            "swapTxHash": "0x492d2ac2fd8aa125d77d0c4b30c241aed82c37945f75d22b74596cf1ef9a0bd7",
+            "transactionIndex": 7,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 133
+          },
+          {
+            "swapTxHash": "0xcf01b7414fd56f146f0cd937de0e4599f45f3948973d75fdb015d375f6225030",
+            "transactionIndex": 136,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 4
+          },
+          {
+            "swapTxHash": "0x8556962552765494b639651555ca02a6a8ace4ed925ef669fda559139c7d1ee5",
+            "transactionIndex": 74,
+            "poolAddress": "0xf6c0a374a483101e04ef5f7ac9bd15d9142bac95",
+            "protocol": "PancakeV3",
+            "timeDifference": 106
+          },
+          {
+            "swapTxHash": "0x0ce36b78ef74cdde27deed8a622f2fe9b278c848b3361997ebf92bf4105c8f7a",
+            "transactionIndex": 99,
+            "poolAddress": "0xf6c0a374a483101e04ef5f7ac9bd15d9142bac95",
+            "protocol": "PancakeV3",
+            "timeDifference": 81
+          },
+          {
+            "swapTxHash": "0x492d2ac2fd8aa125d77d0c4b30c241aed82c37945f75d22b74596cf1ef9a0bd7",
+            "transactionIndex": 7,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 178
+          },
+          {
+            "swapTxHash": "0xcf01b7414fd56f146f0cd937de0e4599f45f3948973d75fdb015d375f6225030",
+            "transactionIndex": 136,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 49
+          },
+          {
+            "swapTxHash": "0x4c75143143d38a875c03789d87a882d6c84ea1e8f345f3807b40bfaa05d123dc",
+            "transactionIndex": 19,
+            "poolAddress": "0xb94b22332abf5f89877a14cc88f2abc48c34b3df",
+            "protocol": "PancakeV3",
+            "timeDifference": 184
+          },
+          {
+            "swapTxHash": "0x8556962552765494b639651555ca02a6a8ace4ed925ef669fda559139c7d1ee5",
+            "transactionIndex": 74,
+            "poolAddress": "0xf6c0a374a483101e04ef5f7ac9bd15d9142bac95",
+            "protocol": "PancakeV3",
+            "timeDifference": 163
+          },
+          {
+            "swapTxHash": "0x0ce36b78ef74cdde27deed8a622f2fe9b278c848b3361997ebf92bf4105c8f7a",
+            "transactionIndex": 99,
+            "poolAddress": "0xf6c0a374a483101e04ef5f7ac9bd15d9142bac95",
+            "protocol": "PancakeV3",
+            "timeDifference": 138
+          },
+          {
+            "swapTxHash": "0x492d2ac2fd8aa125d77d0c4b30c241aed82c37945f75d22b74596cf1ef9a0bd7",
+            "transactionIndex": 7,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 232
+          },
+          {
+            "swapTxHash": "0xcf01b7414fd56f146f0cd937de0e4599f45f3948973d75fdb015d375f6225030",
+            "transactionIndex": 136,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 103
+          },
+          {
+            "swapTxHash": "0xe2b4a86e74d1d25fd00f21ea2cab6e01d84e0b5a9dedc2efc7642631cb7f66c8",
+            "transactionIndex": 207,
+            "poolAddress": "0xfcd3960075c00af339a4e26afc76b949e5ff06ec",
+            "protocol": "Unknown",
+            "timeDifference": 32
+          },
+          {
+            "swapTxHash": "0x3d90fbb33e568a748a277babbf992b28161edab0da728a6116aac3b3db06ac0b",
+            "transactionIndex": 238,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 1
+          },
+          {
+            "swapTxHash": "0x492d2ac2fd8aa125d77d0c4b30c241aed82c37945f75d22b74596cf1ef9a0bd7",
+            "transactionIndex": 7,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 294
+          },
+          {
+            "swapTxHash": "0x658cfbf457cf668c67fb2fecfb0b437a175979dc90542e5d516e30b5e0c09f3c",
+            "transactionIndex": 35,
+            "poolAddress": "0x9785ef59e2b499fb741674ecf6faf912df7b3c1b",
+            "protocol": "AeroV3",
+            "timeDifference": 266
+          },
+          {
+            "swapTxHash": "0x8556962552765494b639651555ca02a6a8ace4ed925ef669fda559139c7d1ee5",
+            "transactionIndex": 74,
+            "poolAddress": "0xf6c0a374a483101e04ef5f7ac9bd15d9142bac95",
+            "protocol": "PancakeV3",
+            "timeDifference": 227
+          },
+          {
+            "swapTxHash": "0x0ce36b78ef74cdde27deed8a622f2fe9b278c848b3361997ebf92bf4105c8f7a",
+            "transactionIndex": 99,
+            "poolAddress": "0xf6c0a374a483101e04ef5f7ac9bd15d9142bac95",
+            "protocol": "PancakeV3",
+            "timeDifference": 202
+          },
+          {
+            "swapTxHash": "0xcf01b7414fd56f146f0cd937de0e4599f45f3948973d75fdb015d375f6225030",
+            "transactionIndex": 136,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 165
+          },
+          {
+            "swapTxHash": "0x3d90fbb33e568a748a277babbf992b28161edab0da728a6116aac3b3db06ac0b",
+            "transactionIndex": 238,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 63
+          },
+          {
+            "swapTxHash": "0x492d2ac2fd8aa125d77d0c4b30c241aed82c37945f75d22b74596cf1ef9a0bd7",
+            "transactionIndex": 7,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 331
+          },
+          {
+            "swapTxHash": "0xcf01b7414fd56f146f0cd937de0e4599f45f3948973d75fdb015d375f6225030",
+            "transactionIndex": 136,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 202
+          },
+          {
+            "swapTxHash": "0x3d90fbb33e568a748a277babbf992b28161edab0da728a6116aac3b3db06ac0b",
+            "transactionIndex": 238,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 100
+          },
+          {
+            "swapTxHash": "0x8556962552765494b639651555ca02a6a8ace4ed925ef669fda559139c7d1ee5",
+            "transactionIndex": 74,
+            "poolAddress": "0xf6c0a374a483101e04ef5f7ac9bd15d9142bac95",
+            "protocol": "PancakeV3",
+            "timeDifference": 267
+          },
+          {
+            "swapTxHash": "0x0ce36b78ef74cdde27deed8a622f2fe9b278c848b3361997ebf92bf4105c8f7a",
+            "transactionIndex": 99,
+            "poolAddress": "0xf6c0a374a483101e04ef5f7ac9bd15d9142bac95",
+            "protocol": "PancakeV3",
+            "timeDifference": 242
+          },
+          {
+            "swapTxHash": "0x492d2ac2fd8aa125d77d0c4b30c241aed82c37945f75d22b74596cf1ef9a0bd7",
+            "transactionIndex": 7,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 367
+          },
+          {
+            "swapTxHash": "0x18314b54aa5c5e6e4dd8724789e5949ad21a1e4b5f6b5d1a9119b23029764030",
+            "transactionIndex": 113,
+            "poolAddress": "0x74cb6260be6f31965c239df6d6ef2ac2b5d4f020",
+            "protocol": "Unknown",
+            "timeDifference": 261
+          },
+          {
+            "swapTxHash": "0xcf01b7414fd56f146f0cd937de0e4599f45f3948973d75fdb015d375f6225030",
+            "transactionIndex": 136,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 238
+          },
+          {
+            "swapTxHash": "0x3d90fbb33e568a748a277babbf992b28161edab0da728a6116aac3b3db06ac0b",
+            "transactionIndex": 238,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 136
+          },
+          {
+            "swapTxHash": "0x88bc4635cb620cd9e150d4491f77914574287e23da0926198aab9724d78ea119",
+            "transactionIndex": 344,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 30
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0xf03bfc69a6108cc96c1b27454dea5d8dde9c437fd3c3340fd4ae7fd3605a2335",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x40eddb37b8b25547770b0f00894207ffae0b099922def1bf3d83e70f925451b1",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xac4dbc1def18de231bb37af130ad462e911184215160e0e8305c0e854a58bad2",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xef92f42bb0e381f072b01bfdbdf0b3cd59ec2e6906b45955624f88f9da972dac",
+          "hasCausality": true,
+          "samePoolCount": 2,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0x0ce36b78ef74cdde27deed8a622f2fe9b278c848b3361997ebf92bf4105c8f7a"
+        },
+        {
+          "arbTxHash": "0xe6b04db0b4acd4fe648f8e4c059939c764973bd914c551cdc40275aafe7c04f1",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x6bfaccdb5ff15bf11ca11994c86381207aa7d3ff2ecff89cd7addb54b3970459",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x3b4408c839814b726ac87d5da0393bdf4a17b3020630d0b213b54212fd7892f9",
+          "hasCausality": true,
+          "samePoolCount": 2,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0x0ce36b78ef74cdde27deed8a622f2fe9b278c848b3361997ebf92bf4105c8f7a"
+        },
+        {
+          "arbTxHash": "0xc7eccc8beb8beb208ac9ca4b912600a8bdbe1e65bc544a9b834eeb4fb8863dcd",
+          "hasCausality": true,
+          "samePoolCount": 3,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0x3d90fbb33e568a748a277babbf992b28161edab0da728a6116aac3b3db06ac0b"
+        },
+        {
+          "arbTxHash": "0x01ec5b5cf8f2256d452b5c551c48abf3c9409ca504581ef66604e042a15507a1",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xb97ea5985d79f054d3537eadc208047974874fe6a98498b8e0fca57a975bb54f",
+          "hasCausality": true,
+          "samePoolCount": 3,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0x3d90fbb33e568a748a277babbf992b28161edab0da728a6116aac3b3db06ac0b"
+        },
+        {
+          "arbTxHash": "0xe169c04abaad0015aaa94b2fb15e308a0b2aa23b0d649bb8757019c9bca96896",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xca289ae66b946db5ad8c41a1a5eb612477deb7614e55aec467447c70b0ad46c7",
+          "hasCausality": true,
+          "samePoolCount": 4,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0x88bc4635cb620cd9e150d4491f77914574287e23da0926198aab9724d78ea119"
+        }
+      ]
+    },
+    "30488609": {
+      "summary": {
+        "totalArbitrageTxs": 6,
+        "typeDistribution": {
+          "inter": 4,
+          "begin": 2
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 3,
+          "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf": 1,
+          "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913": 1,
+          "0xd9aaec86b65d86f6a7b5b1b0c42ffa531710b6ca": 1
+        },
+        "swapCountDistribution": {
+          "2": 3,
+          "3": 2,
+          "4": 1
+        },
+        "protocolFrequency": {
+          "AeroV3": 3,
+          "PancakeV3": 4,
+          "Unknown": 4,
+          "UniV2": 4,
+          "UniV3": 1
+        },
+        "arbitragerFrequency": {
+          "0xa2fdb6353021a8c5681de02984e39c51d9aaaaaa": 1,
+          "0x477fd98c600c36f46e135376d1e276afc3472ed3": 1,
+          "0x396b2ef1833f2b288017a36e0b690a3d2936e220": 1,
+          "0xa8be888c28d0a81b624bc9937f51293b0f63ffc1": 1,
+          "0x14b9b2e8b7598a80cfed9360309e56920f6888f7": 1,
+          "0xdf1aca53a59f2d118f8c71e93090c7e3df967213": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 3
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0x62d5c0b2dd977f616016a0a53ed8266714b23c0c860270301df36b4b49a4a2b3",
+            "transactionIndex": 21,
+            "poolAddress": "0xc211e1f853a898bd1302385ccde55f33a8c4b3f3",
+            "protocol": "PancakeV3",
+            "timeDifference": 32
+          },
+          {
+            "swapTxHash": "0xa6129cdb716125e07bbb4af677dfbf8328b498fdee7c47beeef4ef8d25bedf16",
+            "transactionIndex": 14,
+            "poolAddress": "0xf6c0a374a483101e04ef5f7ac9bd15d9142bac95",
+            "protocol": "PancakeV3",
+            "timeDifference": 151
+          },
+          {
+            "swapTxHash": "0xa8aace3367a5cfb4577c8e943d13e861d2c33e3a3e34913d561b7fc334251aa2",
+            "transactionIndex": 64,
+            "poolAddress": "0xf6c0a374a483101e04ef5f7ac9bd15d9142bac95",
+            "protocol": "PancakeV3",
+            "timeDifference": 101
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0xe011dae5c9ff5b78b6608d33c7b5880aae24a3925589ddbbad40344b1d0123a9",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xf7ce6b79012f86892c66c0b2802c87fc765209a122dbf5909aa9afaa7bcd4937",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xd861f072a938d94a0777c54d15de738c4b45ed479b0c103f0da6c043f2b98c08",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x04ae0c9f175e90ea13908005e461c8b43f6482f6c810f63303ea587211468f42",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x7d8ddd35dce10ef69f657b237a781da8db4f851c5249be16e4dabdac1c8b77c3",
+          "hasCausality": true,
+          "samePoolCount": 2,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0xa8aace3367a5cfb4577c8e943d13e861d2c33e3a3e34913d561b7fc334251aa2"
+        },
+        {
+          "arbTxHash": "0x561c709e489dfcc08637b6ed81cae0eefe3b1997bddc76400ee352fd14fc0567",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488610": {
+      "summary": {
+        "totalArbitrageTxs": 14,
+        "typeDistribution": {
+          "begin": 9,
+          "inter": 5
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 12,
+          "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913": 2
+        },
+        "swapCountDistribution": {
+          "2": 7,
+          "3": 4,
+          "4": 3
+        },
+        "protocolFrequency": {
+          "PancakeV3": 13,
+          "Unknown": 6,
+          "UniV3": 8,
+          "UniV2": 4,
+          "AlienV3": 2,
+          "AeroV2": 2,
+          "SolidV3": 1,
+          "DackieV3": 2
+        },
+        "arbitragerFrequency": {
+          "0x30ba8e793839c48fa8a97682529a2fc44a777777": 1,
+          "0xc623f214c8eefc771147c5806be250db39555555": 1,
+          "0xe92d471a9fb813524b8eee38892ce4143e7ccccc": 1,
+          "0x53881155498cae8660195670591f1e23ae81431f": 2,
+          "0xf6d2d84578d764033adc25465d053bf00f8cb6dd": 1,
+          "0x7372e84887bd82fd9c0433f981c8a75972a59290": 1,
+          "0x098443b6e0fa9499fb336439c9a7687e548a2a31": 1,
+          "0xae5ec713342b07ede21643615309a3f776776593": 1,
+          "0xe591e8cc66089245156f5aea1195599cd1f3306b": 1,
+          "0x3a5169b675c3542325dd6316e16cc3c9e897a582": 1,
+          "0xe20b9af72eac0c7ff76f5a7f68dbbc4dc70b4f62": 1,
+          "0xfb5d607cadb4e6105bc7b6bb0add0c5c8a40283d": 1,
+          "0x7014d08fe11b4b741bc63775192fa18261eda607": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 16
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0x7b4dce65dbb5aa95d308ae6dd2a13fa957d2ba5f7e22636b0d6bbdd5ffa95b3a",
+            "transactionIndex": 7,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 75
+          },
+          {
+            "swapTxHash": "0x7b4dce65dbb5aa95d308ae6dd2a13fa957d2ba5f7e22636b0d6bbdd5ffa95b3a",
+            "transactionIndex": 7,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 162
+          },
+          {
+            "swapTxHash": "0x181190dc932326f4c4675ff7c9a461efc2a50e3bf031d3d780da2b6485aa1476",
+            "transactionIndex": 91,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 78
+          },
+          {
+            "swapTxHash": "0x01b488d84a3b308a800838ddaf25664faef525ee2f988410eb95b9848c44dc4b",
+            "transactionIndex": 96,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 73
+          },
+          {
+            "swapTxHash": "0x7dca70555c65baacd0e732d8c327707e5c5a8ff5db82fba66c36541385084a33",
+            "transactionIndex": 97,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 72
+          },
+          {
+            "swapTxHash": "0x4c5b5fb2bfb8bb91649319a9362750827999b09034aa58fec4099196117077f9",
+            "transactionIndex": 99,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 70
+          },
+          {
+            "swapTxHash": "0x7b4dce65dbb5aa95d308ae6dd2a13fa957d2ba5f7e22636b0d6bbdd5ffa95b3a",
+            "transactionIndex": 7,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 168
+          },
+          {
+            "swapTxHash": "0x181190dc932326f4c4675ff7c9a461efc2a50e3bf031d3d780da2b6485aa1476",
+            "transactionIndex": 91,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 84
+          },
+          {
+            "swapTxHash": "0x01b488d84a3b308a800838ddaf25664faef525ee2f988410eb95b9848c44dc4b",
+            "transactionIndex": 96,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 79
+          },
+          {
+            "swapTxHash": "0x7dca70555c65baacd0e732d8c327707e5c5a8ff5db82fba66c36541385084a33",
+            "transactionIndex": 97,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 78
+          },
+          {
+            "swapTxHash": "0x4c5b5fb2bfb8bb91649319a9362750827999b09034aa58fec4099196117077f9",
+            "transactionIndex": 99,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 76
+          },
+          {
+            "swapTxHash": "0x7b4dce65dbb5aa95d308ae6dd2a13fa957d2ba5f7e22636b0d6bbdd5ffa95b3a",
+            "transactionIndex": 7,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 192
+          },
+          {
+            "swapTxHash": "0x181190dc932326f4c4675ff7c9a461efc2a50e3bf031d3d780da2b6485aa1476",
+            "transactionIndex": 91,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 108
+          },
+          {
+            "swapTxHash": "0x01b488d84a3b308a800838ddaf25664faef525ee2f988410eb95b9848c44dc4b",
+            "transactionIndex": 96,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 103
+          },
+          {
+            "swapTxHash": "0x7dca70555c65baacd0e732d8c327707e5c5a8ff5db82fba66c36541385084a33",
+            "transactionIndex": 97,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 102
+          },
+          {
+            "swapTxHash": "0x4c5b5fb2bfb8bb91649319a9362750827999b09034aa58fec4099196117077f9",
+            "transactionIndex": 99,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 100
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x4b9dfc66ec50f22b604d835dcc03324fa255cfd13a768cd560ced11910d61380",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x79d3fa1eef82a3af1036d7479f13f53c8129830a84c06243b3c131053dd1ca8a",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x8ce860e7f4899592989d435fb776fdbaf341d3812a11bb152024c71dce273e70",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x292174da9c656fa5f6c4118fc702d65ee7218b5abc0b892e67c664eda5751960",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xee7303faffa178fe36fcd2b4b1be57ccf26cdbc6b22d93f9aa54025d3f84b13a",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x8feee8776129af5ecc32484c2fcfa94688daacec2304cdef5986abb120e80781",
+          "hasCausality": true,
+          "samePoolCount": 1,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0x7b4dce65dbb5aa95d308ae6dd2a13fa957d2ba5f7e22636b0d6bbdd5ffa95b3a"
+        },
+        {
+          "arbTxHash": "0x4f1f813ea6c364d0e68f3706a57e4ef9a90b4fe31cbd3f9b97847ae17350abe4",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x0c26a540901abe958d0c5163b91be9dd437b7e05d4e26e272389e5932667fb34",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x2bc23d6899fa9c58dee2df6913aaf053c1e04da82260ba3a09b3955af73ad822",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x94213f7bb695ede25d1aa97a77ab888863569bb60270f946fdf92c3c0619a0ab",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x7b6254753c75be6da1532c6bd2ae42e457343fcb146227cef0250346c105cd59",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x39f5f674562e4939aca194797b8f3703968b565895c690bf0433f154f710910f",
+          "hasCausality": true,
+          "samePoolCount": 5,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0x4c5b5fb2bfb8bb91649319a9362750827999b09034aa58fec4099196117077f9"
+        },
+        {
+          "arbTxHash": "0xaf66aff1ba8f8b600afd7cd072b377138f5ae7905e04958b2692e20b5601c04f",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xe7035a0a47e757274acd2a7d56796b4855de9c5b28692ca4dbeb265d22ddb7ca",
+          "hasCausality": true,
+          "samePoolCount": 5,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0x4c5b5fb2bfb8bb91649319a9362750827999b09034aa58fec4099196117077f9"
+        }
+      ]
+    },
+    "30488611": {
+      "summary": {
+        "totalArbitrageTxs": 7,
+        "typeDistribution": {
+          "begin": 6,
+          "inter": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 6,
+          "0x50c5725949a6f0c72e6c4a641f24049a917db0cb": 1
+        },
+        "swapCountDistribution": {
+          "2": 4,
+          "3": 3
+        },
+        "protocolFrequency": {
+          "Unknown": 5,
+          "UniV3": 5,
+          "PancakeV2": 1,
+          "PancakeV3": 4,
+          "AeroV2": 1,
+          "UniV2": 1
+        },
+        "arbitragerFrequency": {
+          "0xa2fdb6353021a8c5681de02984e39c51d9aaaaaa": 1,
+          "0x33ae4eba259ac3774ab3ea8b31363bd42c444444": 1,
+          "0x76b4a1e776c6c0597d9806773da64961ff888888": 1,
+          "0xa9c51a4055412d066d42ff2f7bfacad6e09bbbbb": 1,
+          "0x3a77a19b9618771a6667fdf1983430d92467193a": 1,
+          "0xa79c12bcf11133af01b6b20f16f8aafaecdebc93": 1,
+          "0xd379f3d4578de7ac47a5928811b3407ef03f7c49": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 1
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0x91a1f379939b3843e8ed4da9dbae33f99c5b9da3c12a4de7e9dc08927a18a6a3",
+            "transactionIndex": 10,
+            "poolAddress": "0xb94b22332abf5f89877a14cc88f2abc48c34b3df",
+            "protocol": "PancakeV3",
+            "timeDifference": 172
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0xf372180f2692b8b63ddc9508fd161f3b77cf7a627ee00e40e6437c5ec34935a5",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x2ecd24e37d14e1fb7d1c1c754e7d9a61dd470e8f7d071116ee7d2154cf80f323",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x90cf2dc71987bd66ab56bce0670bc966362d812e7b4a559d705f416310eea518",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xea0a00d1ed54636748db36e1c79a8bf5aef43efd5b8d2d65124173c4e9b408e8",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x14dc9b353672bd218f801fcd30a8a844a3fa70f972d08fc76e6681b4e316ad70",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xf9608f54a13ed4f1887f4c3066a8719eeb415336c70d0524e6b95c8ad0ca9d2a",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x45a5563efd455574c4ff61ba3ca63521bb5f0dc37d50f2c4a1ed6009609c9f30",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488612": {
+      "summary": {
+        "totalArbitrageTxs": 1,
+        "typeDistribution": {
+          "inter": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 1
+        },
+        "swapCountDistribution": {
+          "3": 1
+        },
+        "protocolFrequency": {
+          "UniV3": 2,
+          "PancakeV3": 1
+        },
+        "arbitragerFrequency": {
+          "0x92675cd43ed712fc667c24eb64f700eb0bca4247": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          "5-10s": 1
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0xaea363723ec0e4a45da7739947a5bbf0009474ce99095c21b7f8c285758ec66f",
+            "transactionIndex": 148,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 6
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x95a2040961a3d800f17cb891c3ef123f212e41be680520d3dfd133575af561f7",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488613": {
+      "summary": {
+        "totalArbitrageTxs": 1,
+        "typeDistribution": {
+          "inter": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 1
+        },
+        "swapCountDistribution": {
+          "3": 1
+        },
+        "protocolFrequency": {
+          "Unknown": 1,
+          "UniV3": 1,
+          "PancakeV3": 1
+        },
+        "arbitragerFrequency": {
+          "0x30ba8e793839c48fa8a97682529a2fc44a777777": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 3
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0x1cc48f58a7ef2753a079cafabf60a4a33279c157f1fe2edff745a4fe19d5717e",
+            "transactionIndex": 19,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 64
+          },
+          {
+            "swapTxHash": "0x5e56e1f4322c193bbced03773e854f8278833edcc9996c18fc2d86339326167e",
+            "transactionIndex": 60,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 23
+          },
+          {
+            "swapTxHash": "0x35dcb4e8b0dddd136139de03513d1f0a1734b9d765925d54885eb059d4c9d940",
+            "transactionIndex": 65,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 18
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x4c20f1a2c7661360e3561674ff86763add2154c05c471ab6a51599efdd5e7abe",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488614": {
+      "summary": {
+        "totalArbitrageTxs": 1,
+        "typeDistribution": {
+          "begin": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 1
+        },
+        "swapCountDistribution": {
+          "2": 1
+        },
+        "protocolFrequency": {
+          "UniV3": 2
+        },
+        "arbitragerFrequency": {
+          "0xa2fdb6353021a8c5681de02984e39c51d9aaaaaa": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {},
+        "triggerProtocolDistribution": {},
+        "allTriggers": []
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x8a18b9b0f40d8a40644f59551c2a198328577053b4a2ab396d17a5faa1a60dea",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488615": {
+      "summary": {
+        "totalArbitrageTxs": 2,
+        "typeDistribution": {
+          "inter": 2
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 2
+        },
+        "swapCountDistribution": {
+          "2": 2
+        },
+        "protocolFrequency": {
+          "PancakeV3": 2,
+          "Unknown": 2
+        },
+        "arbitragerFrequency": {
+          "0xba9043d59f559ce24f005204ce223be30f430ed5": 1,
+          "0x7fd624f3f97a7dd36195e8379f28db6147c270ff": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 2
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0xdfc9d21a60c2f807dfcb12f4e5607a0b01cfdc0c54cbd42b2f2ab4e22c808b62",
+            "transactionIndex": 14,
+            "poolAddress": "0xf6c0a374a483101e04ef5f7ac9bd15d9142bac95",
+            "protocol": "PancakeV3",
+            "timeDifference": 90
+          },
+          {
+            "swapTxHash": "0x10ede9a47f4b17dc0f8c9bb2c49bbaa1bd98082543959e07502e30b4af7af982",
+            "transactionIndex": 1,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 218
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x26928d1e7f51108474f4f0959e02e0e01283e6986c5e24882375767747ccdc61",
+          "hasCausality": true,
+          "samePoolCount": 1,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0xdfc9d21a60c2f807dfcb12f4e5607a0b01cfdc0c54cbd42b2f2ab4e22c808b62"
+        },
+        {
+          "arbTxHash": "0x662e94da7395ed38ee92db11c59c9658ecaf5a3f9ceea165376f2e2c666cf378",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488616": {
+      "summary": {
+        "totalArbitrageTxs": 4,
+        "typeDistribution": {
+          "inter": 4
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 4
+        },
+        "swapCountDistribution": {
+          "2": 1,
+          "3": 3
+        },
+        "protocolFrequency": {
+          "PancakeV3": 8,
+          "AlienV3": 1,
+          "Unknown": 2
+        },
+        "arbitragerFrequency": {
+          "0xe147cb993cca199673ce00f4a9cf49eeb718683c": 1,
+          "0x47fd87c7f3b3dacaf0f3ed24703a8e76903fd1a6": 1,
+          "0x2b9d5ee187892af23ddd328ce0774de81465800d": 1,
+          "0x7fd624f3f97a7dd36195e8379f28db6147c270ff": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 9
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0x646c4722f5bece625a7baa324f54044c9d007440ebadfd1d4557ca208d765f62",
+            "transactionIndex": 7,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 45
+          },
+          {
+            "swapTxHash": "0x3841af1dc12101ea6f35f9e22e87b99885a9b68a4f8c7fd9a2d8ff5d1f5893d7",
+            "transactionIndex": 12,
+            "poolAddress": "0xb94b22332abf5f89877a14cc88f2abc48c34b3df",
+            "protocol": "PancakeV3",
+            "timeDifference": 40
+          },
+          {
+            "swapTxHash": "0x646c4722f5bece625a7baa324f54044c9d007440ebadfd1d4557ca208d765f62",
+            "transactionIndex": 7,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 197
+          },
+          {
+            "swapTxHash": "0x3841af1dc12101ea6f35f9e22e87b99885a9b68a4f8c7fd9a2d8ff5d1f5893d7",
+            "transactionIndex": 12,
+            "poolAddress": "0xb94b22332abf5f89877a14cc88f2abc48c34b3df",
+            "protocol": "PancakeV3",
+            "timeDifference": 192
+          },
+          {
+            "swapTxHash": "0x2ecf1ff0a58314e503a85698ccebbaf6d9759c41e1204c9fb13d26d9b529133e",
+            "transactionIndex": 98,
+            "poolAddress": "0xb94b22332abf5f89877a14cc88f2abc48c34b3df",
+            "protocol": "PancakeV3",
+            "timeDifference": 106
+          },
+          {
+            "swapTxHash": "0x646c4722f5bece625a7baa324f54044c9d007440ebadfd1d4557ca208d765f62",
+            "transactionIndex": 7,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 207
+          },
+          {
+            "swapTxHash": "0x3841af1dc12101ea6f35f9e22e87b99885a9b68a4f8c7fd9a2d8ff5d1f5893d7",
+            "transactionIndex": 12,
+            "poolAddress": "0xb94b22332abf5f89877a14cc88f2abc48c34b3df",
+            "protocol": "PancakeV3",
+            "timeDifference": 202
+          },
+          {
+            "swapTxHash": "0x2ecf1ff0a58314e503a85698ccebbaf6d9759c41e1204c9fb13d26d9b529133e",
+            "transactionIndex": 98,
+            "poolAddress": "0xb94b22332abf5f89877a14cc88f2abc48c34b3df",
+            "protocol": "PancakeV3",
+            "timeDifference": 116
+          },
+          {
+            "swapTxHash": "0x8db3a53b0ddf080205d9be128d62e15be7ea281c52869c659d515a96e9172799",
+            "transactionIndex": 34,
+            "poolAddress": "0x482fe995c4a52bc79271ab29a53591363ee30a89",
+            "protocol": "Unknown",
+            "timeDifference": 190
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x6731b0365eef549b0a21e3523f7a813fe85adaa5072377819cca2caac726ac10",
+          "hasCausality": true,
+          "samePoolCount": 1,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0x646c4722f5bece625a7baa324f54044c9d007440ebadfd1d4557ca208d765f62"
+        },
+        {
+          "arbTxHash": "0x4abd6596581ff28ca2094a3061dfa18a650ef7618939fd9813bbe13cfd4ab467",
+          "hasCausality": true,
+          "samePoolCount": 1,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0x646c4722f5bece625a7baa324f54044c9d007440ebadfd1d4557ca208d765f62"
+        },
+        {
+          "arbTxHash": "0xe8e4b252ad89b3aaf8a44f8b652adc6a96e7b80231edbefa38102cc970c79191",
+          "hasCausality": true,
+          "samePoolCount": 1,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0x646c4722f5bece625a7baa324f54044c9d007440ebadfd1d4557ca208d765f62"
+        },
+        {
+          "arbTxHash": "0x16fd49d1678629bf0ab2549bcb7345745d99ac42ca882bd1b5e97657a71a31f1",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488617": {
+      "summary": {
+        "totalArbitrageTxs": 5,
+        "typeDistribution": {
+          "begin": 2,
+          "inter": 3
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 5
+        },
+        "swapCountDistribution": {
+          "2": 3,
+          "3": 2
+        },
+        "protocolFrequency": {
+          "UniV3": 2,
+          "PancakeV3": 4,
+          "Unknown": 3,
+          "AeroV3": 3
+        },
+        "arbitragerFrequency": {
+          "0x15b07c84c770cb7789bc72e21370ffb2da306c97": 1,
+          "0x00000000d09397b50eb7313c21753fd1c6641e45": 1,
+          "0x86c5af89657d45fc6b4477770fe4449fdcf960f5": 1,
+          "0x7fec95d62c3d984929bc72537bf38a62caf7c561": 1,
+          "0x000000005fa709620f449a06012bfa67787a1b9f": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 6
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0x3a9953e28a5ff754e7f19492c81a7621b760b0898d255202f789c6f3da8bdec3",
+            "transactionIndex": 10,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 119
+          },
+          {
+            "swapTxHash": "0x0915c288c65f88a96566e349d377dfd4627a77882079e348ccb628d30e5f9b74",
+            "transactionIndex": 13,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 116
+          },
+          {
+            "swapTxHash": "0x3cf5ad11c2b64d163c8ffab1b8e5b8081a16fc9347c539e4fd876405b78d7e97",
+            "transactionIndex": 49,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 80
+          },
+          {
+            "swapTxHash": "0x3a9953e28a5ff754e7f19492c81a7621b760b0898d255202f789c6f3da8bdec3",
+            "transactionIndex": 10,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 124
+          },
+          {
+            "swapTxHash": "0x0915c288c65f88a96566e349d377dfd4627a77882079e348ccb628d30e5f9b74",
+            "transactionIndex": 13,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 121
+          },
+          {
+            "swapTxHash": "0x3cf5ad11c2b64d163c8ffab1b8e5b8081a16fc9347c539e4fd876405b78d7e97",
+            "transactionIndex": 49,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 85
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0xc13dbfb5e78d212380853075d958db9b10aa3780907089fd96b7da7549e9daac",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x870e6930dc5104d6ccd2bec23824fee5f556211aaa05a0d9f8f56a00d8ff34bb",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x2da4bde643d39a1e0167d0ad453184acf906f7b7ca64c25fd625ff8970becc24",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x2c648d03e0a2920d8fc0977ec28c071db6c08bbebb0c243a5eef78873f5f0665",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xdc984457421b46e5c1594db303f8d565cc7a6724ec16d549a2e22e673f7da425",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488618": {
+      "summary": {
+        "totalArbitrageTxs": 2,
+        "typeDistribution": {
+          "begin": 1,
+          "inter": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 1,
+          "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913": 1
+        },
+        "swapCountDistribution": {
+          "2": 1,
+          "3": 1
+        },
+        "protocolFrequency": {
+          "UniV2": 2,
+          "UniV3": 3
+        },
+        "arbitragerFrequency": {
+          "0x53881155498cae8660195670591f1e23ae81431f": 1,
+          "0xecb55e5ccfc128a1eca67e48dbe2f299e4366d0e": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {},
+        "triggerProtocolDistribution": {},
+        "allTriggers": []
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x27a910fe70949bed98676a70fc1045a3ed98ddd7fed309e05db5b51acebb466a",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x3f73f90236e0a2c78c59d73fd08bab17e158b84d2d40c33693cbacb520db8762",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488619": {
+      "summary": {
+        "totalArbitrageTxs": 4,
+        "typeDistribution": {
+          "begin": 3,
+          "inter": 1
+        },
+        "profitTokenDistribution": {
+          "0xd9aaec86b65d86f6a7b5b1b0c42ffa531710b6ca": 2,
+          "0x4200000000000000000000000000000000000006": 2
+        },
+        "swapCountDistribution": {
+          "2": 2,
+          "3": 2
+        },
+        "protocolFrequency": {
+          "PancakeV3": 3,
+          "Unknown": 4,
+          "UniV3": 3
+        },
+        "arbitragerFrequency": {
+          "0x170c025b622060ec23d2b8120f1a082aa8726858": 1,
+          "0x647678bc946d687493b925603bd45402c9007050": 1,
+          "0xa2fdb6353021a8c5681de02984e39c51d9aaaaaa": 1,
+          "0xc623f214c8eefc771147c5806be250db39555555": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {},
+        "triggerProtocolDistribution": {},
+        "allTriggers": []
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x9f446707f339389abb0f20d48c81397f9741d91c6d0394f236fcda6038236244",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xd9fa0301be768dd984b54ed25f83a1aaae8f33e1b00848226d4a4704f16c0827",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xddc6de4759f7bd7467b25e524024e3aa4058598330e8e06eb3e0a537c8d6233b",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x638ae41dcce41b74e7494c8711aaeaedcef9a63e11e72fefde92bc1bf8b6fbfd",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488620": {
+      "summary": {
+        "totalArbitrageTxs": 0,
+        "typeDistribution": {},
+        "profitTokenDistribution": {},
+        "swapCountDistribution": {},
+        "protocolFrequency": {},
+        "arbitragerFrequency": {}
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {},
+        "triggerProtocolDistribution": {},
+        "allTriggers": []
+      },
+      "causalityTraces": []
+    },
+    "30488621": {
+      "summary": {
+        "totalArbitrageTxs": 1,
+        "typeDistribution": {
+          "inter": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 1
+        },
+        "swapCountDistribution": {
+          "2": 1
+        },
+        "protocolFrequency": {
+          "PancakeV3": 1,
+          "UniV3": 1
+        },
+        "arbitragerFrequency": {
+          "0x30ba8e793839c48fa8a97682529a2fc44a777777": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 1
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0x95efb6264aa3f7e2eac0971b1a18883ee199dd237e92b28e7f210cadc28b903b",
+            "transactionIndex": 5,
+            "poolAddress": "0xf6c0a374a483101e04ef5f7ac9bd15d9142bac95",
+            "protocol": "PancakeV3",
+            "timeDifference": 140
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0xf1ee5e89ed49b4dd449a62e170e0a722c5ce576bcc97b8833350d0f3a9109f5e",
+          "hasCausality": true,
+          "samePoolCount": 1,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0x95efb6264aa3f7e2eac0971b1a18883ee199dd237e92b28e7f210cadc28b903b"
+        }
+      ]
+    },
+    "30488622": {
+      "summary": {
+        "totalArbitrageTxs": 2,
+        "typeDistribution": {
+          "begin": 1,
+          "inter": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 2
+        },
+        "swapCountDistribution": {
+          "2": 1,
+          "6": 1
+        },
+        "protocolFrequency": {
+          "Unknown": 1,
+          "PancakeV3": 5,
+          "DackieV3": 2
+        },
+        "arbitragerFrequency": {
+          "0xa2fdb6353021a8c5681de02984e39c51d9aaaaaa": 1,
+          "0x7f76eea298db5bacfccda029b573623a913d4a8f": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 2
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0x835338d5b3c6fa24d141c79fea490a5fd368854d8849478a470b3a0da044a477",
+            "transactionIndex": 7,
+            "poolAddress": "0xf6c0a374a483101e04ef5f7ac9bd15d9142bac95",
+            "protocol": "PancakeV3",
+            "timeDifference": 125
+          },
+          {
+            "swapTxHash": "0x2d880f59ba5d7ac401f135abce518297e44e7d205aaf78601ddc0e23b756e31e",
+            "transactionIndex": 106,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 26
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0xd7d67b8896c6e1ef82406018c03c11e977fe1157c2b94c12a7e02b1cd9ba90f8",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xcd2a3a169c34231831877acd0232fcf8c5ced71b7c281cb7f4e27d30251af4ee",
+          "hasCausality": true,
+          "samePoolCount": 1,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0x2d880f59ba5d7ac401f135abce518297e44e7d205aaf78601ddc0e23b756e31e"
+        }
+      ]
+    },
+    "30488623": {
+      "summary": {
+        "totalArbitrageTxs": 3,
+        "typeDistribution": {
+          "inter": 3
+        },
+        "profitTokenDistribution": {
+          "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913": 1,
+          "0x4200000000000000000000000000000000000006": 2
+        },
+        "swapCountDistribution": {
+          "2": 3
+        },
+        "protocolFrequency": {
+          "UniV3": 2,
+          "PancakeV3": 2,
+          "UniV2": 1,
+          "Unknown": 1
+        },
+        "arbitragerFrequency": {
+          "0x1e2400216a44e8c89ced2351ea9cbf6e3531c7b5": 1,
+          "0x2b9d5ee187892af23ddd328ce0774de81465800d": 1,
+          "0x7fd624f3f97a7dd36195e8379f28db6147c270ff": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 3
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0x085380d7de880397701e14066c883074382d41763e42cb8b37f0a96a286e0ed6",
+            "transactionIndex": 4,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 213
+          },
+          {
+            "swapTxHash": "0x98da0772346761c5728d7f500a50464bf52fd86016027181fcf61580fc6d817a",
+            "transactionIndex": 8,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 209
+          },
+          {
+            "swapTxHash": "0xa022065f67846539d55b39ba3836ee208cc8ba2a5e3a820e055f2d785529ac83",
+            "transactionIndex": 9,
+            "poolAddress": "0x482fe995c4a52bc79271ab29a53591363ee30a89",
+            "protocol": "Unknown",
+            "timeDifference": 208
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x4f36123375e6074cda686d5233f9e371e0db9be3213be7d179cb3a69be50d168",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xf329c65b7d9d48f58c79864f03013f52e055388246e652c3ebf4f40fe88ba956",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x1663eb5e0b96f1bf108216a8db58054370423081096ad56f7ab74985eb150bf7",
+          "hasCausality": true,
+          "samePoolCount": 1,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0xa022065f67846539d55b39ba3836ee208cc8ba2a5e3a820e055f2d785529ac83"
+        }
+      ]
+    },
+    "30488624": {
+      "summary": {
+        "totalArbitrageTxs": 1,
+        "typeDistribution": {
+          "inter": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 1
+        },
+        "swapCountDistribution": {
+          "2": 1
+        },
+        "protocolFrequency": {
+          "UniV2": 1,
+          "UniV3": 1
+        },
+        "arbitragerFrequency": {
+          "0xd379f3d4578de7ac47a5928811b3407ef03f7c49": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 1
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0x9dfaf9474bc01f72f63ee5ab2efc22c3475263f3674bb26bb6b1d38a0a870117",
+            "transactionIndex": 67,
+            "poolAddress": "0xaded599356b756b64b90dcbf68d6a062b2934060",
+            "protocol": "UniV2",
+            "timeDifference": 124
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0xa5ac77ad0af738dc7622fece2883ea5b2aa00c1d1dd5710417523b936351d942",
+          "hasCausality": true,
+          "samePoolCount": 1,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0x9dfaf9474bc01f72f63ee5ab2efc22c3475263f3674bb26bb6b1d38a0a870117"
+        }
+      ]
+    },
+    "30488625": {
+      "summary": {
+        "totalArbitrageTxs": 3,
+        "typeDistribution": {
+          "begin": 1,
+          "inter": 2
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 3
+        },
+        "swapCountDistribution": {
+          "2": 3
+        },
+        "protocolFrequency": {
+          "PancakeV3": 4,
+          "Unknown": 2
+        },
+        "arbitragerFrequency": {
+          "0x0e2a5a09ae0028b797c2a7172cd6f50d3ea62f4c": 1,
+          "0x9052db2917e175ae99467e95d05675af089248cd": 1,
+          "0x7fd624f3f97a7dd36195e8379f28db6147c270ff": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 1
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0x4e568a23bf14bb82d214c5f52308c3175a78c6dd78415a407fe8653e0be92138",
+            "transactionIndex": 1,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 135
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x357953adc0bad8374b14478b9a8483789ef0a7c2d22d1a44be78d471e711886d",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xd336b311df4a3eeade2beefe9945958d1159878e2b5c45e7982da417b89c7ac7",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x954accafec72c265e1de9e670065f65256f351f7b15fbc9d9b1b1e6fc97eb9bf",
+          "hasCausality": true,
+          "samePoolCount": 1,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0x4e568a23bf14bb82d214c5f52308c3175a78c6dd78415a407fe8653e0be92138"
+        }
+      ]
+    },
+    "30488626": {
+      "summary": {
+        "totalArbitrageTxs": 4,
+        "typeDistribution": {
+          "begin": 2,
+          "inter": 2
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 4
+        },
+        "swapCountDistribution": {
+          "2": 2,
+          "3": 2
+        },
+        "protocolFrequency": {
+          "UniV2": 2,
+          "PancakeV2": 2,
+          "UniV3": 2,
+          "AeroV2": 2,
+          "PancakeV3": 2
+        },
+        "arbitragerFrequency": {
+          "0xa28669d95a6339da0b0216ae1683ef6f9edc2720": 1,
+          "0x8b8853f7c448bae9990bb6c015b9429f2e97b803": 1,
+          "0xa2fdb6353021a8c5681de02984e39c51d9aaaaaa": 1,
+          "0xc623f214c8eefc771147c5806be250db39555555": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 2
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0xce811b83afa8c63266fe7fc915e062851f9c64e8fd8fad56968d95efb510df72",
+            "transactionIndex": 9,
+            "poolAddress": "0x36a46dff597c5a444bbc521d26787f57867d2214",
+            "protocol": "UniV3",
+            "timeDifference": 203
+          },
+          {
+            "swapTxHash": "0x84a6f9237405e7384decab366a5f210f0b3ec6d1e00fb37dc6cf8e7ff9c92b51",
+            "transactionIndex": 36,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 176
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x6389e1cc32cbc44922b0f9dfb07175e89212dba78506d97abc7140a8cc6e4fa9",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x98880ca9c5edbadc3e12adf29b0191d00257902d10c5190063fea8849f0f4961",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xb9b8637255ded18cbac89b8cc3bd7a94a4864afe59444964ce7673d9ce99eaf3",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x9e755551eddb5ee8957c1d56ff4d2139908018c430f97cfc4a7a24ba89dfeba3",
+          "hasCausality": true,
+          "samePoolCount": 1,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0xce811b83afa8c63266fe7fc915e062851f9c64e8fd8fad56968d95efb510df72"
+        }
+      ]
+    },
+    "30488627": {
+      "summary": {
+        "totalArbitrageTxs": 2,
+        "typeDistribution": {
+          "begin": 1,
+          "inter": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 2
+        },
+        "swapCountDistribution": {
+          "2": 1,
+          "3": 1
+        },
+        "protocolFrequency": {
+          "UniV3": 2,
+          "UniV2": 1,
+          "PancakeV3": 1,
+          "Unknown": 1
+        },
+        "arbitragerFrequency": {
+          "0x6dfcac55d2c5e82ab63f5b7c982e53da60d243c4": 1,
+          "0x7fd624f3f97a7dd36195e8379f28db6147c270ff": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 1
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0x2e0cd1fbe134bcbb49e3c1a58f84290bd6f897b455eae1521ebd8da68d20fd38",
+            "transactionIndex": 1,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 149
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x33e33ff0cc04263533cec5fd8de6ded73117a78a482bd27a794592a8549508e1",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x89c10fe0791c8c0e39dc85d3fb40ef388304ee003102e416169a1fbb2a180d63",
+          "hasCausality": true,
+          "samePoolCount": 1,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0x2e0cd1fbe134bcbb49e3c1a58f84290bd6f897b455eae1521ebd8da68d20fd38"
+        }
+      ]
+    },
+    "30488628": {
+      "summary": {
+        "totalArbitrageTxs": 1,
+        "typeDistribution": {
+          "begin": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 1
+        },
+        "swapCountDistribution": {
+          "4": 1
+        },
+        "protocolFrequency": {
+          "UniV2": 4
+        },
+        "arbitragerFrequency": {
+          "0x53881155498cae8660195670591f1e23ae81431f": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {},
+        "triggerProtocolDistribution": {},
+        "allTriggers": []
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x0e776e5a56448b944c11f866b5cd144e0fae594a3a4279a775adf28f3dcd07a3",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488629": {
+      "summary": {
+        "totalArbitrageTxs": 1,
+        "typeDistribution": {
+          "begin": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 1
+        },
+        "swapCountDistribution": {
+          "3": 1
+        },
+        "protocolFrequency": {
+          "Unknown": 1,
+          "UniV3": 1,
+          "PancakeV3": 1
+        },
+        "arbitragerFrequency": {
+          "0x02e91065a360fc2b567af0636fee96f0f598f345": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {},
+        "triggerProtocolDistribution": {},
+        "allTriggers": []
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x6599173965324df3b2ca94d7440874f0d31a8b2c2c23bccaa8c4aa95cbd1e261",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488630": {
+      "summary": {
+        "totalArbitrageTxs": 2,
+        "typeDistribution": {
+          "inter": 1,
+          "begin": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 2
+        },
+        "swapCountDistribution": {
+          "2": 2
+        },
+        "protocolFrequency": {
+          "UniV3": 1,
+          "UniV2": 1,
+          "Unknown": 2
+        },
+        "arbitragerFrequency": {
+          "0x7372e84887bd82fd9c0433f981c8a75972a59290": 1,
+          "0x30ba8e793839c48fa8a97682529a2fc44a777777": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          "0-1s": 1
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0xb5e81c7e82f233a6b919fbf638f1343420bdf8327db0a2913318feaa968ad49a",
+            "transactionIndex": 23,
+            "poolAddress": "0x7cd6f8f77be32bcf5e7ffc41682c4c365b9a99cc",
+            "protocol": "UniV2",
+            "timeDifference": 1
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x8cbcac284f46691dd8ba43647c23209c421b0b9cf9c683c87d936f651e42e40f",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x5c496242262b626db44f2ee8e5aeee383da5ccb8dcb499c5699ea76c436cdb00",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488631": {
+      "summary": {
+        "totalArbitrageTxs": 2,
+        "typeDistribution": {
+          "begin": 1,
+          "inter": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 2
+        },
+        "swapCountDistribution": {
+          "3": 2
+        },
+        "protocolFrequency": {
+          "PancakeV3": 1,
+          "UniV3": 3,
+          "Unknown": 1,
+          "AeroV2": 1
+        },
+        "arbitragerFrequency": {
+          "0xa2fdb6353021a8c5681de02984e39c51d9aaaaaa": 1,
+          "0xe147cb993cca199673ce00f4a9cf49eeb718683c": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {},
+        "triggerProtocolDistribution": {},
+        "allTriggers": []
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0xb8c26c28538fe3b41962c200bad4d84c013e911f60ca923dc0078238d1da6642",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xb0d82621b0b308a450a105a33419b6dd6d9b60ab053856476ef074a0c9c92dfa",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488632": {
+      "summary": {
+        "totalArbitrageTxs": 1,
+        "typeDistribution": {
+          "inter": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 1
+        },
+        "swapCountDistribution": {
+          "2": 1
+        },
+        "protocolFrequency": {
+          "Unknown": 1,
+          "PancakeV3": 1
+        },
+        "arbitragerFrequency": {
+          "0x7fd624f3f97a7dd36195e8379f28db6147c270ff": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 1
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0x58c2bfcf4c7fd41c7f9a81a04d74ea56317cdb0bd48b03bcd32f6c8990323b28",
+            "transactionIndex": 1,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 198
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x58c5ffb11fb1142c78fa12b2f88719f11ae7292d3cdf763754a4d7467eddea53",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488633": {
+      "summary": {
+        "totalArbitrageTxs": 1,
+        "typeDistribution": {
+          "begin": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 1
+        },
+        "swapCountDistribution": {
+          "2": 1
+        },
+        "protocolFrequency": {
+          "Unknown": 2
+        },
+        "arbitragerFrequency": {
+          "0x30ba8e793839c48fa8a97682529a2fc44a777777": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {},
+        "triggerProtocolDistribution": {},
+        "allTriggers": []
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x1e47315394da0d5fb1035c617a8383e30a1903446414f7e06833ef574c0e834a",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488634": {
+      "summary": {
+        "totalArbitrageTxs": 0,
+        "typeDistribution": {},
+        "profitTokenDistribution": {},
+        "swapCountDistribution": {},
+        "protocolFrequency": {},
+        "arbitragerFrequency": {}
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {},
+        "triggerProtocolDistribution": {},
+        "allTriggers": []
+      },
+      "causalityTraces": []
+    },
+    "30488635": {
+      "summary": {
+        "totalArbitrageTxs": 1,
+        "typeDistribution": {
+          "begin": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 1
+        },
+        "swapCountDistribution": {
+          "2": 1
+        },
+        "protocolFrequency": {
+          "Unknown": 2
+        },
+        "arbitragerFrequency": {
+          "0x30ba8e793839c48fa8a97682529a2fc44a777777": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {},
+        "triggerProtocolDistribution": {},
+        "allTriggers": []
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x7f9f27b80cb607a10958887e0e67bb71a0cf0fec01a7f48bfe7424abe636677e",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488636": {
+      "summary": {
+        "totalArbitrageTxs": 1,
+        "typeDistribution": {
+          "begin": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 1
+        },
+        "swapCountDistribution": {
+          "3": 1
+        },
+        "protocolFrequency": {
+          "UniV2": 2,
+          "UniV3": 1
+        },
+        "arbitragerFrequency": {
+          "0x7372e84887bd82fd9c0433f981c8a75972a59290": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {},
+        "triggerProtocolDistribution": {},
+        "allTriggers": []
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x43385b5cd08792274357887b1c1d64646b66b5b77a195f415c6bf999ab0694e4",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488637": {
+      "summary": {
+        "totalArbitrageTxs": 2,
+        "typeDistribution": {
+          "inter": 2
+        },
+        "profitTokenDistribution": {
+          "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913": 1,
+          "0x4200000000000000000000000000000000000006": 1
+        },
+        "swapCountDistribution": {
+          "2": 1,
+          "3": 1
+        },
+        "protocolFrequency": {
+          "UniV3": 2,
+          "PancakeV3": 2,
+          "Unknown": 1
+        },
+        "arbitragerFrequency": {
+          "0x2b9d5ee187892af23ddd328ce0774de81465800d": 1,
+          "0x44198866839df987d115e3bda452610db879f893": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          "2-5s": 1
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0x93248f3a92f70e72cd1432fa1f4353a31c014817f2d4e90f079e47e61f5e92da",
+            "transactionIndex": 173,
+            "poolAddress": "0x6b385c432844f47f8226dd3cfb3899242015ef37",
+            "protocol": "UniV3",
+            "timeDifference": 5
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0xb75f045163d86e07a2156573a72db1274957b2bc99d2c797f79e298a7b60bf55",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x808d77652d26c978437e45979138a604a78dbabb9c6e84df2f12c90231430e4c",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488638": {
+      "summary": {
+        "totalArbitrageTxs": 5,
+        "typeDistribution": {
+          "inter": 4,
+          "begin": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 4,
+          "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf": 1
+        },
+        "swapCountDistribution": {
+          "2": 2,
+          "3": 3
+        },
+        "protocolFrequency": {
+          "PancakeV3": 6,
+          "AlienV3": 1,
+          "SolidV3": 1,
+          "Unknown": 3,
+          "UniV3": 1,
+          "DackieV3": 1
+        },
+        "arbitragerFrequency": {
+          "0xa8d1b40f7b3d731d1aad18da051d87dc914fb5df": 1,
+          "0x30ba8e793839c48fa8a97682529a2fc44a777777": 1,
+          "0xcbf098c48c0b97528f882178c817a0a43450f223": 1,
+          "0x47fd87c7f3b3dacaf0f3ed24703a8e76903fd1a6": 1,
+          "0x7fd624f3f97a7dd36195e8379f28db6147c270ff": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 6
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0x876ef45829188e91c2ffab592c6e7267fe293ab5a45e316f85222dde8261fdb1",
+            "transactionIndex": 8,
+            "poolAddress": "0xc211e1f853a898bd1302385ccde55f33a8c4b3f3",
+            "protocol": "PancakeV3",
+            "timeDifference": 63
+          },
+          {
+            "swapTxHash": "0xa565e0273e350e1d09ae4095a4b2278d31b4a1a7bbc4f30ea9d64282d91da3f7",
+            "transactionIndex": 5,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 201
+          },
+          {
+            "swapTxHash": "0x3f84222e9e7952adc41d4576efa8582b1ee350d0c8863dcbe5ddaedff2e2a10a",
+            "transactionIndex": 26,
+            "poolAddress": "0xf6c0a374a483101e04ef5f7ac9bd15d9142bac95",
+            "protocol": "PancakeV3",
+            "timeDifference": 180
+          },
+          {
+            "swapTxHash": "0x440f9b8a5718ee5ab1731e0864101b994ae74f40de328e966a1a2ad4cf3411e5",
+            "transactionIndex": 126,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 80
+          },
+          {
+            "swapTxHash": "0xa565e0273e350e1d09ae4095a4b2278d31b4a1a7bbc4f30ea9d64282d91da3f7",
+            "transactionIndex": 5,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 233
+          },
+          {
+            "swapTxHash": "0x440f9b8a5718ee5ab1731e0864101b994ae74f40de328e966a1a2ad4cf3411e5",
+            "transactionIndex": 126,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 112
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0xbb953824f85d024deecc499730bd98db5734ff79e2c950d7e7618069e646c781",
+          "hasCausality": true,
+          "samePoolCount": 1,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0x876ef45829188e91c2ffab592c6e7267fe293ab5a45e316f85222dde8261fdb1"
+        },
+        {
+          "arbTxHash": "0x8d191b2d752298267fdcf4f819d668cd709c23ad00ece6dd574ac81e0845dedc",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xe6d1019273ad789d32bed00acfc168a955479009dc2aee0195b78b454e94aed0",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xd736be1b8088311d63efb012637629f67e690b2b49cd9f6dc8cc25f24081e56a",
+          "hasCausality": true,
+          "samePoolCount": 2,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0x440f9b8a5718ee5ab1731e0864101b994ae74f40de328e966a1a2ad4cf3411e5"
+        },
+        {
+          "arbTxHash": "0x63a64f3a1f9ea06f5e324c2b670f5f6fc0cd016ec25029dc61fd89d637fb5319",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488639": {
+      "summary": {
+        "totalArbitrageTxs": 1,
+        "typeDistribution": {
+          "begin": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 1
+        },
+        "swapCountDistribution": {
+          "2": 1
+        },
+        "protocolFrequency": {
+          "Unknown": 1,
+          "PancakeV3": 1
+        },
+        "arbitragerFrequency": {
+          "0xc623f214c8eefc771147c5806be250db39555555": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {},
+        "triggerProtocolDistribution": {},
+        "allTriggers": []
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0xeb57342b6f4bcfbb086b7370053e58be50e3e89ae16f55461cfa849394d7f5b7",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488640": {
+      "summary": {
+        "totalArbitrageTxs": 1,
+        "typeDistribution": {
+          "inter": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 1
+        },
+        "swapCountDistribution": {
+          "2": 1
+        },
+        "protocolFrequency": {
+          "AeroV2": 1,
+          "AeroV3": 1
+        },
+        "arbitragerFrequency": {
+          "0xf5bf7a4d73c03b417abb7af07a69abcd66f3b80a": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          "0-1s": 1
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0xffbbe0c84f5b09aec9496dfdb3477286dfda8d0def4d928896845d70af13dd36",
+            "transactionIndex": 44,
+            "poolAddress": "0xac4e562d7c6108f971321f14238e24ae2cc398ac",
+            "protocol": "AeroV2",
+            "timeDifference": 1
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0xc8f8e9f46934ab61b1cb660537a24dc3a97d98d373fefb1ac4689be9c0ffd7be",
+          "hasCausality": true,
+          "samePoolCount": 1,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0xffbbe0c84f5b09aec9496dfdb3477286dfda8d0def4d928896845d70af13dd36"
+        }
+      ]
+    },
+    "30488641": {
+      "summary": {
+        "totalArbitrageTxs": 4,
+        "typeDistribution": {
+          "begin": 3,
+          "inter": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 4
+        },
+        "swapCountDistribution": {
+          "2": 3,
+          "3": 1
+        },
+        "protocolFrequency": {
+          "SolidV3": 1,
+          "Unknown": 3,
+          "UniV3": 2,
+          "AeroV3": 1,
+          "PancakeV3": 2
+        },
+        "arbitragerFrequency": {
+          "0xa2fdb6353021a8c5681de02984e39c51d9aaaaaa": 1,
+          "0x477fd98c600c36f46e135376d1e276afc3472ed3": 1,
+          "0xc623f214c8eefc771147c5806be250db39555555": 1,
+          "0x7fd624f3f97a7dd36195e8379f28db6147c270ff": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 2
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0x98305f4b9b8f0965090f6a31c0d8d3676136a3f583841d708f6131c4ce9c95c5",
+            "transactionIndex": 2,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 195
+          },
+          {
+            "swapTxHash": "0xe7e79bd5257e3a5dec1fbe2fe3f9a97cc75f8fb3cab9eb3ea735c67f3eeaea21",
+            "transactionIndex": 3,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 194
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0xa9db71cb6b097240047902e856357a480b24e1e482c3c8323bc7c58429f05ac3",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x1cb4f986f259214a216640ae0340958b276401b72700646ee970e32d7ac753b1",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xf8cc6849911b9e8ed05c8172ce6a76cd72e988dfb91cc90e87e5d3d399528a3a",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x5359b9e23cb88febac0b089c413afb1e23357a99a20dd2c43a466da49ad86e98",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488642": {
+      "summary": {
+        "totalArbitrageTxs": 0,
+        "typeDistribution": {},
+        "profitTokenDistribution": {},
+        "swapCountDistribution": {},
+        "protocolFrequency": {},
+        "arbitragerFrequency": {}
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {},
+        "triggerProtocolDistribution": {},
+        "allTriggers": []
+      },
+      "causalityTraces": []
+    },
+    "30488643": {
+      "summary": {
+        "totalArbitrageTxs": 2,
+        "typeDistribution": {
+          "begin": 1,
+          "inter": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 2
+        },
+        "swapCountDistribution": {
+          "2": 2
+        },
+        "protocolFrequency": {
+          "AeroV3": 2,
+          "AeroV2": 2
+        },
+        "arbitragerFrequency": {
+          "0xa28669d95a6339da0b0216ae1683ef6f9edc2720": 1,
+          "0x6a0c9953b0773eeb90e694114086656a7582e08f": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {},
+        "triggerProtocolDistribution": {},
+        "allTriggers": []
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0xc1a2dda0ad5e4cb1035df505bf70cf0a8cb1f83ddd2e091ffba15e21d9dbba46",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xe0d045f94c2783cb2cd937fbfc289b997a0e7cdc4105ccd6be049a4b10870b1c",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488644": {
+      "summary": {
+        "totalArbitrageTxs": 2,
+        "typeDistribution": {
+          "begin": 1,
+          "inter": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 2
+        },
+        "swapCountDistribution": {
+          "3": 2
+        },
+        "protocolFrequency": {
+          "UniV3": 1,
+          "AeroV2": 1,
+          "PancakeV3": 2,
+          "SolidV3": 1,
+          "Unknown": 1
+        },
+        "arbitragerFrequency": {
+          "0xa2fdb6353021a8c5681de02984e39c51d9aaaaaa": 1,
+          "0xc623f214c8eefc771147c5806be250db39555555": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 2
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0xbc98267c40d5ab79f0d99f4eb21b586f1849de5c3109dd457620e2ed61f6b71b",
+            "transactionIndex": 8,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 191
+          },
+          {
+            "swapTxHash": "0xb928ceb173b8bbe2401afe32d6225144ad54beaf88a335ee7828a9e30bba96fe",
+            "transactionIndex": 59,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 140
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0xabf287be92c5f6680b70bbdb4d1217cdc59ad06786234783bc4dde425be27e8b",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x50d711051b8609e85fe1c27d74e8778a93c1e2099c1d8f72d0ca2b9124482201",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488645": {
+      "summary": {
+        "totalArbitrageTxs": 2,
+        "typeDistribution": {
+          "begin": 1,
+          "inter": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 2
+        },
+        "swapCountDistribution": {
+          "3": 1,
+          "4": 1
+        },
+        "protocolFrequency": {
+          "UniV2": 2,
+          "UniV3": 2,
+          "Unknown": 2,
+          "PancakeV3": 1
+        },
+        "arbitragerFrequency": {
+          "0x53881155498cae8660195670591f1e23ae81431f": 1,
+          "0x7fd624f3f97a7dd36195e8379f28db6147c270ff": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 2
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0x36a1de6eaa7a4475fd989946af82b3b524e869dc0c33727da0d9db332804c464",
+            "transactionIndex": 6,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 224
+          },
+          {
+            "swapTxHash": "0x9fa18d6bfc8e331808bec28b7145e17ab563b9ee3480ee523a1156c034fc33fd",
+            "transactionIndex": 87,
+            "poolAddress": "0x74cb6260be6f31965c239df6d6ef2ac2b5d4f020",
+            "protocol": "Unknown",
+            "timeDifference": 143
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x0d83565cc110e7c5249a0a88eb46649965632afc51885a0a955b9589501ed99c",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xe253229518b686ff6b6e0dd5d939ce9d2a106d2e03a75b83b7b58234888b372c",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488646": {
+      "summary": {
+        "totalArbitrageTxs": 1,
+        "typeDistribution": {
+          "begin": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 1
+        },
+        "swapCountDistribution": {
+          "3": 1
+        },
+        "protocolFrequency": {
+          "UniV3": 2,
+          "UniV2": 1
+        },
+        "arbitragerFrequency": {
+          "0xa8be888c28d0a81b624bc9937f51293b0f63ffc1": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {},
+        "triggerProtocolDistribution": {},
+        "allTriggers": []
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0xca4c1e8f2e305a6e37006dd476e067e84cb9a94a77f654ef47fb584da9d170e6",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488647": {
+      "summary": {
+        "totalArbitrageTxs": 5,
+        "typeDistribution": {
+          "begin": 1,
+          "inter": 4
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 4,
+          "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913": 1
+        },
+        "swapCountDistribution": {
+          "2": 2,
+          "3": 3
+        },
+        "protocolFrequency": {
+          "UniV2": 1,
+          "UniV3": 1,
+          "PancakeV3": 6,
+          "AlienV3": 1,
+          "AeroV3": 3,
+          "Unknown": 1
+        },
+        "arbitragerFrequency": {
+          "0xae5ec713342b07ede21643615309a3f776776593": 1,
+          "0x53881155498cae8660195670591f1e23ae81431f": 1,
+          "0x08b9ca932801e4984cb99963619cc7555900a971": 1,
+          "0x2efc4931f2e64b38d6ae3d714466840fbc951f56": 1,
+          "0x2b9d5ee187892af23ddd328ce0774de81465800d": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          "0-1s": 1,
+          ">10s": 1
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0xedd6cec9d7cb55c5da701a0f2d5558a7b3d14540126677260103c9ba78a17ab9",
+            "transactionIndex": 45,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 1
+          },
+          {
+            "swapTxHash": "0xedd6cec9d7cb55c5da701a0f2d5558a7b3d14540126677260103c9ba78a17ab9",
+            "transactionIndex": 45,
+            "poolAddress": "0x72ab388e2e2f6facef59e3c3fa2c4e29011c2d38",
+            "protocol": "PancakeV3",
+            "timeDifference": 56
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0xd2517d7917957e202886a5f67f89edc0f5f656ac0acd0ee6a87f696983b0861b",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x59e6c02022eaffa4650918618e9dbbc3177b059bb1ed5dff9acbbb0c38d23910",
+          "hasCausality": true,
+          "samePoolCount": 1,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0xedd6cec9d7cb55c5da701a0f2d5558a7b3d14540126677260103c9ba78a17ab9"
+        },
+        {
+          "arbTxHash": "0xcc536cc81bbe55a6cbc07750296497e48bd85cd17c5ebb51c3a54331987b9788",
+          "hasCausality": true,
+          "samePoolCount": 1,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": "0xedd6cec9d7cb55c5da701a0f2d5558a7b3d14540126677260103c9ba78a17ab9"
+        },
+        {
+          "arbTxHash": "0xcafed4c4fc625cb5136451fef9d76fc41d3c74bebc54cf9c1d423e2a3b641b26",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xe4e88789e58a1516dedcfde16942b8477863646d181e8ab220e4c99d95e6ac97",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488648": {
+      "summary": {
+        "totalArbitrageTxs": 1,
+        "typeDistribution": {
+          "begin": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 1
+        },
+        "swapCountDistribution": {
+          "3": 1
+        },
+        "protocolFrequency": {
+          "SolidV3": 1,
+          "Unknown": 1,
+          "PancakeV3": 1
+        },
+        "arbitragerFrequency": {
+          "0xa2fdb6353021a8c5681de02984e39c51d9aaaaaa": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {},
+        "triggerProtocolDistribution": {},
+        "allTriggers": []
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0xfa2f92262992430413e006c6573afc7ebfc777729fac4c9ce5744120bf1bdd68",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488649": {
+      "summary": {
+        "totalArbitrageTxs": 3,
+        "typeDistribution": {
+          "begin": 2,
+          "inter": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 3
+        },
+        "swapCountDistribution": {
+          "2": 1,
+          "3": 2
+        },
+        "protocolFrequency": {
+          "SolidV3": 1,
+          "Unknown": 4,
+          "PancakeV3": 1,
+          "UniV3": 1,
+          "AeroV3": 1
+        },
+        "arbitragerFrequency": {
+          "0xc623f214c8eefc771147c5806be250db39555555": 1,
+          "0xe92d471a9fb813524b8eee38892ce4143e7ccccc": 1,
+          "0xfcf39b96958f6deeb93954d2effd973fa6eddddd": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {},
+        "triggerProtocolDistribution": {},
+        "allTriggers": []
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0xd95370c76827864efb30a958f017a08dc30dd95145b22826b5fd8dc5b4969b08",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0xbea45812941a615575680846355fcfd9a7b94188a05702d8d078208e65409614",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x08f586ce21aa51c47e4d61ba0fb6f2bc2d000d8a03626be75a1be044a9d9f560",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    },
+    "30488650": {
+      "summary": {
+        "totalArbitrageTxs": 3,
+        "typeDistribution": {
+          "begin": 2,
+          "inter": 1
+        },
+        "profitTokenDistribution": {
+          "0x4200000000000000000000000000000000000006": 3
+        },
+        "swapCountDistribution": {
+          "2": 2,
+          "3": 1
+        },
+        "protocolFrequency": {
+          "UniV3": 2,
+          "UniV2": 1,
+          "SolidV3": 2,
+          "Unknown": 1,
+          "PancakeV3": 1
+        },
+        "arbitragerFrequency": {
+          "0x098443b6e0fa9499fb336439c9a7687e548a2a31": 1,
+          "0xa2fdb6353021a8c5681de02984e39c51d9aaaaaa": 1,
+          "0xcb4b518986b12d0f3856a9589f5f7981fa962077": 1
+        }
+      },
+      "triggerAnalysis": {
+        "poolFrequency": {},
+        "timeDifferenceDistribution": {
+          ">10s": 1
+        },
+        "triggerProtocolDistribution": {},
+        "allTriggers": [
+          {
+            "swapTxHash": "0x347f4c0c0a16805792966229f687a89c0c14c6f8fbb77d2536abf85c200649f8",
+            "transactionIndex": 84,
+            "poolAddress": "0x54d281c7cc029a9dd71f9acb7487dd95b1eecf5a",
+            "protocol": "PancakeV3",
+            "timeDifference": 62
+          }
+        ]
+      },
+      "causalityTraces": [
+        {
+          "arbTxHash": "0x84d0a8d3927b596c99887cc3aa2048a15092b44ad5d6d942bb293b0f15b67064",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x98ade4f951e3e7d888e36205015f235b65372203fc8f9ee17af1453355a28328",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        },
+        {
+          "arbTxHash": "0x514cf766f9c8a840e38df1e1f78b72e3665c8c986d2744a53b7ab538b48e3e16",
+          "hasCausality": false,
+          "samePoolCount": 0,
+          "reverseDirCount": 0,
+          "tokenMatchCount": 0,
+          "closestTrigger": null
+        }
+      ]
+    }
+  }
+}

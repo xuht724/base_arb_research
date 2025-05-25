@@ -12,7 +12,7 @@ contract CounterTest is Test {
 
     function setUp() public {
         // 创建特定区块和交易后的 fork
-        bytes32 txHash = 0x962305e69f95445cff9af82882c9e8c1ffceb04912545c80d97f41a168c8d3f9;
+        bytes32 txHash = 0x5d41ee83179defa0ac828f1dfcb47ff7140e9d7b55f4051aae549360bf61d34b;
         uint256 forkId = vm.createFork(
             "https://base-mainnet.core.chainstack.com/1acdea40c9ad7f49fc2be9181c350461",
             txHash
@@ -56,8 +56,8 @@ contract CounterTest is Test {
 
     function testSwapAfterTx() public {
         // 测试的池子地址
-        address pool1 = 0xF68001b66Cb98345C05b2e3EFDEe1dB8Fc01A76c;
-        address pool2 = 0xa1B6F148F208FFe9Eb04C68BcBFEa3525f2536d6;
+        address pool1 = 0xa575dcdc023db26479379375731a05E8F580409E;
+        address pool2 = 0x0197B7c77F8ecB9857f110e59bdFB401471dDD95;
 
 
         // uint256 inputAmount = 22168272018432617;  // 去掉小数点后18位
@@ -75,7 +75,7 @@ contract CounterTest is Test {
             pool2,
             baseInput,
             maxInput,
-            false
+            true
         );
         // 输出结果
         console.log("flag", flag);

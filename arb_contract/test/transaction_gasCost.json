@@ -1,0 +1,417 @@
+{
+    "transactions": [
+        {
+            "hash": "0xe594db7f7da7aa9c90066cf9c96182e5a0aa96f73d5b136697881bec63978f51",
+            "preHash": "0xfba677f9b22ca6316f4f6e921a2253411326e74f58ff8b3791e1e0e005c4303c",
+            "gasCost": "",
+            "blockNumber": "29294874",
+            "logNum": 6,
+            "potentialArb": true,
+            "effectiveGasPrice": "2114926",
+            "gasUsed": "882384",
+            "l2Fee": "0.000001866176863584",
+            "profit": "0.001919938645911469",
+            "pools": [
+              {
+                "token0": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+                "token1": "0x4200000000000000000000000000000000000006",
+                "factory": "0x33128a8fc17869897dce68ed026d694621f6fdfd",
+                "protocol": "UniV3"
+              },
+              {
+                "token0": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+                "token1": "0x4200000000000000000000000000000000000006",
+                "factory": "0x5e7bb104d84c7cb9b682aac2f3d509f5f406809a",
+                "protocol": "AeroV3"
+              }
+            ],
+            "protocols": [
+              "AeroV3Swap"
+            ],
+            "tokens": [
+              "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+              "0x4200000000000000000000000000000000000006"
+            ],
+            "involvedPools": [
+              "0x9c087Eb773291e50CF6c6a90ef0F4500e349B903",
+              "0x3f0296BF652e19bca772EC3dF08b32732F93014A"
+            ],
+            "involvedProtocols": [
+              "UniV3",
+              "AeroV3"
+            ],
+            "timestamp": "2025-04-23 03:31:35"
+        },
+        {
+            "hash": "0x5bcb778a522f8f2434a230030d16468a490769fbfc9f1cab370c6c449ff8a3e0",
+            "preHash": "0xde5dc098145eaa8fc4764283b640ff24833840f3dd9a86294601fa0019c39ba9",
+            "gasCost": "3153182",
+            "blockNumber": "29283495",
+            "logNum": 6,
+            "potentialArb": true,
+            "effectiveGasPrice": "2159296",
+            "gasUsed": "635145",
+            "l2Fee": "0.00000137146605792",
+            "profit": "0.000013681856081945",
+            "pools": [
+              {
+                "token0": "0x3636a7734b669ce352e97780df361ce1f809c58c",
+                "token1": "0x4200000000000000000000000000000000000006",
+                "factory": "0x33128a8fc17869897dce68ed026d694621f6fdfd",
+                "protocol": "UniV3"
+              },
+              {
+                "token0": "0x3636a7734b669ce352e97780df361ce1f809c58c",
+                "token1": "0x4200000000000000000000000000000000000006",
+                "factory": "0x33128a8fc17869897dce68ed026d694621f6fdfd",
+                "protocol": "UniV3"
+              }
+            ],
+            "protocols": [
+              "AeroV3Swap"
+            ],
+            "tokens": [
+              "0x3636a7734b669ce352e97780df361ce1f809c58c",
+              "0x4200000000000000000000000000000000000006"
+            ],
+            "involvedPools": [
+              "0x0197B7c77F8ecB9857f110e59bdFB401471dDD95",
+              "0xa575dcdc023db26479379375731a05E8F580409E"
+            ],
+            "involvedProtocols": [
+              "UniV3"
+            ],
+            "timestamp": "2025-04-22 21:12:17"
+        },
+        {
+            "hash": "0xee570f16abfdf41d14875c95a6e972de53d45e9a972c9ffd1f832c4690a71054",
+            "preHash": "0x5d41ee83179defa0ac828f1dfcb47ff7140e9d7b55f4051aae549360bf61d34b",
+            "gasCost": "",
+            "blockNumber": "29283732",
+            "logNum": 6,
+            "potentialArb": true,
+            "effectiveGasPrice": "2194766",
+            "gasUsed": "631249",
+            "l2Fee": "0.000001385443842734",
+            "profit": "0.000017406304225909",
+            "pools": [
+              {
+                "token0": "0x3636a7734b669ce352e97780df361ce1f809c58c",
+                "token1": "0x4200000000000000000000000000000000000006",
+                "factory": "0x33128a8fc17869897dce68ed026d694621f6fdfd",
+                "protocol": "UniV3"
+              },
+              {
+                "token0": "0x3636a7734b669ce352e97780df361ce1f809c58c",
+                "token1": "0x4200000000000000000000000000000000000006",
+                "factory": "0x33128a8fc17869897dce68ed026d694621f6fdfd",
+                "protocol": "UniV3"
+              }
+            ],
+            "protocols": [
+              "AeroV3Swap"
+            ],
+            "tokens": [
+              "0x3636a7734b669ce352e97780df361ce1f809c58c",
+              "0x4200000000000000000000000000000000000006"
+            ],
+            "involvedPools": [
+              "0xa575dcdc023db26479379375731a05E8F580409E",
+              "0x0197B7c77F8ecB9857f110e59bdFB401471dDD95"
+            ],
+            "involvedProtocols": [
+              "UniV3"
+            ],
+            "timestamp": "2025-04-22 21:20:11"
+        },
+        {
+            "hash": "0xf2e936f818a04779c18fcfbb1e4c4c47130722356b36897393896056f3cc86fd",
+            "preHash": "",
+            "gasCost": "",
+            "blockNumber": "29281265",
+            "logNum": 6,
+            "potentialArb": true,
+            "effectiveGasPrice": "2116152",
+            "gasUsed": "606637",
+            "l2Fee": "0.000001283736100824",
+            "profit": "0.000003657830700551",
+            "pools": [
+              {
+                "token0": "0x3636a7734b669ce352e97780df361ce1f809c58c",
+                "token1": "0x4200000000000000000000000000000000000006",
+                "factory": "0x33128a8fc17869897dce68ed026d694621f6fdfd",
+                "protocol": "UniV3"
+              },
+              {
+                "token0": "0x3636a7734b669ce352e97780df361ce1f809c58c",
+                "token1": "0x4200000000000000000000000000000000000006",
+                "factory": "0x33128a8fc17869897dce68ed026d694621f6fdfd",
+                "protocol": "UniV3"
+              }
+            ],
+            "protocols": [
+              "AeroV3Swap"
+            ],
+            "tokens": [
+              "0x3636a7734b669ce352e97780df361ce1f809c58c",
+              "0x4200000000000000000000000000000000000006"
+            ],
+            "involvedPools": [
+              "0x0197B7c77F8ecB9857f110e59bdFB401471dDD95",
+              "0xa575dcdc023db26479379375731a05E8F580409E"
+            ],
+            "involvedProtocols": [
+              "UniV3"
+            ],
+            "timestamp": "2025-04-22 19:57:57"
+        },
+        {
+            "hash": "0xff2e3075242bd2349853e938e6bc2f187abadeffa24da1ffc96afbb917b27559",
+            "preHash": "",
+            "gasCost": "",
+            "blockNumber": "29281586",
+            "logNum": 6,
+            "potentialArb": true,
+            "effectiveGasPrice": "2125122",
+            "gasUsed": "625572",
+            "l2Fee": "0.000001329416819784",
+            "profit": "0.000003653776219793",
+            "pools": [
+              {
+                "token0": "0x3636a7734b669ce352e97780df361ce1f809c58c",
+                "token1": "0x4200000000000000000000000000000000000006",
+                "factory": "0x33128a8fc17869897dce68ed026d694621f6fdfd",
+                "protocol": "UniV3"
+              },
+              {
+                "token0": "0x3636a7734b669ce352e97780df361ce1f809c58c",
+                "token1": "0x4200000000000000000000000000000000000006",
+                "factory": "0x33128a8fc17869897dce68ed026d694621f6fdfd",
+                "protocol": "UniV3"
+              }
+            ],
+            "protocols": [
+              "AeroV3Swap"
+            ],
+            "tokens": [
+              "0x3636a7734b669ce352e97780df361ce1f809c58c",
+              "0x4200000000000000000000000000000000000006"
+            ],
+            "involvedPools": [
+              "0xa575dcdc023db26479379375731a05E8F580409E",
+              "0x0197B7c77F8ecB9857f110e59bdFB401471dDD95"
+            ],
+            "involvedProtocols": [
+              "UniV3"
+            ],
+            "timestamp": "2025-04-22 20:08:39"
+        },
+        {
+            "hash": "0xd5c9ed766c271b02b91bcba589a79beffebc70832a146a4a9fa7fc63d113fdfd",
+            "preHash": "",
+            "gasCost": "",
+            "blockNumber": "29282770",
+            "logNum": 6,
+            "potentialArb": true,
+            "effectiveGasPrice": "2129468",
+            "gasUsed": "625825",
+            "l2Fee": "0.0000013326743111",
+            "profit": "0.000482367988490601",
+            "pools": [
+              {
+                "token0": "0x3636a7734b669ce352e97780df361ce1f809c58c",
+                "token1": "0x4200000000000000000000000000000000000006",
+                "factory": "0x33128a8fc17869897dce68ed026d694621f6fdfd",
+                "protocol": "UniV3"
+              },
+              {
+                "token0": "0x3636a7734b669ce352e97780df361ce1f809c58c",
+                "token1": "0x4200000000000000000000000000000000000006",
+                "factory": "0x33128a8fc17869897dce68ed026d694621f6fdfd",
+                "protocol": "UniV3"
+              }
+            ],
+            "protocols": [
+              "AeroV3Swap"
+            ],
+            "tokens": [
+              "0x3636a7734b669ce352e97780df361ce1f809c58c",
+              "0x4200000000000000000000000000000000000006"
+            ],
+            "involvedPools": [
+              "0x0197B7c77F8ecB9857f110e59bdFB401471dDD95",
+              "0xa575dcdc023db26479379375731a05E8F580409E"
+            ],
+            "involvedProtocols": [
+              "UniV3"
+            ],
+            "timestamp": "2025-04-22 20:48:07"
+        },
+        {
+            "hash": "0xee48d23430fb5c2b25d247572ab4b6619e2bf38389be3ffd539a1e2a38291eaf",
+            "preHash": "",
+            "gasCost": "",
+            "blockNumber": "29241677",
+            "logNum": 6,
+            "potentialArb": true,
+            "effectiveGasPrice": "1997349",
+            "gasUsed": "844895",
+            "l2Fee": "0.000001687550183355",
+            "profit": "0.00009029758133705",
+            "pools": [
+              {
+                "token0": "0x4200000000000000000000000000000000000006",
+                "token1": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+                "factory": "0x5e7bb104d84c7cb9b682aac2f3d509f5f406809a",
+                "protocol": "AeroV3"
+              },
+              {
+                "token0": "0x4200000000000000000000000000000000000006",
+                "token1": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+                "factory": "0x0bfbcf9fa4f9c56b0f40a671ad40e0805a091865",
+                "protocol": "PancakeV3"
+              }
+            ],
+            "protocols": [
+              "AeroV3Swap",
+              "PancakeV3Swap"
+            ],
+            "tokens": [
+              "0x4200000000000000000000000000000000000006",
+              "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf"
+            ],
+            "involvedPools": [
+              "0x70acdf2ad0bf2402c957154f944c19ef4e1cbae1",
+              "0xc211e1f853a898bd1302385ccde55f33a8c4b3f3"
+            ],
+            "involvedProtocols": [
+              "AeroV3",
+              "PancakeV3"
+            ],
+            "timestamp": "2025-04-21 21:58:21"
+        },
+        {
+            "hash": "0xe496412db5c33e070f4e5629433605ffc58aeb93c1c867b6a14cdd8da3ec0a65",
+            "preHash": "",
+            "gasCost": "",
+            "blockNumber": "29243437",
+            "logNum": 6,
+            "potentialArb": true,
+            "effectiveGasPrice": "2108400",
+            "gasUsed": "790252",
+            "l2Fee": "0.0000016661673168",
+            "profit": "0.000000234277797444",
+            "pools": [
+              {
+                "token0": "0x4200000000000000000000000000000000000006",
+                "token1": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+                "factory": "0x0bfbcf9fa4f9c56b0f40a671ad40e0805a091865",
+                "protocol": "PancakeV3"
+              },
+              {
+                "token0": "0x4200000000000000000000000000000000000006",
+                "token1": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+                "factory": "0x0bfbcf9fa4f9c56b0f40a671ad40e0805a091865",
+                "protocol": "PancakeV3"
+              }
+            ],
+            "protocols": [
+              "PancakeV3Swap"
+            ],
+            "tokens": [
+              "0x4200000000000000000000000000000000000006",
+              "0x940181a94a35a4569e4529a3cdfb74e38fd98631"
+            ],
+            "involvedPools": [
+              "0xf4dfb8647c3ef75c5a71b7b0ee9240bdccce8697",
+              "0x20cb8f872ae894f7c9e32e621c186e5afce82fd0"
+            ],
+            "involvedProtocols": [
+              "PancakeV3"
+            ],
+            "timestamp": "2025-04-21 22:57:01"
+        },
+        {
+            "hash": "0xf4287af1b096139f15bdb4b898d2d9e82ea71a9c728c09daba4a9c8e08eefbb1",
+            "preHash": "",
+            "gasCost": "",
+            "blockNumber": "29238147",
+            "logNum": 6,
+            "potentialArb": true,
+            "effectiveGasPrice": "2046229",
+            "gasUsed": "733002",
+            "l2Fee": "0.000001499889949458",
+            "profit": "0.000000972500933757",
+            "pools": [
+              {
+                "token0": "0x4200000000000000000000000000000000000006",
+                "token1": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+                "factory": "0x0bfbcf9fa4f9c56b0f40a671ad40e0805a091865",
+                "protocol": "PancakeV3"
+              },
+              {
+                "token0": "0x4200000000000000000000000000000000000006",
+                "token1": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+                "factory": "0x0bfbcf9fa4f9c56b0f40a671ad40e0805a091865",
+                "protocol": "PancakeV3"
+              }
+            ],
+            "protocols": [
+              "PancakeV3Swap"
+            ],
+            "tokens": [
+              "0x4200000000000000000000000000000000000006",
+              "0x940181a94a35a4569e4529a3cdfb74e38fd98631"
+            ],
+            "involvedPools": [
+              "0x20cb8f872ae894f7c9e32e621c186e5afce82fd0",
+              "0xf4dfb8647c3ef75c5a71b7b0ee9240bdccce8697"
+            ],
+            "involvedProtocols": [
+              "PancakeV3"
+            ],
+            "timestamp": "2025-04-21 20:00:41"
+        },
+        {
+            "hash": "0xad018b13cedbca64edaf65cd3f209b1a5d0d110a238cdef5f18182e98cc0dd00",
+            "preHash": "",
+            "gasCost": "",
+            "blockNumber": "29238764",
+            "logNum": 6,
+            "potentialArb": true,
+            "effectiveGasPrice": "2064228",
+            "gasUsed": "893022",
+            "l2Fee": "0.000001843401017016",
+            "profit": "0.000067040031644723",
+            "pools": [
+              {
+                "token0": "0x4200000000000000000000000000000000000006",
+                "token1": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+                "factory": "0x0bfbcf9fa4f9c56b0f40a671ad40e0805a091865",
+                "protocol": "PancakeV3"
+              },
+              {
+                "token0": "0x4200000000000000000000000000000000000006",
+                "token1": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+                "factory": "0x0bfbcf9fa4f9c56b0f40a671ad40e0805a091865",
+                "protocol": "PancakeV3"
+              }
+            ],
+            "protocols": [
+              "PancakeV3Swap"
+            ],
+            "tokens": [
+              "0x4200000000000000000000000000000000000006",
+              "0x940181a94a35a4569e4529a3cdfb74e38fd98631"
+            ],
+            "involvedPools": [
+              "0x20cb8f872ae894f7c9e32e621c186e5afce82fd0",
+              "0xf4dfb8647c3ef75c5a71b7b0ee9240bdccce8697"
+            ],
+            "involvedProtocols": [
+              "PancakeV3"
+            ],
+            "timestamp": "2025-04-21 20:21:15"
+        }
+    ]
+}
