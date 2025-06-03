@@ -41,6 +41,24 @@ export const logTopicsMap = {
     "0xe5ce249087ce04f05a957192435400fd97868dba0e6a4b4c049abf8af80dae78",
   BalancerPoolSwapFeeChanged:
     "0xa9ba3ffe0b6c366b81232caab38605a0699ad5398d6cce76f91ee809e322dafc",
+  
+  // Curve事件
+  CurveTokenExchange: "0x8b3e96f2b889fa771c53c981b40daf005f63f637f1869f707052d15a3dd97140",
+  CurveTokenExchangeUnderlying: "0xd013ca23e77a65003c2c659c5442c00c805371b7fc1ebd4c206c41d1536bd90b",
+  // 更多Curve事件
+  CurveAddLiquidity: "0x26f55a85081d24974e85c6c00045d0f0453991e95873f52bff0d21af4079a768",
+  CurveRemoveLiquidity: "0x7c363854ccf79623411f8995b362bce5eddff18c927edc6f5dbbb5e05819a82c",
+  CurveRemoveLiquidityOne: "0x5ad056f2e28a8cec232015406b843668c1e36cda598127ec3b8c59b8c72773a0",
+  CurveRemoveLiquidityImbalance: "0x9878ca375e106f2a43c3ce99d8a7f5bb53dcbc7f220d786a4a64f2b58eaad389",
+  // Crypto池事件
+  CurveCryptoTokenExchange: "0x8d2a332135aad4639b9c2dfae908eb8bbdbc89a72a6810502aaf1e6df5f6b8fd",
+  // Factory池特有事件
+  CurveTokenExchangeUnderlying4: "0xd84721b231bebee334f84942126408364e65b4b836c6a6cd2bf16b47d7513707",
+  // New Curve event types based on your implementation
+  CurveTokenExchange2: "0xb2e76ae99761dc136e598d4a629bb347eccb9532a5f8bbd72e18467c3c34cc98",
+  CurveTokenExchange3: "0x143f1f8e861fbdeddd5b46e844b7d3ac7b86a122f36e8c463859ee6811b1f29c",
+  // UniswapV4 event
+  UniswapV4Swap: "0x19b47279256b2a23a1665c810c8d55a1758940ee09377d4f8d26497a3577dc84",
 } as const;
 
 export const EventMapABI: { [key: string]: AbiEvent } = {
@@ -581,6 +599,97 @@ export const EventMapABI: { [key: string]: AbiEvent } = {
       },
     ],
     name: "SwapFeePercentageChanged",
+    type: "event",
+  },
+  // Curve交换事件
+  CurveTokenExchange: {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "address", name: "buyer", type: "address" },
+      { indexed: false, internalType: "int128", name: "sold_id", type: "int128" },
+      { indexed: false, internalType: "uint256", name: "tokens_sold", type: "uint256" },
+      { indexed: false, internalType: "int128", name: "bought_id", type: "int128" },
+      { indexed: false, internalType: "uint256", name: "tokens_bought", type: "uint256" }
+    ],
+    name: "TokenExchange",
+    type: "event",
+  },
+  
+  CurveTokenExchangeUnderlying: {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "address", name: "buyer", type: "address" },
+      { indexed: false, internalType: "int128", name: "sold_id", type: "int128" },
+      { indexed: false, internalType: "uint256", name: "tokens_sold", type: "uint256" },
+      { indexed: false, internalType: "int128", name: "bought_id", type: "int128" },
+      { indexed: false, internalType: "uint256", name: "tokens_bought", type: "uint256" }
+    ],
+    name: "TokenExchangeUnderlying",
+    type: "event",
+  },
+
+  // 更多Curve事件
+  CurveAddLiquidity: {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "address", name: "provider", type: "address" },
+      { indexed: false, internalType: "uint256[]", name: "token_amounts", type: "uint256[]" },
+      { indexed: false, internalType: "uint256[]", name: "fees", type: "uint256[]" },
+      { indexed: false, internalType: "uint256", name: "invariant", type: "uint256" },
+      { indexed: false, internalType: "uint256", name: "token_supply", type: "uint256" }
+    ],
+    name: "AddLiquidity",
+    type: "event",
+  },
+
+  CurveRemoveLiquidity: {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "address", name: "provider", type: "address" },
+      { indexed: false, internalType: "uint256[]", name: "token_amounts", type: "uint256[]" },
+      { indexed: false, internalType: "uint256[]", name: "fees", type: "uint256[]" },
+      { indexed: false, internalType: "uint256", name: "token_supply", type: "uint256" }
+    ],
+    name: "RemoveLiquidity",
+    type: "event",
+  },
+
+  CurveRemoveLiquidityOne: {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "address", name: "provider", type: "address" },
+      { indexed: false, internalType: "uint256", name: "token_amount", type: "uint256" },
+      { indexed: false, internalType: "uint256", name: "coin_amount", type: "uint256" },
+      { indexed: false, internalType: "uint256", name: "token_supply", type: "uint256" }
+    ],
+    name: "RemoveLiquidityOne",
+    type: "event",
+  },
+
+  CurveCryptoTokenExchange: {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "address", name: "buyer", type: "address" },
+      { indexed: false, internalType: "uint256", name: "sold_id", type: "uint256" },
+      { indexed: false, internalType: "uint256", name: "tokens_sold", type: "uint256" },
+      { indexed: false, internalType: "uint256", name: "bought_id", type: "uint256" },
+      { indexed: false, internalType: "uint256", name: "tokens_bought", type: "uint256" }
+    ],
+    name: "TokenExchange",
+    type: "event",
+  },
+
+  CurveTokenExchangeUnderlying4: {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "address", name: "buyer", type: "address" },
+      { indexed: false, internalType: "int128", name: "sold_id", type: "int128" },
+      { indexed: false, internalType: "uint256", name: "tokens_sold", type: "uint256" },
+      { indexed: false, internalType: "int128", name: "bought_id", type: "int128" },
+      { indexed: false, internalType: "uint256", name: "tokens_bought", type: "uint256" },
+      { indexed: false, internalType: "uint256", name: "fee", type: "uint256" }
+    ],
+    name: "TokenExchangeUnderlying",
     type: "event",
   },
 } as const;

@@ -1,12 +1,25 @@
 import { DEX_EXCHANGE, PoolType, Token } from "src/common/types";
 import { ERC20ABI } from "../abi/erc20";
-import { Abi, createPublicClient, formatEther, formatUnits, http, Log, PublicClient, TransactionReceipt, decodeEventLog } from "viem";
+import { Abi, createPublicClient, formatEther, formatUnits, http, PublicClient, TransactionReceipt, decodeEventLog, parseAbiItem } from "viem";
 import { base } from "viem/chains";
-import path from 'path';
-import fs from 'fs';
+import * as path from 'path';
+import * as fs from 'fs';
 import { logTopicsMap, EventMapABI } from "src/common/events";
 import { AnalysisResult, TransactionAnalysis, getProtocolType } from "./types";
 import { PoolInfo } from "src/common/types";
+
+// 定义包含topics的Log类型
+interface LogWithTopics {
+  address: string;
+  blockHash: string;
+  blockNumber: bigint;
+  data: string;
+  logIndex: number;
+  transactionHash: string;
+  transactionIndex: number;
+  removed: boolean;
+  topics: string[];
+}
 
 export interface StandardSwapEvent {
   poolAddress: string;
@@ -135,6 +148,8 @@ export class AnalysisHelper {
   private tokenCache: { [key: string]: Token } = {};
   private readonly CACHE_FILE = path.join(__dirname, '../../../data/pool_cache.json');
   private readonly TOKEN_CACHE_FILE = path.join(__dirname, '../../../data/token_cache.json');
+  private curvePoolTypes: Record<string, string> = {};
+
   constructor(url: string) {
     // @ts-ignore
     this.httpClient = createPublicClient({
@@ -142,7 +157,9 @@ export class AnalysisHelper {
       transport: http(url),
     });
     this.loadCache();
+    this.initCurvePoolTypes();
   }
+
   private loadCache() {
     try {
       if (fs.existsSync(this.CACHE_FILE)) {
@@ -165,6 +182,14 @@ export class AnalysisHelper {
     } catch (error) {
       console.error('Error saving cache:', error);
     }
+  }
+
+  private initCurvePoolTypes() {
+    // 这里可以添加已知的Curve池子地址和类型
+    // 例如: this.curvePoolTypes['0x...'] = 'crypto';
+    
+    // Base上一些已知的Curve池子地址示例（如果有的话）
+    // 这些需要根据实际情况填写
   }
 
   public async requestPoolInfo(address: string): Promise<PoolInfo | null> {
@@ -228,11 +253,46 @@ export class AnalysisHelper {
         protocol: protocol || 'Unknown'
       };
 
+      // 检查是否为Curve池，如果是则尝试获取所有代币
+      if (protocol === 'Curve' || poolInfo.factory.includes('curve')) {
+        try {
+          // 尝试获取Curve池子的所有代币
+          const tokens = await this.getCurvePoolTokens(lowerAddress);
+          if (tokens.length > 0) {
+            poolInfo.tokens = tokens;
+          }
+        } catch (error) {
+          console.warn(`获取Curve池 ${lowerAddress} 的代币列表失败:`, error);
+        }
+      }
+
       this.poolCache[lowerAddress] = poolInfo;
       this.saveCache();
       return poolInfo;
     } catch (error) {
       console.error(`Error getting pool info for ${address}:`, error);
+      
+      // 尝试检查是否为Curve池子
+      try {
+        // 尝试获取Curve池子的所有代币
+        const tokens = await this.getCurvePoolTokens(lowerAddress);
+        if (tokens.length >= 2) {
+          // 如果找到至少两个代币，就创建一个Curve池子的PoolInfo
+          const poolInfo: PoolInfo = {
+            token0: tokens[0],
+            token1: tokens[1],
+            factory: '0x0000000000000000000000000000000000000000', // 未知工厂
+            protocol: 'Curve',
+            tokens: tokens
+          };
+          this.poolCache[lowerAddress] = poolInfo;
+          this.saveCache();
+          return poolInfo;
+        }
+      } catch (curveError) {
+        // 忽略Curve相关错误
+      }
+      
       return null;
     }
   }
@@ -292,8 +352,9 @@ export class AnalysisHelper {
     }
   }
 
-  public parseSwapEvent(log: Log, poolInfo: PoolInfo): StandardSwapEvent | null {
+  public parseSwapEvent(log: LogWithTopics, poolInfo: PoolInfo): StandardSwapEvent | null {
     const topic = log.topics[0];
+    const poolAddress = log.address.toLowerCase();
     
     switch (topic) {
       case logTopicsMap.V2Swap: {
@@ -314,10 +375,17 @@ export class AnalysisHelper {
         const decoded = decodeEventLog({
           abi: v2SwapABI,
           data: log.data,
-          topics: log.topics,
+          topics: log.topics as [`0x${string}`, ...`0x${string}`[]],
         });
         
-        const { sender, to, amount0In, amount1In, amount0Out, amount1Out } = decoded.args;
+        const { sender, to, amount0In, amount1In, amount0Out, amount1Out } = decoded.args as {
+          sender: string;
+          to: string;
+          amount0In: bigint;
+          amount1In: bigint;
+          amount0Out: bigint;
+          amount1Out: bigint;
+        };
         
         let tokenIn: string;
         let tokenOut: string;
@@ -326,7 +394,7 @@ export class AnalysisHelper {
         
         // 计算token0的净流入量
         const netAmount0 = amount0In - amount0Out;
-        if (netAmount0 > 0n) {
+        if (netAmount0 > BigInt(0)) {
           // token0净流入，说明token0是输入代币
           tokenIn = poolInfo.token0;
           tokenOut = poolInfo.token1;
@@ -341,14 +409,14 @@ export class AnalysisHelper {
         }
         
         return {
-          poolAddress: log.address.toLowerCase(),
+          poolAddress: log.address.toLowerCase() as `0x${string}`,
           protocol: poolInfo.protocol,
           tokenIn,
           tokenOut,
           amountIn,
           amountOut,
-          sender: sender.toLowerCase(),
-          recipient: to.toLowerCase(),
+          sender: sender.toLowerCase() as `0x${string}`,
+          recipient: to.toLowerCase() as `0x${string}`,
         };
       }
 
@@ -370,10 +438,17 @@ export class AnalysisHelper {
         const decoded = decodeEventLog({
           abi: aeroV2SwapABI,
           data: log.data,
-          topics: log.topics,
+          topics: log.topics as [`0x${string}`, ...`0x${string}`[]],
         });
         
-        const { sender, to, amount0In, amount1In, amount0Out, amount1Out } = decoded.args;
+        const { sender, to, amount0In, amount1In, amount0Out, amount1Out } = decoded.args as {
+          sender: string;
+          to: string;
+          amount0In: bigint;
+          amount1In: bigint;
+          amount0Out: bigint;
+          amount1Out: bigint;
+        };
         
         let tokenIn: string;
         let tokenOut: string;
@@ -382,7 +457,7 @@ export class AnalysisHelper {
         
         // 计算token0的净流入量
         const netAmount0 = amount0In - amount0Out;
-        if (netAmount0 > 0n) {
+        if (netAmount0 > BigInt(0)) {
           // token0净流入，说明token0是输入代币
           tokenIn = poolInfo.token0;
           tokenOut = poolInfo.token1;
@@ -397,14 +472,14 @@ export class AnalysisHelper {
         }
         
         return {
-          poolAddress: log.address.toLowerCase(),
+          poolAddress: log.address.toLowerCase() as `0x${string}`,
           protocol: poolInfo.protocol,
           tokenIn,
           tokenOut,
           amountIn,
           amountOut,
-          sender: sender.toLowerCase(),
-          recipient: to.toLowerCase(),
+          sender: sender.toLowerCase() as `0x${string}`,
+          recipient: to.toLowerCase() as `0x${string}`,
         };
       }
       
@@ -427,18 +502,28 @@ export class AnalysisHelper {
           const decoded = decodeEventLog({
             abi: balancerSwapABI,
             data: log.data,
-            topics: log.topics,
+            topics: log.topics as [`0x${string}`, ...`0x${string}`[]],
           });
         
-          const { tokenIn, tokenOut, amountIn, amountOut } = decoded.args;
+          const { poolId, tokenIn, tokenOut, amountIn, amountOut } = decoded.args as {
+            poolId: string;
+            tokenIn: string;
+            tokenOut: string;
+            amountIn: bigint;
+            amountOut: bigint;
+          };
         
           // 由于交易信息不在log中，我们使用默认值
           // 实际情况中可能需要通过其他方式获取sender和recipient
           const sender = 'unknown';
           const recipient = 'unknown';
+          
+          // 从poolId中提取真正的pool address (前20个字节)
+          // poolId是32字节的bytes32，而pool address是20字节
+          const poolAddress = '0x' + poolId.slice(2, 42).toLowerCase();
         
           return {
-            poolAddress: log.address.toLowerCase(),
+            poolAddress: poolAddress, // 使用从poolId提取的pool address，而不是log.address
             protocol: poolInfo.protocol || 'Balancer',
             tokenIn: tokenIn.toLowerCase(),
             tokenOut: tokenOut.toLowerCase(),
@@ -475,37 +560,42 @@ export class AnalysisHelper {
         const decoded = decodeEventLog({
           abi: v3SwapABI,
           data: log.data,
-          topics: log.topics,
+          topics: log.topics as [`0x${string}`, ...`0x${string}`[]],
         });
         
-        const { sender, recipient, amount0, amount1 } = decoded.args;
+        const { sender, recipient, amount0, amount1 } = decoded.args as {
+          sender: string;
+          recipient: string;
+          amount0: bigint;
+          amount1: bigint;
+        };
         
         let tokenIn: string;
         let tokenOut: string;
         let amountIn: bigint;
         let amountOut: bigint;
         
-        if (amount0 > 0n) {
+        if (amount0 > BigInt(0)) {
           tokenIn = poolInfo.token0;
           tokenOut = poolInfo.token1;
           amountIn = amount0;
-          amountOut = -amount1;
+          amountOut = BigInt(-1) * amount1;
         } else {
           tokenIn = poolInfo.token1;
           tokenOut = poolInfo.token0;
           amountIn = amount1;
-          amountOut = -amount0;
+          amountOut = BigInt(-1) * amount0;
         }
         
         return {
-          poolAddress: log.address.toLowerCase(),
+          poolAddress: log.address.toLowerCase() as `0x${string}`,
           protocol: poolInfo.protocol,
           tokenIn,
           tokenOut,
           amountIn,
           amountOut,
-          sender: sender.toLowerCase(),
-          recipient: recipient.toLowerCase(),
+          sender: sender.toLowerCase() as `0x${string}`,
+          recipient: recipient.toLowerCase() as `0x${string}`,
         };
       }
 
@@ -530,38 +620,157 @@ export class AnalysisHelper {
         const decoded = decodeEventLog({
           abi: pancakeV3SwapABI,
           data: log.data,
-          topics: log.topics,
+          topics: log.topics as [`0x${string}`, ...`0x${string}`[]],
         });
         
-        const { sender, recipient, amount0, amount1 } = decoded.args;
+        const { sender, recipient, amount0, amount1 } = decoded.args as {
+          sender: string;
+          recipient: string;
+          amount0: bigint;
+          amount1: bigint;
+        };
         
         let tokenIn: string;
         let tokenOut: string;
         let amountIn: bigint;
         let amountOut: bigint;
         
-        if (amount0 > 0n) {
+        if (amount0 > BigInt(0)) {
           tokenIn = poolInfo.token0;
           tokenOut = poolInfo.token1;
           amountIn = amount0;
-          amountOut = -amount1;
+          amountOut = BigInt(-1) * amount1;
         } else {
           tokenIn = poolInfo.token1;
           tokenOut = poolInfo.token0;
           amountIn = amount1;
-          amountOut = -amount0;
+          amountOut = BigInt(-1) * amount0;
         }
         
         return {
-          poolAddress: log.address.toLowerCase(),
+          poolAddress: log.address.toLowerCase() as `0x${string}`,
           protocol: poolInfo.protocol,
           tokenIn,
           tokenOut,
           amountIn,
           amountOut,
-          sender: sender.toLowerCase(),
-          recipient: recipient.toLowerCase(),
+          sender: sender.toLowerCase() as `0x${string}`,
+          recipient: recipient.toLowerCase() as `0x${string}`,
         };
+      }
+
+      case logTopicsMap.CurveTokenExchange:
+      case logTopicsMap.CurveTokenExchangeUnderlying:
+      case logTopicsMap.CurveCryptoTokenExchange:
+      case logTopicsMap.CurveTokenExchangeUnderlying4: {
+        // 使用testcurveswap.ts中经过验证的正确逻辑
+        // 定义所有可能的Curve事件签名
+        const curveSwapEvents = [
+          {
+            name: 'TokenExchange',
+            signature: 'event TokenExchange(address indexed buyer, int128 sold_id, uint256 tokens_sold, int128 bought_id, uint256 tokens_bought)'
+          },
+          {
+            name: 'TokenExchangeUnderlying',
+            signature: 'event TokenExchangeUnderlying(address indexed buyer, int128 sold_id, uint256 tokens_sold, int128 bought_id, uint256 tokens_bought)'
+          },
+          {
+            name: 'TokenExchange', // Crypto pools
+            signature: 'event TokenExchange(address indexed buyer, uint256 sold_id, uint256 tokens_sold, uint256 bought_id, uint256 tokens_bought)'
+          },
+          {
+            name: 'Exchange',
+            signature: 'event Exchange(address indexed buyer, uint256 sold_id, uint256 tokens_sold, uint256 bought_id, uint256 tokens_bought)'
+          },
+          {
+            name: 'ExchangeUnderlying',
+            signature: 'event ExchangeUnderlying(address indexed buyer, uint256 sold_id, uint256 tokens_sold, uint256 bought_id, uint256 tokens_bought)'
+          }
+        ];
+
+        // 尝试每种事件签名进行decode
+        for (const event of curveSwapEvents) {
+          try {
+            const abiItem = parseAbiItem(event.signature);
+            const decoded = decodeEventLog({
+              abi: [abiItem],
+              data: log.data,
+              topics: log.topics as [`0x${string}`, ...`0x${string}`[]]
+            });
+
+            // 解析事件参数
+            const args = decoded.args as any;
+            const buyer = args.buyer;
+            const sold_id = Number(args.sold_id);
+            const tokens_sold = args.tokens_sold;
+            const bought_id = Number(args.bought_id);
+            const tokens_bought = args.tokens_bought;
+
+            // 获取池子中的代币地址
+            let tokenIn = '';
+            let tokenOut = '';
+
+            // 尝试从池子信息中获取代币地址
+            if (poolInfo.tokens && Array.isArray(poolInfo.tokens)) {
+              // 如果poolInfo中有tokens数组，直接使用
+              if (sold_id < poolInfo.tokens.length) {
+                tokenIn = poolInfo.tokens[sold_id];
+              }
+              if (bought_id < poolInfo.tokens.length) {
+                tokenOut = poolInfo.tokens[bought_id];
+              }
+            } else {
+              // 否则使用token0/token1（这只适用于2个代币的池子）
+              if (sold_id === 0 && poolInfo.token0) {
+                tokenIn = poolInfo.token0;
+              } else if (sold_id === 1 && poolInfo.token1) {
+                tokenIn = poolInfo.token1;
+              }
+
+              if (bought_id === 0 && poolInfo.token0) {
+                tokenOut = poolInfo.token0;
+              } else if (bought_id === 1 && poolInfo.token1) {
+                tokenOut = poolInfo.token1;
+              }
+            }
+
+            // 如果无法确定代币地址，尝试获取Curve池子的代币信息
+            if (!tokenIn || !tokenOut) {
+              // 如果poolInfo中没有足够的代币信息，记录警告但继续处理
+              console.warn(`Curve池子 ${poolAddress} 的poolInfo中缺少代币信息，sold_id=${sold_id}, bought_id=${bought_id}`);
+            }
+
+            // 如果仍然无法确定代币地址，使用占位符并记录警告
+            if (!tokenIn) {
+              tokenIn = `unknown-curve-token-${sold_id}`;
+              console.warn(`无法确定Curve交换中的输入代币: ${poolAddress}, sold_id=${sold_id}, 事件=${event.name}`);
+            }
+
+            if (!tokenOut) {
+              tokenOut = `unknown-curve-token-${bought_id}`;
+              console.warn(`无法确定Curve交换中的输出代币: ${poolAddress}, bought_id=${bought_id}, 事件=${event.name}`);
+            }
+
+            return {
+              poolAddress,
+              protocol: poolInfo.protocol || 'Curve',
+              tokenIn,
+              tokenOut,
+              amountIn: tokens_sold,
+              amountOut: tokens_bought,
+              sender: buyer.toLowerCase() as `0x${string}`,
+              recipient: buyer.toLowerCase() as `0x${string}`, // Curve默认接收者是买家自己
+            };
+          } catch (error) {
+            // 如果这个事件签名不匹配，继续尝试下一个
+            continue;
+          }
+        }
+
+        // 如果所有事件签名都不匹配，记录错误
+        console.error(`无法解码Curve交换事件: ${poolAddress}`);
+        console.error('问题日志:', log);
+        return null;
       }
 
       default:
@@ -570,7 +779,7 @@ export class AnalysisHelper {
   }
   
   
-  public parseERC20Transfer(log: Log): TokenTransfer | null {
+  public parseERC20Transfer(log: LogWithTopics): TokenTransfer | null {
     // ERC20 Transfer event topic
     const TRANSFER_TOPIC = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
     
@@ -593,10 +802,14 @@ export class AnalysisHelper {
       const decoded = decodeEventLog({
         abi: transferABI,
         data: log.data,
-        topics: log.topics,
+        topics: log.topics as [`0x${string}`, ...`0x${string}`[]],
       });
 
-      const { from, to, value } = decoded.args;
+      const { from, to, value } = decoded.args as {
+        from: string;
+        to: string;
+        value: bigint;
+      };
       return {
         token: log.address.toLowerCase(),
         from: from.toLowerCase(),
@@ -611,7 +824,7 @@ export class AnalysisHelper {
     }
   }
 
-  public async analyzeTokenTransfers(logs: Log[]): Promise<Map<string, TokenBalanceChange[]>> {
+  public async analyzeTokenTransfers(logs: LogWithTopics[]): Promise<Map<string, TokenBalanceChange[]>> {
     const transfers: TokenTransfer[] = [];
     const addressChanges = new Map<string, TokenBalanceChange[]>();
 
@@ -714,7 +927,7 @@ export class AnalysisHelper {
       
       const edges = graph.get(token);
       if (edges) {
-        for (const [nextToken] of edges) {
+        for (const [nextToken] of Array.from(edges)) {
           if (dfs(nextToken)) {
             return true;
           }
@@ -725,7 +938,7 @@ export class AnalysisHelper {
       return false;
     };
     
-    for (const token of graph.keys()) {
+    for (const token of Array.from(graph.keys())) {
       if (!visited.has(token)) {
         if (dfs(token)) {
           return true;
@@ -740,17 +953,17 @@ export class AnalysisHelper {
     const tokenChanges = new Map<string, bigint>();
     
     // 遍历图中的每个token
-    for (const [from, edges] of graph.entries()) {
+    for (const [from, edges] of Array.from(graph.entries())) {
       // 初始化from token的变化量
       if (!tokenChanges.has(from)) {
-        tokenChanges.set(from, 0n);
+        tokenChanges.set(from, BigInt(0));
       }
       
       // 遍历所有出边
-      for (const [to, edgeInfo] of edges.entries()) {
+      for (const [to, edgeInfo] of Array.from(edges.entries())) {
         // 初始化to token的变化量
         if (!tokenChanges.has(to)) {
-          tokenChanges.set(to, 0n);
+          tokenChanges.set(to, BigInt(0));
         }
         
         // from token减少amountIn
@@ -774,10 +987,10 @@ export class AnalysisHelper {
     
     // 检查所有token的变化量
     for (const [token, change] of tokenChanges.entries()) {
-      if (change < 0n) {
+      if (change < BigInt(0)) {
         return { isValid: false }; // 如果有任何token为负，直接返回false
       }
-      if (change > 0n) {
+      if (change > BigInt(0)) {
         positiveCount++;
         profitToken = token;
       }
@@ -799,6 +1012,33 @@ export class AnalysisHelper {
     
     // 检查是否存在环且所有token变化量都为正
     return this.hasCycle(graph) && this.validateSwapGraphTokenChanges(graph).isValid;
+  }
+
+  private async fetchLogsInChunks(fromBlock: bigint, toBlock: bigint, events: any[], maxBlockRange = BigInt(500)): Promise<LogWithTopics[]> {
+    const allLogs: LogWithTopics[] = [];
+    
+    // 分块处理，每次处理不超过maxBlockRange个区块
+    for (let currentFromBlock = fromBlock; currentFromBlock <= toBlock; currentFromBlock += maxBlockRange - BigInt(1)) {
+      const currentToBlock = currentFromBlock + maxBlockRange - BigInt(1) > toBlock 
+        ? toBlock 
+        : currentFromBlock + maxBlockRange - BigInt(1);
+      
+      console.log(`搜索区块范围: ${currentFromBlock} - ${currentToBlock}`);
+      
+      try {
+        const logs = await this.httpClient.getLogs({
+          fromBlock: currentFromBlock,
+          toBlock: currentToBlock,
+          events
+        });
+        
+        allLogs.push(...logs);
+      } catch (error) {
+        console.error(`获取区块 ${currentFromBlock}-${currentToBlock} 的日志时出错:`, error);
+      }
+    }
+    
+    return allLogs;
   }
 
   public async analyzeBlockArbitrage(blockNumber: number): Promise<BlockArbitrageResult> {
@@ -827,25 +1067,51 @@ export class AnalysisHelper {
       baseFeePerGas: block.baseFeePerGas?.toString()
     };
 
-    // 使用filterLogs获取所有swap事件
-    const logs = await this.httpClient.getLogs({
-      fromBlock: BigInt(blockNumber),
-      toBlock: BigInt(blockNumber),
-      events: [
-        EventMapABI.V2Swap,
-        EventMapABI.V3Swap,
-        EventMapABI.AeroV2Swap,
-        EventMapABI.PancakeV3Swap,
-        EventMapABI.BalancerVaultSwap
-      ]
-    });
+    // 要查询的事件列表
+    const events = [
+      EventMapABI.V2Swap,
+      EventMapABI.V3Swap,
+      EventMapABI.AeroV2Swap,
+      EventMapABI.PancakeV3Swap,
+      EventMapABI.BalancerVaultSwap,
+      // Curve事件 - 添加所有交换相关事件
+      EventMapABI.CurveTokenExchange,
+      EventMapABI.CurveTokenExchangeUnderlying,
+      EventMapABI.CurveCryptoTokenExchange,
+      EventMapABI.CurveTokenExchangeUnderlying4,
+      // 注意：不添加AddLiquidity和RemoveLiquidity等非交换事件，因为我们只关注交换
+    ];
+
+    // 使用getLogs获取所有swap事件
+    // 对于单个区块的查询，直接使用标准方法
+    let logs;
+    try {
+      logs = await this.httpClient.getLogs({
+        fromBlock: BigInt(blockNumber),
+        toBlock: BigInt(blockNumber),
+        events
+      });
+    } catch (error) {
+      console.error(`获取区块 ${blockNumber} 的日志时出错:`, error);
+      
+      // 如果出错，尝试使用分块方法（虽然对单区块来说通常不需要）
+      logs = await this.fetchLogsInChunks(
+        BigInt(blockNumber),
+        BigInt(blockNumber),
+        events
+      );
+    }
 
     // 按交易哈希分组logs
-    const txLogsMap = new Map<string, Log[]>();
+    const txLogsMap = new Map<string, LogWithTopics[]>();
     for (const log of logs) {
-      const txLogs = txLogsMap.get(log.transactionHash) || [];
-      txLogs.push(log);
-      txLogsMap.set(log.transactionHash, txLogs);
+      // 确保transactionHash存在且不为null
+      const txHash = log.transactionHash;
+      if (txHash) {
+        const txLogs = txLogsMap.get(txHash) || [];
+        txLogs.push(log);
+        txLogsMap.set(txHash, txLogs);
+      }
     }
 
     // 获取所有交易的详细信息，并按 transactionIndex 排序
@@ -940,7 +1206,7 @@ export class AnalysisHelper {
 
           // 获取profit token的信息
           const profitTokenInfo = await this.requestTokenInfo(profitToken);
-          const profitAmount = graphTokenChanges.get(profitToken) || 0n;
+          const profitAmount = graphTokenChanges.get(profitToken) || BigInt(0);
 
           // 在创建 ArbitrageInfo 对象时进行类型转换
           const formattedSwapEvents = await Promise.all(swapEvents.map(async (swap) => {
@@ -991,7 +1257,7 @@ export class AnalysisHelper {
             profit: {
               token: profitToken,
               symbol: profitTokenInfo?.symbol,
-              amount: profitAmount.toString(),
+              amount: formatUnits(profitAmount, profitTokenInfo?.decimals || 18),
               formattedAmount: formatUnits(profitAmount, profitTokenInfo?.decimals || 18)
             },
             previousTxHash,
@@ -1166,5 +1432,248 @@ export class AnalysisHelper {
     }
     
     return relations;
+  }
+
+  // 在AnalysisHelper类中添加新的方法，用于处理Curve池子
+  private curvePoolABI = [
+    {
+      inputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+      name: 'coins',
+      outputs: [{ internalType: 'address', name: '', type: 'address' }],
+      stateMutability: 'view',
+      type: 'function'
+    },
+    // 支持最多8个代币的池子
+    {
+      inputs: [],
+      name: 'coins',
+      outputs: [{ internalType: 'address[2]', name: '', type: 'address[2]' }],
+      stateMutability: 'view',
+      type: 'function'
+    },
+    {
+      inputs: [],
+      name: 'coins',
+      outputs: [{ internalType: 'address[3]', name: '', type: 'address[3]' }],
+      stateMutability: 'view',
+      type: 'function'
+    },
+    {
+      inputs: [],
+      name: 'coins',
+      outputs: [{ internalType: 'address[4]', name: '', type: 'address[4]' }],
+      stateMutability: 'view',
+      type: 'function'
+    },
+    {
+      inputs: [],
+      name: 'coins',
+      outputs: [{ internalType: 'address[5]', name: '', type: 'address[5]' }],
+      stateMutability: 'view',
+      type: 'function'
+    },
+    {
+      inputs: [],
+      name: 'coins',
+      outputs: [{ internalType: 'address[6]', name: '', type: 'address[6]' }],
+      stateMutability: 'view',
+      type: 'function'
+    },
+    {
+      inputs: [],
+      name: 'coins',
+      outputs: [{ internalType: 'address[7]', name: '', type: 'address[7]' }],
+      stateMutability: 'view',
+      type: 'function'
+    },
+    {
+      inputs: [],
+      name: 'coins',
+      outputs: [{ internalType: 'address[8]', name: '', type: 'address[8]' }],
+      stateMutability: 'view',
+      type: 'function'
+    }
+  ] as const;
+
+  // Curve池子代币缓存
+  private curvePoolTokensCache: Record<string, string[]> = {};
+
+  /**
+   * 获取Curve池子中的代币信息
+   * @param poolAddress 池子地址
+   * @returns 池子中所有代币的地址数组
+   */
+  public async getCurvePoolTokens(poolAddress: string): Promise<string[]> {
+    const lowerAddress = poolAddress.toLowerCase();
+    
+    // 检查缓存
+    if (this.curvePoolTokensCache[lowerAddress]) {
+      return this.curvePoolTokensCache[lowerAddress];
+    }
+    
+    const tokens: string[] = [];
+    
+    try {
+      // 首先尝试获取池子信息，如果已经缓存则直接使用
+      const poolInfo = await this.requestPoolInfo(poolAddress);
+      if (poolInfo && poolInfo.token0 && poolInfo.token1) {
+        tokens.push(poolInfo.token0.toLowerCase());
+        tokens.push(poolInfo.token1.toLowerCase());
+        
+        // 如果只有两个代币则返回
+        if (tokens.length > 0) {
+          this.curvePoolTokensCache[lowerAddress] = tokens;
+          return tokens;
+        }
+      }
+      
+      // 如果没有从poolInfo获取到，尝试不同的方法获取池子代币
+      // 方法1：尝试获取固定长度的代币数组
+      for (let i = 2; i <= 8; i++) {
+        try {
+          const coinsResult = await this.httpClient.readContract({
+            address: poolAddress as `0x${string}`,
+            abi: this.curvePoolABI,
+            functionName: 'coins',
+          });
+          
+          if (Array.isArray(coinsResult)) {
+            for (const tokenAddress of coinsResult) {
+              if (tokenAddress && tokenAddress !== '0x0000000000000000000000000000000000000000') {
+                tokens.push(tokenAddress.toLowerCase());
+              }
+            }
+            break;
+          }
+        } catch (e) {
+          // 方法2：尝试通过索引逐个获取代币
+          try {
+            // 尝试最多8个代币的池子
+            for (let j = 0; j < 8; j++) {
+              try {
+                const tokenAddress = await this.httpClient.readContract({
+                  address: poolAddress as `0x${string}`,
+                  abi: this.curvePoolABI,
+                  functionName: 'coins',
+                  args: [BigInt(j)],
+                }) as string;
+                
+                if (tokenAddress && tokenAddress !== '0x0000000000000000000000000000000000000000') {
+                  tokens.push(tokenAddress.toLowerCase());
+                } else {
+                  // 如果遇到无效地址，说明已经超出池子中的代币数量
+                  break;
+                }
+              } catch (e2) {
+                // 这个索引没有代币，说明已经获取了所有代币
+                break;
+              }
+            }
+            break;
+          } catch (e2) {
+            // 继续尝试下一个方法
+            if (i === 8) {
+              console.warn(`无法获取Curve池子 ${poolAddress} 的代币信息`);
+            }
+          }
+        }
+      }
+      
+      // 如果找到了代币，保存到缓存
+      if (tokens.length > 0) {
+        this.curvePoolTokensCache[lowerAddress] = tokens;
+      }
+      
+      return tokens;
+    } catch (error) {
+      console.error(`获取Curve池子 ${poolAddress} 代币信息时出错:`, error);
+      return tokens;
+    }
+  }
+
+  /**
+   * 识别Curve池子版本
+   * @param poolAddress 池子地址
+   * @returns 池子版本信息
+   */
+  public async identifyCurvePoolType(poolAddress: string): Promise<{
+    version: string;
+    isMetapool: boolean;
+    numTokens: number;
+  }> {
+    const lowerAddress = poolAddress.toLowerCase();
+    
+    try {
+      // 1. 获取池子代币数量
+      const tokens = await this.getCurvePoolTokens(lowerAddress);
+      const numTokens = tokens.length;
+      
+      // 2. 尝试识别池子版本
+      let version = 'unknown';
+      let isMetapool = false;
+      
+      // 尝试调用is_meta方法判断是否为Metapool
+      try {
+        const isMetaResult = await this.httpClient.readContract({
+          address: poolAddress as `0x${string}`,
+          abi: [{
+            inputs: [],
+            name: 'is_meta',
+            outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+            stateMutability: 'view',
+            type: 'function'
+          }],
+          functionName: 'is_meta',
+        });
+        
+        isMetapool = Boolean(isMetaResult);
+      } catch (e) {
+        // 无法判断，默认为false
+      }
+      
+      // 尝试根据代币数量和其他特征判断版本
+      if (numTokens === 2) {
+        version = 'plain';
+      } else if (numTokens === 3) {
+        version = isMetapool ? 'metapool' : 'tripool';
+      } else if (numTokens === 4) {
+        version = isMetapool ? 'metapool' : 'fourpool';
+      } else if (numTokens > 4) {
+        version = 'factory';
+      }
+      
+      // 尝试检测是否为crypto池
+      try {
+        await this.httpClient.readContract({
+          address: poolAddress as `0x${string}`,
+          abi: [{
+            inputs: [],
+            name: 'price_oracle',
+            outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+            stateMutability: 'view',
+            type: 'function'
+          }],
+          functionName: 'price_oracle',
+        });
+        
+        // 如果price_oracle方法存在，很可能是crypto池
+        version = 'crypto';
+      } catch (e) {
+        // 不是crypto池
+      }
+      
+      return {
+        version,
+        isMetapool,
+        numTokens
+      };
+    } catch (error) {
+      console.error(`识别Curve池子 ${poolAddress} 版本时出错:`, error);
+      return {
+        version: 'unknown',
+        isMetapool: false,
+        numTokens: 0
+      };
+    }
   }
 }

@@ -41,4 +41,14 @@ export type PoolInfo = {
   token1: string;
   factory: string;
   protocol: string;
+  tokens?: string[];
+}
+
+export type ExtendedPoolInfo = {
+  tokens: string[];
+  factory?: string;
+  protocol: string;
+  poolType?: string;
+  poolAddress?: string;
+  poolId?: string;
 }

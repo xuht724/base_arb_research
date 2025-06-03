@@ -5,7 +5,7 @@ import { base } from 'viem/chains';
 const RPC_URLS = [
   process.env.RPC_URL,
   'https://base-mainnet.g.alchemy.com/v2/Hlbk2P_Ak05o1rWZuwTmhUlY-UHYgEqz',
-  'https://base.publicnode.com',
+  
 ];
 
 // 使用第一个可用的RPC URL
@@ -54,6 +54,10 @@ function decodeBalancerSwap(log: any, poolInfoMap: any = {}) {
     const sender = '0x0000000000000000000000000000000000000000'; // 示例地址
     const recipient = '0x0000000000000000000000000000000000000000'; // 示例地址
     
+    // 从poolId中提取真正的pool address (前20个字节)
+    // poolId是32字节的bytes32，而pool address是20字节
+    const poolAddress = '0x' + poolId.slice(2, 42).toLowerCase();
+    
     // 当前池子信息，如果需要更多信息可以从poolInfoMap获取
     const poolInfo = poolInfoMap[poolId] || {
       protocol: 'Balancer'
@@ -61,7 +65,7 @@ function decodeBalancerSwap(log: any, poolInfoMap: any = {}) {
     
     return {
       poolId: poolId.toLowerCase(),
-      poolAddress: log.address.toLowerCase(),
+      poolAddress: poolAddress, // 使用从poolId提取的pool address
       protocol: poolInfo.protocol || 'Balancer',
       tokenIn: tokenIn.toLowerCase(),
       tokenOut: tokenOut.toLowerCase(),
@@ -98,7 +102,7 @@ async function checkSpecificTransaction(txHash: `0x${string}`) {
           // 使用我们的解码函数
           const decodedSwap = decodeBalancerSwap(log);
           
-          console.log('✅ 解码的Balancer Swap事件:');
+          console.log('解码的Balancer Swap事件:');
           console.dir(decodedSwap, { depth: null });
           foundSwapEvent = true;
         }

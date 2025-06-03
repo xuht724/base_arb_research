@@ -1,5 +1,91 @@
-import { FACTORY_MAP } from 'src/common/constants';
-import { PoolInfo } from 'src/common/types';
+import { FACTORY_MAP } from '../../common/constants';
+import { PoolInfo } from '../../common/types';
+
+export interface StandardSwapEvent {
+  poolAddress: string;
+  protocol: string;
+  tokenIn: string;
+  tokenOut: string;
+  amountIn: bigint;
+  amountOut: bigint;
+  sender: string;
+  recipient: string;
+  ethFlag?: boolean;
+}
+
+export interface TokenTransfer {
+  token: string;
+  from: string;
+  to: string;
+  amount: bigint;
+  decimals: number;
+  symbol?: string;
+}
+
+export interface TokenBalanceChange {
+  token: string;
+  symbol?: string;
+  decimals: number;
+  change: bigint;
+}
+
+export interface EdgeInfo {
+  amountIn: bigint;
+  amountOut: bigint;
+  poolAddress: string;
+  protocol: string;
+}
+
+export interface CycleEdge {
+  tokenIn: string;
+  tokenOut: string;
+  amountIn: string;
+  amountOut: string;
+  poolAddress: string;
+  protocol: string;
+}
+
+export interface ArbitrageCycle {
+  edges: CycleEdge[];
+  profitToken: string;
+  profitAmount: string;
+  tokenChanges: Record<string, string>;
+}
+
+export interface ArbitrageInfo {
+  type: 'begin' | 'inter';
+  isBackrun: boolean;
+  arbitrageCycles: ArbitrageCycle[];
+  cyclesLength: number;
+  profit: {
+    token: string;
+    amount: string;
+  };
+  interInfo?: Array<{
+    txHash: string;
+    poolAddress: string;
+    transactionIndex: number;
+  }>;
+}
+
+export interface BlockAnalysisResult {
+  blockNumber: number;
+  timestamp: Date;
+  transactions: Array<{
+    hash: string;
+    index: number;
+    from: string;
+    to?: string;
+    gasPrice: string;
+    gasUsed: string;
+    input: string;
+    arbitrageInfo?: ArbitrageInfo;
+    swapEvents: StandardSwapEvent[];
+    tokenChanges: Record<string, string>;
+    addressTokenChanges: Record<string, TokenBalanceChange[]>;
+  }>;
+}
+
 export interface TransactionAnalysis {
   hash: string;
   blockNumber: string;

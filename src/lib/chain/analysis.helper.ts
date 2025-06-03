@@ -259,7 +259,7 @@ export class AnalysisHelper {
       }
       let decimals = tokenInfoRes[0].result as number;
       let name =
-        tokenInfoRes[1].statuslog. == "success"
+        tokenInfoRes[1].status == "success"
           ? (tokenInfoRes[1].result! as string)
           : undefined;
       let symbol =
@@ -397,7 +397,7 @@ export class AnalysisHelper {
       }
       
       
-      case logTopicsMap.BalancerSwap: {
+      case logTopicsMap.BalancerVaultSwap: {
         const balancerSwapABI = [{
           anonymous: false,
           inputs: [
@@ -419,8 +419,8 @@ export class AnalysisHelper {
       
         const tokenIn = decoded.args.tokenIn as string;
         const tokenOut = decoded.args.tokenOut as string;
-        const amountIn = BigInt(decoded.args.amountIn as string | number);
-        const amountOut = BigInt(decoded.args.amountOut as string | number);
+        const amountIn = decoded.args.amountIn as bigint;
+        const amountOut = decoded.args.amountOut as bigint;
       
         return {
           poolAddress: log.address.toLowerCase(),
@@ -429,8 +429,8 @@ export class AnalysisHelper {
           tokenOut: tokenOut.toLowerCase(),
           amountIn,
           amountOut,
-          sender: log.transaction?.from?.toLowerCase() ?? 'unknown',
-          recipient: log.transaction?.from?.toLowerCase() ?? 'unknown',
+          sender: 'unknown',
+          recipient: 'unknown',
         };
       }
       
@@ -807,7 +807,7 @@ export class AnalysisHelper {
         EventMapABI.V3Swap,
         EventMapABI.AeroV2Swap,
         EventMapABI.PancakeV3Swap,
-        EventMapABI.BalancerSwap
+        EventMapABI.BalancerVaultSwap
       ]
     });
 
