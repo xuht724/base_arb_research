@@ -95,25 +95,56 @@ export function analyzeAmounts(
   const inputAmounts: Array<{amount: string, found: boolean, hexFormat: string}> = [];
   const outputAmounts: Array<{amount: string, found: boolean, hexFormat: string}> = [];
 
-  // 移除input的0x前缀
-  const cleanInput = input.startsWith('0x') ? input.slice(2) : input;
+  try {
+    // 移除input的0x前缀
+    const cleanInput = input.startsWith('0x') ? input.slice(2) : input;
 
-  // 将amounts转换为hexstring，保持原始位数
-  for (const edge of arbitrageCycle.edges) {
-    const inputHex = BigInt(edge.amountIn).toString(16);
-    const outputHex = BigInt(edge.amountOut).toString(16);
+    // 将amounts转换为hexstring，保持原始位数
+    for (const edge of arbitrageCycle.edges) {
+      try {
+        // 确保 amountIn 和 amountOut 是有效的数字
+        if (!edge.amountIn || !edge.amountOut) {
+          console.warn('Invalid amount in edge:', edge);
+          continue;
+        }
 
-    inputAmounts.push({
-      amount: edge.amountIn,
-      found: cleanInput.includes(inputHex),
-      hexFormat: inputHex
-    });
+        const inputHex = BigInt(edge.amountIn).toString(16);
+        const outputHex = BigInt(edge.amountOut).toString(16);
 
-    outputAmounts.push({
-      amount: edge.amountOut,
-      found: cleanInput.includes(outputHex),
-      hexFormat: outputHex
-    });
+        // 确保 hex 字符串不为空
+        if (!inputHex || !outputHex) {
+          console.warn('Invalid hex conversion:', { inputHex, outputHex });
+          continue;
+        }
+
+        inputAmounts.push({
+          amount: edge.amountIn,
+          found: cleanInput.includes(inputHex),
+          hexFormat: inputHex
+        });
+
+        outputAmounts.push({
+          amount: edge.amountOut,
+          found: cleanInput.includes(outputHex),
+          hexFormat: outputHex
+        });
+      } catch (error) {
+        console.error('Error processing edge:', error);
+        // 添加默认值，确保数组长度一致
+        inputAmounts.push({
+          amount: edge.amountIn,
+          found: false,
+          hexFormat: '0'
+        });
+        outputAmounts.push({
+          amount: edge.amountOut,
+          found: false,
+          hexFormat: '0'
+        });
+      }
+    }
+  } catch (error) {
+    console.error('Error in analyzeAmounts:', error);
   }
 
   return { inputAmounts, outputAmounts };

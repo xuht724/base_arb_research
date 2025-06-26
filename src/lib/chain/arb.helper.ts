@@ -8,6 +8,8 @@ import { logTopicsMap, EventMapABI } from "src/common/events";
 import { ArbitrageCycle, CycleEdge, EdgeInfo, StandardSwapEvent, TokenBalanceChange, TokenTransfer, ArbitrageInfo, BlockAnalysisResult } from "./types";
 import { getProtocolType } from "./utils";
 import { replacer } from "../utils";
+import { BALANCER_VAULT, WETH_ADDRESS } from "src/common/constants";
+import axios from "axios";
 
 export class ArbHelper {
   public readonly httpClient: PublicClient;
@@ -16,7 +18,10 @@ export class ArbHelper {
   private readonly EXTENDED_POOL_CACHE_FILE = path.join(__dirname, '../../../data/extended_pool_cache.json');
   private readonly TOKEN_CACHE_FILE = path.join(__dirname, '../../../data/token_cache.json');
 
-  constructor(url: string) {
+  constructor(
+    url: string, 
+    private readonly THE_GRAPH_API_KEY: string
+  ) {
     // @ts-ignore
     this.httpClient = createPublicClient({
       chain: base,
@@ -49,12 +54,11 @@ export class ArbHelper {
     }
   }
 
-  public async requestPoolInfo(address: string): Promise<ExtendedPoolInfo | null> {
+  public async requesV2V3PoolInfo(address: string, topic?: string, log?: Log): Promise<ExtendedPoolInfo | null> {
     const lowerAddress = address.toLowerCase();
     if (this.extendedPoolCache[lowerAddress]) {
       return this.extendedPoolCache[lowerAddress];
     }
-
     try {
       const abi: Abi = [
         {
@@ -117,80 +121,6 @@ export class ArbHelper {
       this.saveCache();
       return poolInfo;
     } catch (error) {
-      console.error(`Error getting pool info for ${address}:`, error);
-      return null;
-    }
-  }
-
-  public async requestExtendedPoolInfo(address: string): Promise<ExtendedPoolInfo | null> {
-    const lowerAddress = address.toLowerCase();
-    if (this.extendedPoolCache[lowerAddress]) {
-      return this.extendedPoolCache[lowerAddress];
-    }
-
-    try {
-      const abi: Abi = [
-        {
-          inputs: [],
-          name: 'token0',
-          outputs: [{ type: 'address', name: '' }],
-          stateMutability: 'view',
-          type: 'function',
-        },
-        {
-          inputs: [],
-          name: 'token1',
-          outputs: [{ type: 'address', name: '' }],
-          stateMutability: 'view',
-          type: 'function',
-        },
-        {
-          inputs: [],
-          name: 'factory',
-          outputs: [{ type: 'address', name: '' }],
-          stateMutability: 'view',
-          type: 'function',
-        },
-      ];
-
-      const [token0, token1, factory] = await this.httpClient.multicall({
-        contracts: [
-          {
-            address: lowerAddress as `0x${string}`,
-            abi,
-            functionName: 'token0',
-          },
-          {
-            address: lowerAddress as `0x${string}`,
-            abi,
-            functionName: 'token1',
-          },
-          {
-            address: lowerAddress as `0x${string}`,
-            abi,
-            functionName: 'factory',
-          },
-        ],
-      });
-
-      const factoryAddress = factory.result ? (factory.result as unknown as string).toLowerCase() : 'Unknown';
-      const protocol = factoryAddress ? getProtocolType(factoryAddress) : 'Unknown';
-
-      const poolInfo: ExtendedPoolInfo = {
-        tokens: [
-          (token0.result as unknown as string).toLowerCase(),
-          (token1.result as unknown as string).toLowerCase()
-        ],
-        factory: factoryAddress,
-        protocol: protocol,
-        poolType: 'v2v3' // 默认类型
-      };
-
-      this.extendedPoolCache[lowerAddress] = poolInfo;
-      this.saveCache();
-      return poolInfo;
-    } catch (error) {
-      console.error(`Error getting extended pool info for ${address}:`, error);
       return null;
     }
   }
@@ -282,6 +212,9 @@ export class ArbHelper {
         let amountIn: bigint;
         let amountOut: bigint;
 
+        if (!poolInfo) {
+          throw new Error("poolInfo is required");
+        }
         // 计算token0的净流入量
         const netAmount0 = amount0In - amount0Out;
         if (netAmount0 > 0n) {
@@ -307,6 +240,7 @@ export class ArbHelper {
           amountOut,
           sender: sender.toLowerCase(),
           recipient: to.toLowerCase(),
+          ethFlag: false
         };
       }
 
@@ -337,7 +271,9 @@ export class ArbHelper {
         let tokenOut: string;
         let amountIn: bigint;
         let amountOut: bigint;
-
+        if (!poolInfo) {
+          throw new Error("poolInfo is required");
+        }
         // 计算token0的净流入量
         const netAmount0 = amount0In - amount0Out;
         if (netAmount0 > 0n) {
@@ -363,6 +299,7 @@ export class ArbHelper {
           amountOut,
           sender: sender.toLowerCase(),
           recipient: to.toLowerCase(),
+          ethFlag: false
         };
       }
 
@@ -395,7 +332,9 @@ export class ArbHelper {
         let tokenOut: string;
         let amountIn: bigint;
         let amountOut: bigint;
-
+        if (!poolInfo) {
+          throw new Error("poolInfo is required");
+        }
         if (amount0 > 0n) {
           tokenIn = poolInfo.tokens[0];
           tokenOut = poolInfo.tokens[1];
@@ -417,6 +356,7 @@ export class ArbHelper {
           amountOut,
           sender: sender.toLowerCase(),
           recipient: recipient.toLowerCase(),
+          ethFlag: false
         };
       }
 
@@ -450,7 +390,9 @@ export class ArbHelper {
         let tokenOut: string;
         let amountIn: bigint;
         let amountOut: bigint;
-
+        if (!poolInfo) {
+          throw new Error("poolInfo is required");
+        }
         if (amount0 > 0n) {
           tokenIn = poolInfo.tokens[0];
           tokenOut = poolInfo.tokens[1];
@@ -472,6 +414,236 @@ export class ArbHelper {
           amountOut,
           sender: sender.toLowerCase(),
           recipient: recipient.toLowerCase(),
+          ethFlag: false
+        };
+      }
+
+      case logTopicsMap.BalancerVaultSwap: {
+        const balancerSwapABI = [{
+          anonymous: false,
+          inputs: [
+            { indexed: true, name: 'poolId', type: 'bytes32' },
+            { indexed: true, name: 'tokenIn', type: 'address' },
+            { indexed: true, name: 'tokenOut', type: 'address' },
+            { indexed: false, name: 'amountIn', type: 'uint256' },
+            { indexed: false, name: 'amountOut', type: 'uint256' }
+          ],
+          name: 'Swap',
+          type: 'event'
+        }] as const;
+
+        const decoded = decodeEventLog({
+          abi: balancerSwapABI,
+          data: log.data,
+          topics: log.topics,
+        });
+
+        const { poolId, tokenIn, tokenOut, amountIn, amountOut } = decoded.args;
+
+        const id = `0x${poolId.slice(2).toLowerCase()}`
+        return {
+          poolAddress: id.slice(0, 42),
+          protocol: 'BalancerV2',
+          tokenIn: tokenIn.toLowerCase(),
+          tokenOut: tokenOut.toLowerCase(),
+          amountIn,
+          amountOut,
+          sender: "unknown", // 从indexed参数中获取sender
+          recipient: "unknown", // 从indexed参数中获取recipient
+          ethFlag: false
+        };
+      }
+
+      case logTopicsMap.CurveTokenExchange: {
+        const curveSwapABI = [{
+          anonymous: false,
+          inputs: [
+            { indexed: true, name: 'buyer', type: 'address' },
+            { indexed: false, name: 'sold_id', type: 'int128' },
+            { indexed: false, name: 'tokens_sold', type: 'uint256' },
+            { indexed: false, name: 'bought_id', type: 'int128' },
+            { indexed: false, name: 'tokens_bought', type: 'uint256' }
+          ],
+          name: 'TokenExchange',
+          type: 'event'
+        }] as const;
+
+        const decoded = decodeEventLog({
+          abi: curveSwapABI,
+          data: log.data,
+          topics: log.topics,
+        });
+
+        const { buyer, sold_id, tokens_sold, bought_id, tokens_bought } = decoded.args;
+        if (!poolInfo) {
+          throw new Error("poolInfo is required");
+        }
+        // 使用poolInfo中的coins数组来获取代币地址
+        const tokenIn = poolInfo.tokens?.[Number(sold_id)]?.toLowerCase() || '';
+        const tokenOut = poolInfo.tokens?.[Number(bought_id)]?.toLowerCase() || '';
+
+        return {
+          poolAddress: log.address.toLowerCase(),
+          protocol: poolInfo.protocol,
+          tokenIn,
+          tokenOut,
+          amountIn: tokens_sold,
+          amountOut: tokens_bought,
+          sender: buyer.toLowerCase(),
+          recipient: buyer.toLowerCase(), // Curve中buyer既是sender也是recipient
+          ethFlag: false
+        };
+      }
+
+      case logTopicsMap.CurveTokenExchange2: {
+        const curveSwapABI = [{
+          anonymous: false,
+          inputs: [
+            { indexed: true, name: 'buyer', type: 'address' },
+            { indexed: false, name: 'sold_id', type: 'uint256' },
+            { indexed: false, name: 'tokens_sold', type: 'uint256' },
+            { indexed: false, name: 'bought_id', type: 'uint256' },
+            { indexed: false, name: 'tokens_bought', type: 'uint256' }
+          ],
+          name: 'TokenExchange',
+          type: 'event'
+        }] as const;
+
+        const decoded = decodeEventLog({
+          abi: curveSwapABI,
+          data: log.data,
+          topics: log.topics,
+        });
+
+        const { buyer, sold_id, tokens_sold, bought_id, tokens_bought } = decoded.args;
+        if (!poolInfo) {
+          throw new Error("poolInfo is required");
+        }
+        // 使用poolInfo中的coins数组来获取代币地址
+        const tokenIn = poolInfo.tokens?.[Number(sold_id)]?.toLowerCase() || '';
+        const tokenOut = poolInfo.tokens?.[Number(bought_id)]?.toLowerCase() || '';
+
+        return {
+          poolAddress: log.address.toLowerCase(),
+          protocol: poolInfo.protocol,
+          tokenIn,
+          tokenOut,
+          amountIn: tokens_sold,
+          amountOut: tokens_bought,
+          sender: buyer.toLowerCase(),
+          recipient: buyer.toLowerCase(), // Curve中buyer既是sender也是recipient
+          ethFlag: false
+        };
+      }
+
+      case logTopicsMap.CurveTokenExchange3: {
+        const curveSwapABI = [{
+          anonymous: false,
+          inputs: [
+            { indexed: true, name: 'buyer', type: 'address' },
+            { indexed: false, name: 'sold_id', type: 'int128' },
+            { indexed: false, name: 'tokens_sold', type: 'uint256' },
+            { indexed: false, name: 'bought_id', type: 'int128' },
+            { indexed: false, name: 'tokens_bought', type: 'uint256' },
+            { indexed: false, name: 'fee', type: 'uint256' },
+            { indexed: false, name: 'packed_price_scale', type: 'uint256' }
+          ],
+          name: 'TokenExchange',
+          type: 'event'
+        }] as const;
+
+        const decoded = decodeEventLog({
+          abi: curveSwapABI,
+          data: log.data,
+          topics: log.topics,
+        });
+
+        const { buyer, sold_id, tokens_sold, bought_id, tokens_bought } = decoded.args;
+        if (!poolInfo) {
+          throw new Error("poolInfo is required");
+        }
+        // 使用poolInfo中的coins数组来获取代币地址
+        const tokenIn = poolInfo.tokens?.[Number(sold_id)]?.toLowerCase() || '';
+        const tokenOut = poolInfo.tokens?.[Number(bought_id)]?.toLowerCase() || '';
+
+        return {
+          poolAddress: log.address.toLowerCase(),
+          protocol: poolInfo.protocol,
+          tokenIn,
+          tokenOut,
+          amountIn: tokens_sold,
+          amountOut: tokens_bought,
+          sender: buyer.toLowerCase(),
+          recipient: buyer.toLowerCase(), // Curve中buyer既是sender也是recipient
+          ethFlag: false
+        };
+      }
+
+      case logTopicsMap.UniswapV4Swap: {
+        const uniswapV4SwapABI = [{
+          anonymous: false,
+          inputs: [
+            { indexed: true, name: 'id', type: 'bytes32' },
+            { indexed: true, name: 'sender', type: 'address' },
+            { indexed: false, name: 'amount0', type: 'int128' },
+            { indexed: false, name: 'amount1', type: 'int128' },
+            { indexed: false, name: 'sqrtPriceX96', type: 'uint160' },
+            { indexed: false, name: 'liquidity', type: 'uint128' },
+            { indexed: false, name: 'tick', type: 'int24' },
+            { indexed: false, name: 'fee', type: 'uint24' },
+          ],
+          name: 'Swap',
+          type: 'event'
+        }] as const;
+
+        const decoded = decodeEventLog({
+          abi: uniswapV4SwapABI,
+          data: log.data,
+          topics: log.topics,
+        });
+
+        const { sender, amount0, amount1 } = decoded.args;
+
+        let tokenIn: string;
+        let tokenOut: string;
+        let amountIn: bigint;
+        let amountOut: bigint;
+        if (!poolInfo) {
+          throw new Error("poolInfo is required");
+        }
+        // TODO: check一下 V4 和V3的SwapEvent的意思相反？
+        if (amount0 > 0n) {
+          tokenIn = poolInfo.tokens[1];
+          tokenOut = poolInfo.tokens[0];
+          amountIn = -amount1;
+          amountOut = amount0;
+        } else {
+          tokenIn = poolInfo.tokens[0];
+          tokenOut = poolInfo.tokens[1];
+          amountIn = -amount0;
+          amountOut = amount1;
+        }
+
+        let ethFlag = false;
+        if (tokenIn === '0x0000000000000000000000000000000000000000') {
+          tokenIn = '0x4200000000000000000000000000000000000006'; // WETH address on Base
+          ethFlag = true;
+        }
+        if (tokenOut === '0x0000000000000000000000000000000000000000') {
+          tokenOut = '0x4200000000000000000000000000000000000006'; // WETH address on Base
+          ethFlag = true;
+        }
+
+        return {
+          poolAddress: poolInfo.poolAddress!,
+          protocol: poolInfo.protocol,
+          tokenIn,
+          tokenOut,
+          amountIn,
+          amountOut,
+          sender: sender.toLowerCase(),
+          recipient: sender.toLowerCase(),
+          ethFlag
         };
       }
 
@@ -740,7 +912,7 @@ export class ArbHelper {
   public findArbitrageCycles(swapEvents: StandardSwapEvent[]): ArbitrageCycle[] {
     const cycles: ArbitrageCycle[] = [];
     const graph = new Map<string, Map<string, EdgeInfo>>();
-    
+
     // 逐步添加边并检测环
     for (const swap of swapEvents) {
       // 添加新边到图中
@@ -748,7 +920,7 @@ export class ArbHelper {
         graph.set(swap.tokenIn, new Map());
       }
       const edges = graph.get(swap.tokenIn)!;
-      
+
       const existingEdge = edges.get(swap.tokenOut);
       if (existingEdge) {
         edges.set(swap.tokenOut, {
@@ -778,7 +950,7 @@ export class ArbHelper {
 
       if (cycle) {
         cycles.push(cycle);
-        
+
         // 移除环中使用的边
         for (const edge of cycle.edges) {
           const edges = graph.get(edge.tokenIn);
@@ -797,7 +969,7 @@ export class ArbHelper {
   }
   public validateSwapGraphTokenChanges(graph: Map<string, Map<string, EdgeInfo>>): { isValid: boolean; profitToken?: string } {
     const tokenChanges = this.calculateSwapGraphTokenChanges(graph);
-    
+
     let positiveCount = 0;
     let profitToken: string | undefined;
 
@@ -808,12 +980,18 @@ export class ArbHelper {
       }
       if (change > 0n) {
         positiveCount++;
-        profitToken = token;
+        if (
+          !profitToken
+        ) {
+          profitToken = token;
+        } else if (token.toLowerCase() === WETH_ADDRESS) {
+          profitToken = token;
+        }
       }
     }
-    
+
     // 必须恰好有一个token为正，其他token都大于等于0
-    return { 
+    return {
       isValid: true,
       profitToken
     };
@@ -839,10 +1017,10 @@ export class ArbHelper {
 
   public getArbitrageInfo(
     swapEvents: StandardSwapEvent[],
-  ):{
+  ): {
     arbitrageCycles: ArbitrageCycle[],
     isArbitrage: boolean,
-  }{
+  } {
     const arbitrageCycles = this.findArbitrageCycles(swapEvents);
     const flag = this.validateSwapGraphTokenChanges(this.buildSwapGraph(swapEvents));
 
@@ -869,7 +1047,7 @@ export class ArbHelper {
   public async getBlock(blockNumber: number) {
     const block = await this.httpClient.getBlock({
       blockNumber: BigInt(blockNumber),
-      includeTransactions: false  
+      includeTransactions: false
     });
     return block;
   }
@@ -928,7 +1106,7 @@ export class ArbHelper {
   } | null>> {
     try {
       // 批量获取区块信息
-      const blockPromises = blockNumbers.map(blockNumber => 
+      const blockPromises = blockNumbers.map(blockNumber =>
         this.httpClient.getBlock({
           blockNumber: BigInt(blockNumber),
           includeTransactions: true
@@ -937,7 +1115,7 @@ export class ArbHelper {
       const blocks = await Promise.all(blockPromises);
 
       // 批量获取receipts
-      const receiptPromises = blockNumbers.map(blockNumber => 
+      const receiptPromises = blockNumbers.map(blockNumber =>
         this.getBlockReceipts(blockNumber)
       );
       const receipts = await Promise.all(receiptPromises);
@@ -945,11 +1123,11 @@ export class ArbHelper {
       // 组合结果并序列化
       return blocks.map((block, index) => {
         if (!block) return null;
-        
+
         // 使用replacer序列化数据
         const serializedBlock = JSON.parse(JSON.stringify(block, replacer));
         const serializedReceipts = JSON.parse(JSON.stringify(receipts[index], replacer));
-        
+
         return {
           blockNumber: Number(serializedBlock.number),
           blockHash: serializedBlock.hash,
@@ -969,7 +1147,7 @@ export class ArbHelper {
     }
   }
 
-  private async analyzeTransaction(
+  public async analyzeTransaction(
     tx: Transaction,
     receipt: TransactionReceipt,
     blockNumber: number,
@@ -996,7 +1174,27 @@ export class ArbHelper {
       logTopicsMap.V2Swap,
       logTopicsMap.V3Swap,
       logTopicsMap.AeroV2Swap,
-      logTopicsMap.PancakeV3Swap
+      logTopicsMap.PancakeV3Swap,
+      logTopicsMap.UniswapV4Swap
+    ]);
+
+    const curveTopics = new Set<string>([
+      logTopicsMap.CurveTokenExchange,
+      logTopicsMap.CurveTokenExchange2,
+      logTopicsMap.CurveTokenExchange3
+    ]);
+
+    const filterTopics = new Set<string>([
+      logTopicsMap.BalancerVaultSwap,
+      logTopicsMap.CurveTokenExchange,
+      logTopicsMap.CurveTokenExchange2,
+      logTopicsMap.CurveTokenExchange3,
+      logTopicsMap.UniswapV4Swap,
+      logTopicsMap.V2Swap,
+      logTopicsMap.V3Swap,
+      logTopicsMap.AeroV2Swap,
+      logTopicsMap.PancakeV3Swap,
+      logTopicsMap.UniswapV4Swap
     ]);
 
     // 收集交易中涉及的池子
@@ -1004,19 +1202,42 @@ export class ArbHelper {
     const previousPoolTxs = new Map<string, { txHash: string; index: number }>(); // poolAddress -> {txHash, index}
 
     for (const log of receipt.logs as Log[]) {
-      if (!log.topics[0] || !swapTopics.has(log.topics[0])) continue;
+      if (!log.topics[0]) continue;
+      if (!filterTopics.has(log.topics[0])) continue;
 
-      const poolInfo = await this.requestPoolInfo(log.address);
+      const topic = log.topics[0];
+      let poolInfo: ExtendedPoolInfo | null = null;
+
+      // 检查这个池子之前是否有交易
+      let poolId = log.address.toLowerCase();
+      if (log.topics[0] === logTopicsMap.BalancerVaultSwap) {
+        poolId = this.requestBalancerPoolInfo(log)?.poolAddress?.toLowerCase()!;
+      } else if (log.topics[0] === logTopicsMap.UniswapV4Swap) {
+        poolId = this.getUniswapV4PoolId(log);
+      }
+
+      if (swapTopics.has(topic)) {
+        if (topic === logTopicsMap.UniswapV4Swap) {
+          poolInfo = await this.requestUniswapV4PoolInfo(poolId);
+        } else {
+          poolInfo = await this.requesV2V3PoolInfo(poolId);
+        }
+      } else if (curveTopics.has(topic)) {
+        poolInfo = await this.requestCurvePoolInfo(poolId);
+      } else if (topic === logTopicsMap.BalancerVaultSwap) {
+        poolInfo = this.requestBalancerPoolInfo(log);
+      }
+
       if (!poolInfo) continue;
 
-      involvedPools.add(log.address.toLowerCase());
-      
-      // 检查这个池子之前是否有交易
-      const previousTxs = previousTransactions.get(log.address.toLowerCase());
+
+      involvedPools.add(poolId);
+
+      const previousTxs = previousTransactions.get(poolId);
       if (previousTxs && previousTxs.length > 0) {
         // 获取最后一笔交易
         const lastTx = previousTxs[previousTxs.length - 1];
-        previousPoolTxs.set(log.address.toLowerCase(), lastTx);
+        previousPoolTxs.set(poolId, lastTx);
       }
 
       // 解析 swap 事件
@@ -1025,6 +1246,8 @@ export class ArbHelper {
         swapEvents.push(swapEvent);
       }
     }
+
+    // console.log("transaction", tx.hash, swapEvents.length);
 
     // 如果交易中有swap事件，分析是否是套利交易
     if (swapEvents.length > 0) {
@@ -1045,7 +1268,7 @@ export class ArbHelper {
 
         if (previousPoolTxs.size > 0) {
           arbitrageType = 'inter';
-          
+
           // 检查是否是backrun
           // 如果所有涉及的池子的最后一笔交易索引都是当前交易索引的前一个，则认为是backrun
           const isAllPreviousIndex = Array.from(previousPoolTxs.values()).every(
@@ -1124,7 +1347,7 @@ export class ArbHelper {
         const analysis = await this.analyzeTransaction(tx, receipt, blockNumber, poolTransactionHistory, i);
         if (analysis) {
           analyzedTransactions.push(analysis);
-          
+
           // 更新池子交易历史
           if (analysis.swapEvents) {
             for (const event of analysis.swapEvents) {
@@ -1143,7 +1366,7 @@ export class ArbHelper {
 
       return {
         blockNumber,
-        timestamp,  
+        timestamp,
         transactions: analyzedTransactions
       };
     } catch (error) {
@@ -1152,4 +1375,188 @@ export class ArbHelper {
     }
   }
 
+  private getUniswapV4PoolId(log: Log): string {
+    const uniswapV4SwapABI = [{
+      anonymous: false,
+      inputs: [
+        { indexed: true, name: 'id', type: 'bytes32' },
+        { indexed: true, name: 'sender', type: 'address' },
+        { indexed: false, name: 'amount0', type: 'int128' },
+        { indexed: false, name: 'amount1', type: 'int128' },
+        { indexed: false, name: 'sqrtPriceX96', type: 'uint160' },
+        { indexed: false, name: 'liquidity', type: 'uint128' },
+        { indexed: false, name: 'tick', type: 'int24' },
+        { indexed: false, name: 'fee', type: 'uint24' },
+      ],
+      name: 'Swap',
+      type: 'event'
+    }] as const;
+
+    const decoded = decodeEventLog({
+      abi: uniswapV4SwapABI,
+      data: log.data,
+      topics: log.topics,
+    });
+
+    const { id } = decoded.args;
+    const formattedId = "0x" + id.toLowerCase();
+    return id;
+  }
+
+
+  public requestBalancerPoolInfo(
+    log: Log,
+  ): ExtendedPoolInfo | null {
+    if (log.address.toLowerCase() !== BALANCER_VAULT.toLowerCase()) {
+      return null;
+    }
+    const balancerSwapABI = [{
+      anonymous: false,
+      inputs: [
+        { indexed: true, name: 'poolId', type: 'bytes32' },
+        { indexed: true, name: 'tokenIn', type: 'address' },
+        { indexed: true, name: 'tokenOut', type: 'address' },
+        { indexed: false, name: 'amountIn', type: 'uint256' },
+        { indexed: false, name: 'amountOut', type: 'uint256' }
+      ],
+      name: 'Swap',
+      type: 'event'
+    }] as const;
+
+    const decoded = decodeEventLog({
+      abi: balancerSwapABI,
+      data: log.data,
+      topics: log.topics,
+    });
+
+    const { tokenIn, tokenOut, amountIn, amountOut, poolId } = decoded.args;
+    const id = `0x${poolId.slice(2).toLowerCase()}`
+    return {
+      poolId: id,
+      poolAddress: id.slice(0, 42),
+      tokens: [tokenIn, tokenOut],
+      protocol: 'BalancerV2',
+    };
+  }
+
+  public async requestCurvePoolInfo(address: string): Promise<ExtendedPoolInfo | null> {
+    const lowerAddress = address.toLowerCase();
+    if (this.extendedPoolCache[lowerAddress]) {
+      return this.extendedPoolCache[lowerAddress];
+    }
+
+    try {
+      const abi: Abi = [
+        {
+          inputs: [{ type: 'uint256', name: 'i' }],
+          name: 'coins',
+          outputs: [{ type: 'address', name: '' }],
+          stateMutability: 'view',
+          type: 'function',
+        },
+      ];
+
+      // 获取所有代币地址
+      const maxNCoins = 8;
+      const coinCalls = [];
+      for (let i = 0; i < maxNCoins; i++) {
+        coinCalls.push({
+          address: lowerAddress as `0x${string}`,
+          abi,
+          functionName: 'coins',
+          args: [i]
+        });
+      }
+
+      const coins = await this.httpClient.multicall({
+        contracts: coinCalls
+      });
+      // console.log(coins);
+      const coinsResult = coins.map(c => {
+        if (c.status === 'success') {
+          return (c.result as string).toLowerCase();
+        }
+        return null;
+      });
+
+      const tokens = coinsResult.filter(c => c !== null);
+      if (tokens.length > 0) {
+        const poolInfo: ExtendedPoolInfo = {
+          tokens: tokens,
+          protocol: 'curve',
+          poolType: 'curve',
+        };
+        this.extendedPoolCache[lowerAddress] = poolInfo;
+        this.saveCache();
+        return poolInfo;
+      }
+      return null;
+    } catch (error) {
+      console.error(`Error getting Curve pool info for ${address}:`, error);
+      return null;
+    }
+  }
+
+  public async requestUniswapV4PoolInfo(poolId: string): Promise<ExtendedPoolInfo | null> {
+    const lowerPoolId = poolId.toLowerCase();
+    if (this.extendedPoolCache[lowerPoolId]) {
+      return this.extendedPoolCache[lowerPoolId];
+    }
+
+    const query = `
+      {
+        pool(id: "${poolId}") {
+          hooks
+          id
+          token0 {
+            id
+          }
+          token1 {
+            id
+          }
+        }
+      }
+    `;
+
+    try {
+      const response = await axios.post("https://gateway.thegraph.com/api/subgraphs/id/HNCFA9TyBqpo5qpe6QreQABAA1kV8g46mhkCcicu6v2R",
+        { query },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${this.THE_GRAPH_API_KEY}`
+          }
+        }
+      );
+
+      const result = response.data;
+
+      if (result.errors) {
+        console.error('GraphQL错误:', result.errors);
+        return null;
+      }
+
+      const pool = result.data.pool;
+      if (!pool) return null;
+
+      const poolInfo: ExtendedPoolInfo = {
+        tokens: [
+          pool.token0.id.toLowerCase(),
+          pool.token1.id.toLowerCase()
+        ],
+        protocol: 'UniV4',
+        poolType: 'v4',
+        poolAddress: pool.id,
+        poolId: pool.id
+      };
+      const lowerPoolId = pool.id.toLowerCase();
+      this.extendedPoolCache[lowerPoolId] = poolInfo;
+      this.saveCache();
+      return poolInfo;
+
+    } catch (error) {
+      console.error(`获取池子 ${poolId} 信息时出错:`, error);
+      return null;
+    }
+  }
 }

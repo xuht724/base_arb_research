@@ -75,6 +75,7 @@ import { replacer } from 'src/lib/utils';
 
 const WETH_ADDRESS = "0x4200000000000000000000000000000000000006";
 const ANALYZE_SINGLE_BATCH = false; // 设置为true时只分析第一个batch文件
+const TEST_MODE = process.argv.includes('--test');
 
 interface SearcherStats {
   totalTxs: number;
@@ -136,6 +137,7 @@ interface AnalysisResult {
   };
   searchers: Record<string, SearcherStats>;
 }
+
 
 async function* readArbitrageTransactions() {
   const batchesDir = path.join(process.cwd(), 'data/arbitrage_analysis/batches');
@@ -332,4 +334,6 @@ async function main() {
   console.log(`Inter主导的Searcher数量: ${interDominantSearchers.length}`);
 }
 
-main().catch(console.error); 
+
+
+// main().catch(console.error);

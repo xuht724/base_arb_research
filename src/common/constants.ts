@@ -19,17 +19,22 @@ export const DACKIE_V3_FACTORY = "0xb5620f90e803c7f957a9ef351b8db3c746021bea";
 export const ALIEN_V3_FACTORY = "0x0fd83557b2be93617c9c1c1b6fd549401c74558c";
 export const PANCAKE_V2_FACTORY = "0xfda619b6d20975be80a10332cd39b9a4b0faa8bb";
 export const PANCAKE_V3_FACTORY = "0x0bfbcf9fa4f9c56b0f40a671ad40e0805a091865";
+
+export const BALANCER_VAULT = "0xba12222222228d8ba445958a75a0704d566bf2c8";
+export const UNISWAP_V4_POOL_MANAGER = "0x498581ff718922c3f8e6a244956af099b2652b2b";
+
 // 已知的factory地址映射
 export const FACTORY_MAP: { [key: string]: string } = {
   [UNISWAP_V2_FACTORY.toLowerCase()]: 'UniV2', // Uniswap V2
   [UNISWAP_V3_FACTORY.toLowerCase()]: 'UniV3', // Uniswap V3
   [AERODORME_V2_FACTORY.toLowerCase()]: 'AeroV2', // Aerodrome V2
   [AERODORME_V3_FACTORY.toLowerCase()]: 'AeroV3', // Aerodrome V3
-  [SOLIDV3_FACTORY.toLowerCase()]: 'SolidV3', // Solid V3
+  [SOLIDV3_FACTORY.toLowerCase()]: 'Sol3', // Solid V3
   [PANCAKE_V2_FACTORY.toLowerCase()]: 'PancakeV2', // Pancake V2
   [PANCAKE_V3_FACTORY.toLowerCase()]: 'PancakeV3', // Pancake V3
   [ALIEN_V3_FACTORY.toLowerCase()]: 'AlienV3', // Alien V3
   [DACKIE_V3_FACTORY.toLowerCase()]: 'DackieV3', // Dackie V3
+  [UNISWAP_V4_POOL_MANAGER.toLowerCase()]: 'UniV4', // UniV4
 };
 
 export const UNISWAP_V3_WETH_USDC_500 = "0xd0b53D9277642d899DF5C87A3966A349A798F224";

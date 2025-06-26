@@ -7,11 +7,12 @@ import { logTopicsMap } from "src/common/events";
 import path from 'path';
 import fs from 'fs';
 import { replacer } from "src/lib/utils";
+import { analyzeSwapInput } from "src/lib/arbAnalyzer/swapEventAnalyzer";
 
 interface BatchAnalysisResult {
   startBlock: number;
   endBlock: number;
-  blocks: BlockAnalysisResult[];
+  // blocks: BlockAnalysisResult[];
   arbitrageTransactions: Array<{
     blockNumber: number;
     timestamp: Date;
@@ -20,8 +21,11 @@ interface BatchAnalysisResult {
       index: number;
       from: string;
       to?: string;
+      input: string;
       gasPrice: string;
       gasUsed: string;
+      swapEvents: StandardSwapEvent[];
+      inputAnalysis:any;
       arbitrageInfo: {
         type: 'begin' | 'inter';
         isBackrun: boolean;
@@ -54,7 +58,8 @@ interface BatchAnalysisResult {
 
 async function main() {
   const rpcUrl = process.env.BASE_HTTP_URL!;
-  const helper = new ArbHelper(rpcUrl);
+  const theGraphApiKey = process.env.THE_GRAPH_API_KEY!;
+  const helper = new ArbHelper(rpcUrl, theGraphApiKey);
   const blockRepo = new BlockRepository();
 
   // 获取起始和结束区块
@@ -77,7 +82,7 @@ async function main() {
     console.log(`总区块数: ${totalBlocks}`);
     
     // 创建结果目录
-    const resultDir = path.join(__dirname, '../data/arbitrage_analysis');
+    const resultDir = path.join(__dirname, '../data/arbitrage_analysis_full_v2');
     if (!fs.existsSync(resultDir)) {
       fs.mkdirSync(resultDir, { recursive: true });
     }
@@ -95,7 +100,7 @@ async function main() {
     };
 
     // 按批次处理区块
-    const batchSize = 1000; // 保持批处理大小为100
+    const batchSize = 100; // 保持批处理大小为100
     const totalBatches = Math.ceil(totalBlocks / batchSize);
     const analysisBegin = performance.now();
     let processedBlocks = 0;
@@ -152,7 +157,7 @@ async function main() {
       const batchResult: BatchAnalysisResult = {
         startBlock: batchStart,
         endBlock: batchEnd,
-        blocks: [],
+        // blocks: [],
         arbitrageTransactions: [],
         statistics: {
           totalTransactions: 0,
@@ -220,7 +225,7 @@ async function main() {
       // 处理分析结果
       for (const blockResult of blockResults) {
         if (blockResult) {
-          batchResult.blocks.push(blockResult);
+          // batchResult.blocks.push(blockResult);
           batchResult.statistics.totalTransactions += blockResult.transactions.length;
 
           // 更新套利统计信息并提取套利交易
@@ -250,9 +255,12 @@ async function main() {
                   hash: tx.hash,
                   index: tx.index,
                   from: tx.from,
+                  input: tx.input,
                   to: tx.to,
                   gasPrice: tx.gasPrice,
                   gasUsed: tx.gasUsed,
+                  swapEvents: tx.swapEvents,
+                  inputAnalysis: analyzeSwapInput(tx.input, tx.swapEvents),
                   arbitrageInfo: tx.arbitrageInfo
                 }
               });

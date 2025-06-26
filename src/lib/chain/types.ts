@@ -10,6 +10,7 @@ export interface StandardSwapEvent {
   amountOut: bigint;
   sender: string;
   recipient: string;
+  ethFlag: boolean;
 }
 
 export interface TokenTransfer {

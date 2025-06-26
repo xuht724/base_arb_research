@@ -6,8 +6,8 @@ export const logTopicsMap = {
   V2Swap: "0xd78ad95fa46c994b6551d0da85fc275fe613ce37657fb8d5e3d130840159d822",
   V2Mint: "0x4c209b5fc8ad50758f13e2e1088ba56a560dff690a1c6fef26394f4c03821c4f",
   V2Burn: "0xdccd412f0b1252819cb1fd330b93224ca42612892bb3f4f789976e6d81936496",
-  AeroV2Swap:"0xb3e2773606abfd36b5bd91394b3a54d1398336c65005baf7bf7a05efeffaf75b",
-  AeroV3Swap:"0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67",
+  AeroV2Swap: "0xb3e2773606abfd36b5bd91394b3a54d1398336c65005baf7bf7a05efeffaf75b",
+  AeroV3Swap: "0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67",
   V3Swap: "0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67",
   PancakeV3Swap:
     "0x19b47279256b2a23a1665c810c8d55a1758940ee09377d4f8d26497a3577dc83",
@@ -41,6 +41,14 @@ export const logTopicsMap = {
     "0xe5ce249087ce04f05a957192435400fd97868dba0e6a4b4c049abf8af80dae78",
   BalancerPoolSwapFeeChanged:
     "0xa9ba3ffe0b6c366b81232caab38605a0699ad5398d6cce76f91ee809e322dafc",
+
+
+  CurveTokenExchange: "0x8b3e96f2b889fa771c53c981b40daf005f63f637f1869f707052d15a3dd97140", // sold_id = int128
+  CurveTokenExchange2: "0xb2e76ae99761dc136e598d4a629bb347eccb9532a5f8bbd72e18467c3c34cc98", // sold_id = uint256
+  CurveTokenExchange3: "0x143f1f8e861fbdeddd5b46e844b7d3ac7b86a122f36e8c463859ee6811b1f29c",
+
+  UniswapV4Swap: "0x40e9cecb9f5f1f1c5b9c97dec2917b7ee92e57ba5563708daca94dd84ad7112f",
+
 } as const;
 
 export const EventMapABI: { [key: string]: AbiEvent } = {
@@ -246,7 +254,7 @@ export const EventMapABI: { [key: string]: AbiEvent } = {
     name: "Swap",
     type: "event",
   },
-  AeroV2Swap:  {
+  AeroV2Swap: {
     anonymous: false,
     inputs: [
       {
@@ -582,5 +590,111 @@ export const EventMapABI: { [key: string]: AbiEvent } = {
     ],
     name: "SwapFeePercentageChanged",
     type: "event",
+  },
+  CurveTokenExchange: {
+    "name": "TokenExchange",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "buyer",
+        "indexed": true
+      },
+      {
+        "type": "int128",
+        "name": "sold_id",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "tokens_sold",
+        "indexed": false
+      },
+      {
+        "type": "int128",
+        "name": "bought_id",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "tokens_bought",
+        "indexed": false
+      }
+    ],
+    "anonymous": false,
+    "type": "event"
+  },
+  CurveTokenExchange2: {
+    "name": "TokenExchange",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "buyer",
+        "indexed": true
+      },
+      {
+        "type": "uint256",
+        "name": "sold_id",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "tokens_sold",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "bought_id",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "tokens_bought",
+        "indexed": false
+      }
+    ],
+    "anonymous": false,
+    "type": "event"
+  },
+  CurveTokenExchange3: {
+    "name": "TokenExchange",
+    "inputs": [
+      {
+        "name": "buyer",
+        "type": "address",
+        "indexed": true
+      },
+      {
+        "name": "sold_id",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "name": "tokens_sold",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "name": "bought_id",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "name": "tokens_bought",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "name": "fee",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "name": "packed_price_scale",
+        "type": "uint256",
+        "indexed": false
+      }
+    ],
+    "anonymous": false,
+    "type": "event"
   },
 } as const;

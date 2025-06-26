@@ -177,3 +177,5 @@ dist
 data/
 
 .vscode
+
+neo4j/

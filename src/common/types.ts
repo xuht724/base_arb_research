@@ -48,4 +48,6 @@ export type ExtendedPoolInfo = {
   factory?: string;  // factory 变为可选
   protocol: string;  // 协议类型
   poolType?: string; // 池子类型，可选
+  poolAddress?: string;
+  poolId?: string;
 }
