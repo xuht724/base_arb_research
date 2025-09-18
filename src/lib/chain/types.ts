@@ -1,7 +1,9 @@
 import { ExtendedPoolInfo } from 'src/common/types';
 import { Transaction, TransactionReceipt, Log } from 'viem';
+import { GasInfo } from 'src/lib/chain/arb.helper';
 
 export interface StandardSwapEvent {
+  logIndex: any;
   poolAddress: string;
   protocol: string;
   tokenIn: string;
@@ -11,6 +13,10 @@ export interface StandardSwapEvent {
   sender: string;
   recipient: string;
   ethFlag: boolean;
+  blockNumber?: number;
+  transactionIndex?: number;
+  txFrom?: string;
+  txTo?: string | null;
 }
 
 export interface TokenTransfer {
@@ -100,6 +106,7 @@ export interface ArbitrageInfo {
     symbol?: string;
     amount: string;
     formattedAmount?: string;
+    sandwichDeduction?: string;
   };
   interInfo?: Array<{
     txHash: string;
@@ -116,13 +123,94 @@ export interface BlockAnalysisResult {
     index: number;
     from: string;
     to?: string;
-    gasPrice: string;
-    gasUsed: string;
+    gas: GasInfo;
     input: string;
+    inputAnalysis: any;
     arbitrageInfo?: ArbitrageInfo;
+    sandwichInfo?: SandwichAttack[]; 
     swapEvents: StandardSwapEvent[];
     tokenChanges: Record<string, string>;
     addressTokenChanges: Record<string, TokenBalanceChange[]>;
   }>;
+  sandwichAttacks?: SandwichAttack[]; 
+}
+
+
+
+
+export interface TransactionAnalysis {
+  transactions: any;
+  hash: string;
+  blockNumber: string;
+  logNum: number;
+  potentialArb: boolean;
+  effectiveGasPrice: string;
+  gasUsed: string;
+  l2Fee: string;
+  profit: string;
+  pools: ExtendedPoolInfo[];
+  protocols: string[];
+  tokens: string[];
+  involvedPools: string[];
+  involvedProtocols: string[];
+}
+
+export interface AnalysisResult {
+  transactions: TransactionAnalysis[];
+  statistics: {
+    totalTransactions: number;
+    protocolCounts: { [key: string]: number };
+    tokenCounts: { [key: string]: number };
+    factoryCounts: { [key: string]: number };
+    mostCommonTokenPairs: { [key: string]: number };
+    totalProfit: string;
+    totalGasUsed: string;
+    totalL2Fee: string;
+    potentialArbCount: number;
+  };
+}
+
+export interface SandwichAttack {
+  blockNumber: number;
+  attacker: string;
+  front: StandardSwapEvent;
+  back: StandardSwapEvent;
+  victims: StandardSwapEvent[];
+  profitToken: string;
+  profitAmount: bigint;
+}
+
+export interface AssetFlow {
+  txIndex: number;
+  logIndex: number;
+  from: string;
+  poolAddress: string;
+  tokenIn: string;
+  tokenOut: string;
+  amountIn: bigint;
+  amountOut: bigint;
+  priceImpact: number;
+}
+
+export interface AssetPair {
+  token0: string;
+  token1: string;
+}
+
+export interface SandwichConfidence {
+  score: number;
+  reasons: string[];
+}
+
+export interface EnhancedSandwichAttack {
+  type: 'sandwich_attack';
+  frontrun: AssetFlow;
+  victim: AssetFlow;
+  backrun: AssetFlow;
+  profit: {
+    token: string;
+    amount: bigint;
+    usdValue?: number;
+  };
 }
 

@@ -5,11 +5,21 @@ import { base } from "viem/chains";
 import path from 'path';
 import fs from 'fs';
 import { logTopicsMap, EventMapABI } from "src/common/events";
-import { ArbitrageCycle, CycleEdge, EdgeInfo, StandardSwapEvent, TokenBalanceChange, TokenTransfer, ArbitrageInfo, BlockAnalysisResult } from "./types";
+import { ArbitrageCycle, CycleEdge, EdgeInfo, StandardSwapEvent, TokenBalanceChange, TokenTransfer, ArbitrageInfo, BlockAnalysisResult, SandwichAttack } from "./types";
 import { getProtocolType } from "./utils";
 import { replacer } from "../utils";
-import { BALANCER_VAULT, WETH_ADDRESS } from "src/common/constants";
+import { BASE_BALANCER_VAULT, BASE_WETH_ADDRESS } from "src/common/constants";
 import axios from "axios";
+
+export interface GasInfo {
+  gasPrice: string;
+  effectiveGasPrice: string;
+  gasUsed: string;
+  maxFeePerGas?: string;
+  maxPriorityFeePerGas?: string;
+  baseFeePerGas: string;
+  truePriorityFeePerGas: string;
+}
 
 export class ArbHelper {
   public readonly httpClient: PublicClient;
@@ -232,6 +242,7 @@ export class ArbHelper {
         }
 
         return {
+          logIndex: log.logIndex,
           poolAddress: log.address.toLowerCase(),
           protocol: poolInfo.protocol,
           tokenIn,
@@ -291,6 +302,7 @@ export class ArbHelper {
         }
 
         return {
+          logIndex: log.logIndex,
           poolAddress: log.address.toLowerCase(),
           protocol: poolInfo.protocol,
           tokenIn,
@@ -348,6 +360,7 @@ export class ArbHelper {
         }
 
         return {
+          logIndex: log.logIndex,
           poolAddress: log.address.toLowerCase(),
           protocol: poolInfo.protocol,
           tokenIn,
@@ -396,8 +409,8 @@ export class ArbHelper {
         if (amount0 > 0n) {
           tokenIn = poolInfo.tokens[0];
           tokenOut = poolInfo.tokens[1];
-          amountIn = amount0;
-          amountOut = -amount1;
+          amountIn = -amount1;
+          amountOut = amount1;
         } else {
           tokenIn = poolInfo.tokens[1];
           tokenOut = poolInfo.tokens[0];
@@ -406,6 +419,7 @@ export class ArbHelper {
         }
 
         return {
+          logIndex: log.logIndex,
           poolAddress: log.address.toLowerCase(),
           protocol: poolInfo.protocol,
           tokenIn,
@@ -442,6 +456,7 @@ export class ArbHelper {
 
         const id = `0x${poolId.slice(2).toLowerCase()}`
         return {
+          logIndex: log.logIndex,
           poolAddress: id.slice(0, 42),
           protocol: 'BalancerV2',
           tokenIn: tokenIn.toLowerCase(),
@@ -483,6 +498,7 @@ export class ArbHelper {
         const tokenOut = poolInfo.tokens?.[Number(bought_id)]?.toLowerCase() || '';
 
         return {
+          logIndex: log.logIndex,
           poolAddress: log.address.toLowerCase(),
           protocol: poolInfo.protocol,
           tokenIn,
@@ -524,6 +540,7 @@ export class ArbHelper {
         const tokenOut = poolInfo.tokens?.[Number(bought_id)]?.toLowerCase() || '';
 
         return {
+          logIndex: log.logIndex,
           poolAddress: log.address.toLowerCase(),
           protocol: poolInfo.protocol,
           tokenIn,
@@ -567,6 +584,7 @@ export class ArbHelper {
         const tokenOut = poolInfo.tokens?.[Number(bought_id)]?.toLowerCase() || '';
 
         return {
+          logIndex: log.logIndex,
           poolAddress: log.address.toLowerCase(),
           protocol: poolInfo.protocol,
           tokenIn,
@@ -635,6 +653,7 @@ export class ArbHelper {
         }
 
         return {
+          logIndex: log.logIndex,
           poolAddress: poolInfo.poolAddress!,
           protocol: poolInfo.protocol,
           tokenIn,
@@ -947,7 +966,7 @@ export class ArbHelper {
         [],
         []
       );
-
+        
       if (cycle) {
         cycles.push(cycle);
 
@@ -984,7 +1003,7 @@ export class ArbHelper {
           !profitToken
         ) {
           profitToken = token;
-        } else if (token.toLowerCase() === WETH_ADDRESS) {
+        } else if (token.toLowerCase() === BASE_WETH_ADDRESS) {
           profitToken = token;
         }
       }
@@ -1158,10 +1177,11 @@ export class ArbHelper {
     index: number;
     from: string;
     to?: string;
-    gasPrice: string;
-    gasUsed: string;
+    gas: GasInfo;
     input: string;
+    inputAnalysis: any;
     arbitrageInfo?: ArbitrageInfo;
+    sandwichInfo?: SandwichAttack[];
     swapEvents: StandardSwapEvent[];
     tokenChanges: Record<string, string>;
     addressTokenChanges: Record<string, TokenBalanceChange[]>;
@@ -1286,14 +1306,25 @@ export class ArbHelper {
           }
         }
 
+        // Create GasInfo object
+        const gasInfo: GasInfo = {
+          gasPrice: tx.gasPrice?.toString() || '0',
+          effectiveGasPrice: receipt.effectiveGasPrice?.toString() || '0',
+          gasUsed: receipt.gasUsed.toString(),
+          maxFeePerGas: tx.maxFeePerGas?.toString(),
+          maxPriorityFeePerGas: tx.maxPriorityFeePerGas?.toString(),
+          baseFeePerGas: '0', // This would need to be passed from block info
+          truePriorityFeePerGas: '0' // This would need to be calculated
+        };
+
         return {
           hash: tx.hash,
           index: currentIndex,
           from: tx.from.toLowerCase(),
           to: tx.to?.toLowerCase(),
-          gasPrice: tx.gasPrice?.toString() || '0',
-          gasUsed: receipt.gasUsed.toString(),
+          gas: gasInfo,
           input: tx.input,
+          inputAnalysis: {}, // Add empty object for now
           arbitrageInfo: {
             type: arbitrageType,
             isBackrun,
@@ -1305,6 +1336,7 @@ export class ArbHelper {
             },
             interInfo: arbitrageType === 'inter' ? interInfo : undefined
           },
+          sandwichInfo: [], // Add empty array for now
           swapEvents,
           tokenChanges: this.formatTokenChanges(graphTokenChanges),
           addressTokenChanges: this.formatAddressTokenChanges(addressTokenChanges)
@@ -1317,9 +1349,18 @@ export class ArbHelper {
       index: currentIndex,
       from: tx.from.toLowerCase(),
       to: tx.to?.toLowerCase(),
-      gasPrice: tx.gasPrice?.toString() || '0',
-      gasUsed: receipt.gasUsed.toString(),
+      gas: {
+        gasPrice: tx.gasPrice?.toString() || '0',
+        effectiveGasPrice: receipt.effectiveGasPrice?.toString() || '0',
+        gasUsed: receipt.gasUsed.toString(),
+        maxFeePerGas: tx.maxFeePerGas?.toString(),
+        maxPriorityFeePerGas: tx.maxPriorityFeePerGas?.toString(),
+        baseFeePerGas: '0', // This would need to be passed from block info
+        truePriorityFeePerGas: '0' // This would need to be calculated
+      },
       input: tx.input,
+      inputAnalysis: {}, // Add empty object for now
+      sandwichInfo: [], // Add empty array for now
       swapEvents,
       tokenChanges: {},
       addressTokenChanges: {}
@@ -1407,7 +1448,7 @@ export class ArbHelper {
   public requestBalancerPoolInfo(
     log: Log,
   ): ExtendedPoolInfo | null {
-    if (log.address.toLowerCase() !== BALANCER_VAULT.toLowerCase()) {
+    if (log.address.toLowerCase() !== BASE_BALANCER_VAULT.toLowerCase()) {
       return null;
     }
     const balancerSwapABI = [{

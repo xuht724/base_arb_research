@@ -51,7 +51,7 @@ async function main() {
 
   // 解析命令行参数
   const startDate = "2025-04-23";
-  const endDate = "2025-05-01";
+  const endDate = "2025-04-24";
 
   // if (!startDate || !endDate) {
   //   console.error('请提供开始和结束日期，格式：YYYY-MM-DD');

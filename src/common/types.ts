@@ -9,6 +9,21 @@ export const enum PoolType {
   AERODROMEV2 = "aerodromev2",
   AERODROMEV3 = "aerodromev3",
 }
+export const enum ProtocolType {
+  UNISWAPV2 = "uniswapv2",
+  UNISWAPV3 = "uniswapv3",
+  UNISWAPV4 = "uniswapv4",
+  AERODROMEV2 = "aerodromev2",
+  AERODROMEV3 = "aerodromev3",
+  SUSHISWAP = "sushiswap",
+  SOLIDSWAP = "solidswap",
+  DACKIEV3 = "dackiev3",
+  ALIENV3 = "alienv3",
+  PANCAKEV2 = "pancakev2",
+  PANCAKEV3 = "pancakev3",
+  CURVE = "curve",
+  BALANCERV2 = "balancerv2",
+}
 
 export type Swap = {
   tokenIn: string;
