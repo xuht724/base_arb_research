@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <title>Arbitrage Report</title>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+  <style>
+    body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin: 24px; }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 28px; }
+    .card { padding: 16px; border: 1px solid #e5e7eb; border-radius: 12px; }
+    h1 { margin: 0 0 12px 0; }
+    .small { color: #6b7280; font-size: 12px; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
+  </style>
+</head>
+<body>
+  <h1>Arbitrage Report (最近 30 天)</h1>
+  <div class="grid">
+    <div class="card" id="card-ts"><h2>每日利润 / 交易数</h2><div id="vis-ts"></div></div>
+    <div class="card" id="card-strat">
+      <h2>策略占比（计数 / 利润）</h2>
+      <div class="small">三明治 / 回跑 / 抢跑(非回跑且非三明治)</div>
+      <div id="vis-strategy"></div>
+    </div>
+    <div class="card" id="card-searchers">
+      <h2>Searcher 排行（按利润）</h2>
+      <div id="vis-searchers"></div>
+    </div>
+    <div class="card" id="card-pairs">
+      <h2>高利润组合（策略 + 是否回跑 + 主代币对）</h2>
+      <div id="vis-pairs"></div>
+    </div>
+    <div class="card">
+      <h2>原始数据（摘要）</h2>
+      <pre class="small mono" id="raw"></pre>
+    </div>
+  </div>
+
+<script>
+const DATA = {"strategy":{"cnt_sandwich":null,"cnt_backrun":null,"cnt_frontrun":null,"cnt_total":"0","profit_sandwich":null,"profit_backrun":null,"profit_frontrun":null,"profit_total":null},"searchers":[],"pairs":[],"timeseries":[],"params":{"days":30}};
+
+// 时间序列
+const tsSpec = {
+  $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+  data: { values: DATA.timeseries },
+  transform: [{ calculate: "toDate(datum.d)", as: "date" }],
+  hconcat: [
+    { mark: "line",
+      encoding: { x: { field: "date", type: "temporal", title: "日期" },
+                  y: { field: "profit_sum", type: "quantitative", title: "利润" } },
+      width: 500, height: 200
+    },
+    { mark: "bar",
+      encoding: { x: { field: "date", type: "temporal", title: "日期" },
+                  y: { field: "tx_cnt", type: "quantitative", title: "交易数" } },
+      width: 300, height: 200
+    }
+  ]
+};
+
+// 策略统计
+const stratRows = [
+  {key:"sandwich", cnt: Number(DATA.strategy.cnt_sandwich||0), profit: Number(DATA.strategy.profit_sandwich||0)},
+  {key:"backrun",  cnt: Number(DATA.strategy.cnt_backrun||0),  profit: Number(DATA.strategy.profit_backrun||0)},
+  {key:"frontrun", cnt: Number(DATA.strategy.cnt_frontrun||0), profit: Number(DATA.strategy.profit_frontrun||0)}
+];
+const stratSpec = {
+  $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+  data: { values: stratRows },
+  vconcat: [
+    { mark: "bar", encoding: { x:{field:"key", type:"nominal", title:"策略"}, y:{field:"cnt", type:"quantitative", title:"交易数"} }, width: 800, height: 200 },
+    { mark: "bar", encoding: { x:{field:"key", type:"nominal", title:"策略"}, y:{field:"profit", type:"quantitative", title:"利润"} }, width: 800, height: 200 }
+  ]
+};
+
+// Searcher 排行（前 20）
+const searchTop = DATA.searchers.slice(0, 20).map(r => ({searcher: r.searcher, profit: Number(r.profit_sum||0)}));
+const searchSpec = {
+  $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+  data: { values: searchTop },
+  mark: "bar",
+  encoding: {
+    y: { field: "searcher", type: "nominal", sort: "-x", title: "txFrom" },
+    x: { field: "profit", type: "quantitative", title: "利润" }
+  },
+  width: 900, height: 600
+};
+
+// 组合 Top 30
+const pairsTop = DATA.pairs
+  .map(r => ({ strategy: r.arbitragetype, isBackrun: r.isbackrun, pair: (r.token_in||"unknown")+"→"+(r.token_out||"unknown"), profit: Number(r.profit_sum||0) }))
+  .slice(0, 30);
+const pairsSpec = {
+  $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+  data: { values: pairsTop },
+  mark: "bar",
+  encoding: {
+    x: { field: "profit", type: "quantitative", title: "利润" },
+    y: { field: "pair", type: "nominal", sort: "-x", title: "主代币对" },
+    color: { field: "strategy", type: "nominal", title: "策略" }
+  },
+  width: 900, height: 700
+};
+
+vegaEmbed("#vis-ts", tsSpec);
+vegaEmbed("#vis-strategy", stratSpec);
+vegaEmbed("#vis-searchers", searchSpec);
+vegaEmbed("#vis-pairs", pairsSpec);
+
+document.getElementById("raw").textContent = JSON.stringify(DATA, null, 2);
+</script>
+</body>
+</html>
